@@ -1,0 +1,144 @@
+<div class="container" style="margin-top: 70px; margin-left: 25%;">
+  <div class="row">
+      <div class="col-sm-12">
+          <form class="form-inline">
+              <fieldset class="form-group col-sm-11"></fieldset>
+              <fieldset class="form-group col-sm-1">
+                  <a class="btn btn-primary" style="width: 100px " [routerLink]="['/facturadetalleAG']">
+                      <img src="../../assets/folder-plus.svg" alt="imagen de agregar">
+                  </a>
+              </fieldset>
+          </form>
+          <br>
+          <div class="table-responsive">
+              <table class="table table-striped">
+                  <thead>
+                      <tr>
+                          <th> idFacturaCompra </th>
+                          <th> idProducto </th>
+                          <th> CantidadProductos </th>
+                          <th> PrecioCompra </th>
+                          <th> nomProducto </th>
+                          <th> descripcionProducto </th>
+                          <th> idCategorias </th>
+                          <th> Ajustes </th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr *ngFor="let facturadetalle of facturadetalles | async">
+                          <td>{{ facturadetalle.FacturaCompra_idFacturaCompra }}</td>
+                          <td>{{ facturadetalle.Producto_idProducto }}</td>
+                          <td>{{ facturadetalle.CantidadProductos }}</td>
+                          <td>{{ facturadetalle.PrecioCompra }}</td>
+                          <td>{{ facturadetalle.nomProducto }}</td>
+                          <td>{{ facturadetalle.descripcionProducto }}</td>
+                          <td>{{ facturadetalle.categoria_idCategorias }}</td>
+                        
+                          <td>
+                              <fieldset class="form-group">
+                                  <a class="btn btn-warning bi bi-pencil-square" [routerLink]="['/facturadetalleAc', facturadetalle.Producto_idProducto]">
+                                      <img src="../../assets/pencil-square.svg" alt="imagen de editar">
+                                  </a>
+                              </fieldset>
+                          </td>
+                          <td>
+                              <fieldset class="form-group">
+                                  <button class="btn btn-danger" (click)="borrarFacturaDetalle(facturadetalle.Producto_idProducto)">
+                                      <img src="../../assets/trash.svg" alt="imagen de eliminar">
+                                  </button>
+                              </fieldset>
+                          </td>
+                      </tr>
+                  </tbody>
+              </table>
+          </div>
+      </div>
+  </div>
+      
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+<div class="barra-superior">
+  <button class="boton-casita" routerLink="/bienvenido">
+    <i class="fas fa-home" ></i>
+  </button>
+  
+  <button class="boton-user" routerLink="/profile">
+    <i class="far fa-user"></i>
+  </button>
+
+  <div class="boton-prueba" routerLink="/alertas">
+    <i class="far fa-bell" [ngClass]="{'alerta': hayAlertas()}">
+      <span class="contador-alertas" *ngIf="hayAlertas()">{{ getAlertas().length }}</span>
+    </i>
+  </div>
+
+
+
+<div class="sidebar">
+
+<span style="display: block; text-align: center; font-weight: bold; font-size: 2em;">S.I.A.P</span>
+
+
+<ul>
+  <li> <a routerLink="/tienda">Tienda</a> </li>
+  <li>
+    <a routerLink="/categoria">Categoria</a>
+    <ul>
+      <li><a routerLink="/subcategoria">SubCategoria</a></li>
+      <!-- Puedes agregar más elementos de subcategorías aquí si lo deseas -->
+    </ul>
+  </li>
+  <li>
+    <a routerLink="/persona">Persona</a>
+    <ul>
+      <li><a routerLink="/tipodocumento">TipoDocumento</a></li>
+      <li> <a routerLink="/rol">Rol</a></li>
+      <!-- Puedes agregar más elementos de subcategorías aquí si lo deseas -->
+    </ul>
+  </li>
+
+  <li>
+    <a routerLink="/contrato">Contrato</a>
+    <ul>
+      <li><a routerLink="/tipocontrato">TipoContrato</a></li>
+      <!-- Puedes agregar más elementos de subcategorías aquí si lo deseas -->
+    </ul>
+  </li>
+  <li>
+    <a routerLink="/producto">Productos</a>
+    <ul>
+      <li> <a routerLink="/gestionproducto">Gestion Producto</a></li>
+      <li><a routerLink="/proveedor">Proveedores</a></li>
+      <!-- Puedes agregar más elementos de subcategorías aquí si lo deseas -->
+    </ul>
+  </li>
+<li>
+<a routerLink="/facturacompra">Factura Compra</a>
+    <ul>
+      <li><a routerLink="/facturadetalle">Factura Detalle</a></li>
+      <!-- Puedes agregar más elementos de subcategorías aquí si lo deseas -->
+    </ul>
+  </li>
+  <li>
+    <a routerLink="/ordenDeSalida">Orden De Salida</a>
+    <ul>
+      <li><a routerLink="/ordenDeSalidaDetallada">Orden De Salida Detallada</a></li>
+      <!-- Puedes agregar más elementos de subcategorías aquí si lo deseas -->
+    </ul>
+  </li>
+
+  <li>
+    <a routerLink="/devolucion">Devolucion</a>
+    <ul>
+      <li><a routerLink="/devoluciondetallada">Devolucion Detallada</a></li>
+      <!-- Puedes agregar más elementos de subcategorías aquí si lo deseas -->
+    </ul>
+  </li>
+
+</ul>
+</div>
+<div class="content">
+  </div>
+  

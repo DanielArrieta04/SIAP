@@ -1,0 +1,91 @@
+<!-- bienvenido.component.html -->
+<div class="bienvenido-container" style="margin-top: 60px;">
+    <h1>Bienvenido a mi aplicación</h1>
+    <p>Esta es la página de bienvenida. ¡Esperamos que disfrutes tu visita!</p>
+  </div>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+  <div class="barra-superior">
+    <button class="boton-casita" routerLink="/bienvenido">
+      <i class="fas fa-home" ></i>
+    </button>
+    
+     
+    <button class="boton-user" routerLink="/profile">
+      <i class="far fa-user"></i>
+    </button>
+
+
+    <div class="boton-prueba" routerLink="/alertas">
+      <i class="far fa-bell" [ngClass]="{'alerta': hayAlertas()}">
+        <span class="contador-alertas" *ngIf="hayAlertas()">{{ getAlertas().length }}</span>
+      </i>
+    </div>
+  
+
+
+<div class="sidebar">
+  
+  <span style="display: block; text-align: center; font-weight: bold; font-size: 2em;">S.I.A.P</span>
+
+
+  <ul>
+    <li> <a routerLink="/tienda">Tienda</a> </li>
+    <li>
+      <a routerLink="/categoria">Categoria</a>
+      <ul>
+        <li><a routerLink="/subcategoria">SubCategoria</a></li>
+        <!-- Puedes agregar más elementos de subcategorías aquí si lo deseas -->
+      </ul>
+    </li>
+    <li>
+      <a routerLink="/persona">Persona</a>
+      <ul>
+        <li><a routerLink="/tipodocumento">TipoDocumento</a></li>
+        <li> <a routerLink="/rol">Rol</a></li>
+        <!-- Puedes agregar más elementos de subcategorías aquí si lo deseas -->
+      </ul>
+    </li>
+
+    <li>
+      <a routerLink="/contrato">Contrato</a>
+      <ul>
+        <li><a routerLink="/tipocontrato">TipoContrato</a></li>
+        <!-- Puedes agregar más elementos de subcategorías aquí si lo deseas -->
+      </ul>
+    </li>
+    <li>
+      <a routerLink="/producto">Productos</a>
+      <ul>
+        <li> <a routerLink="/gestionproducto">Gestion Producto</a></li>
+        <li><a routerLink="/proveedor">Proveedores</a></li>
+        <!-- Puedes agregar más elementos de subcategorías aquí si lo deseas -->
+      </ul>
+    </li>
+<li>
+  <a routerLink="/facturacompra">Factura Compra</a>
+      <ul>
+        <li><a routerLink="/facturadetalle">Factura Detalle</a></li>
+        <!-- Puedes agregar más elementos de subcategorías aquí si lo deseas -->
+      </ul>
+    </li>
+    <li>
+      <a routerLink="/ordenDeSalida">Orden De Salida</a>
+      <ul>
+        <li><a routerLink="/ordenDeSalidaDetallada">Orden De Salida Detallada</a></li>
+        <!-- Puedes agregar más elementos de subcategorías aquí si lo deseas -->
+      </ul>
+    </li>
+
+    <li>
+      <a routerLink="/devolucion">Devolucion</a>
+      <ul>
+        <li><a routerLink="/devoluciondetallada">Devolucion Detallada</a></li>
+        <!-- Puedes agregar más elementos de subcategorías aquí si lo deseas -->
+      </ul>
+    </li>
+
+  </ul>
+</div>
+<div class="content">

@@ -1,0 +1,153 @@
+/* Estilos para la barra lateral */
+/* Estilos para el menu */
+.sidebar {
+  background-color: #3498db; /* Color azul */
+  color: white; /* Texto blanco para contraste */
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 183px; /* Ancho deseado */
+  padding: 20px;
+  border-radius: 0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); 
+}
+
+
+
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  margin-bottom: 10px;
+}
+
+.barra-superior a {
+  text-decoration: none;
+  color: white; /* Texto blanco */
+  display: block;
+  padding: 8px;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+a:hover {
+  background-color: rgba(255, 255, 255, 0.1); /* Transparencia al pasar el ratón */
+}
+
+ul ul {
+  display: none;
+  margin-left: 10px;
+  border-left: 2px solid #ccc;
+}
+
+li:hover ul {
+  display: block;
+}
+  /* fin del estidlo para el menu */
+
+
+
+
+
+
+  .barra-superior {
+    background-color: white; /* Color de fondo blanco */
+    color: #333; /* Color del texto */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Sombra abajo */
+    position: fixed; /* Barra fija en la parte superior */
+    top: 0; /* Pegada arriba */
+    left: 0;
+    width: 100%; /* Ancho completo */
+    padding: 10px 20px; /* Espaciado interno */
+    display: flex;
+    justify-content: flex-end; /* Alinea los botones al extremo derecho */
+  }
+  
+  .boton-casita,
+  .boton-user {
+    background: none;
+    border: none;
+    color: #333; /* Color del icono */
+    font-size: 1.5em; /* Tamaño del icono */
+    margin-left: 10px; /* Espacio entre botones */
+  }
+  
+  .boton-casita:hover,
+  .boton-user:hover {
+    cursor: pointer;
+    opacity: 0.8;
+  }
+
+/* styles.css o styles.scss */
+.bienvenido-container {
+    background-color: #ffffff; /* Azul claro */
+    color: #333; /* Color de texto oscuro */
+    padding: 20px;
+    margin: 0 auto;
+    max-width: 800px; /* Ancho máximo de la página */
+  }
+  
+
+/* Estilos por defecto del icono */
+/* Estilos por defecto del icono */
+/* Estilos por defecto del icono */
+
+.boton-prueba:hover {
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+.fa-bell {
+  position: relative;
+  background-color: rgb(255, 255, 255);
+  border-color: #ffffff;
+  padding: 3px;
+}
+
+
+
+
+.boton-prueba{
+  background-color: rgb(255, 255, 255);
+  border-color: rgb(255, 255, 255);
+  margin-left: 10px;
+  font-size: 1.5em;
+  
+}
+
+/* Estilos cuando hay alertas */
+.alerta {
+  color: rgb(202, 0, 0); /* Cambia el color del icono cuando hay alertas */
+}
+
+/* Estilos cuando no hay alertas */
+.no-alerta {
+  color: rgb(0, 0, 0); /* Cambia el color del icono cuando no hay alertas */
+}
+
+.contador-alertas {
+  position: relative;
+  top: -10px; /* Ajusta según sea necesario */
+  right: -8px; /* Ajusta según sea necesario */
+  background-color: red;
+  color: rgb(255, 255, 255);
+  border-radius: 50%;
+  padding: 3px 5px; /* Ajusta el padding para hacerlo más pequeño */
+  font-size: 0.7em; /* Tamaño de fuente más pequeño */
+  
+}
+
+
+
+
+
+
+
+
+
+
+ 

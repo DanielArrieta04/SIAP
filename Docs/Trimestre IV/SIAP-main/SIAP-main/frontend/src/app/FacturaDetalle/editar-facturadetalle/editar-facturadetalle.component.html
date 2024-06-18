@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    
+    .container {
+      width: 80%;
+      max-width: 600px;
+      padding: 20px;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+  
+    .form-control {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+  
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="row" style="margin-top: 60px;">
+      <div class="col-sm-12">
+        <form (ngSubmit)="onSubmit()" #facturadetalleForm="ngForm">
+          <fieldset class="form-group">
+            <div class="col-sm-12">
+              <label class="control-label" for="nombre">ID Factura Compra</label>
+              <input type="number" class="form-control" required [(ngModel)]="facturadetalle.FacturaCompra_idFacturaCompra" name="Proveedor_idProveedor">
+            </div>
+          </fieldset>
+          <fieldset class="form-group">
+            <div class="col-sm-12">
+              <label class="control-label" for="fecha">Producto_idProducto</label>
+              <input type="number" class="form-control" required [(ngModel)]="facturadetalle.Producto_idProducto" name="FacturaCompra_idFacturaCompra">
+            </div>
+          </fieldset>
+          <fieldset class="form-group">
+            <div class="col-sm-12">
+              <label class="control-label" for="fecha">Cantidad Productos</label>
+              <input type="number" class="form-control" required [(ngModel)]="facturadetalle.CantidadProductos" name="CantidadProductos">
+            </div>
+          </fieldset>
+          <fieldset class="form-group">
+              <div class="col-sm-12">
+                <label class="control-label" for="fecha">Precio Compra</label>
+                <input type="number" class="form-control" required [(ngModel)]="facturadetalle.PrecioCompra" name="PrecioCompra">
+              </div>
+            </fieldset>
+            <fieldset class="form-group">
+              <div class="col-sm-12">
+                <label class="control-label" for="fecha">Nombre Producto</label>
+                <input type="text" class="form-control" required [(ngModel)]="facturadetalle.nomProducto" name="PrecioCompra">
+              </div>
+            </fieldset>
+            <fieldset class="form-group">
+              <div class="col-sm-12">
+                <label class="control-label" for="fecha">Descripcion Producto</label>
+                <input type="text" class="form-control" required [(ngModel)]="facturadetalle.descripcionProducto" name="PrecioCompra">
+              </div>
+            </fieldset>
+            <fieldset class="form-group">
+              <div class="col-sm-12">
+                <label class="control-label" for="fecha">ID Categoria</label>
+                <input type="number" class="form-control" required [(ngModel)]="facturadetalle.categoria_idCategorias" name="PrecioCompra">
+              </div>
+            </fieldset>
+          <fieldset class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+              <button type="submit" class="btn btn-success" style="margin: 20px; margin-left: 200px; width: 200px;" [disabled]="!facturadetalleForm.form.valid">Guardar cambios</button>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+
+
+
+  

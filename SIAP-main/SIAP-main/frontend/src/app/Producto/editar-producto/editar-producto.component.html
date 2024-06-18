@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Formulario en Contenedor Centrado</title>
+<style>
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+  
+  .container {
+    width: 80%;
+    max-width: 600px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .form-control {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
+
+  button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="row" style="margin-top: 60px;">
+    <div class="col-sm-12">
+      <form (ngSubmit)="onSubmit()" #productoForm="ngForm">
+        <fieldset class="form-group">
+          <div class="col-sm-12">
+            <label class="control-label" for="nombre">Nombre Producto</label>
+            <input type="text" class="form-control" required [(ngModel)]="producto.nomProducto" name="nomProducto">
+          </div>
+        </fieldset>
+        <fieldset class="form-group">
+            <div class="col-sm-12">
+              <label class="control-label" for="nombre">Precio Producto</label>
+              <input type="number" class="form-control" required [(ngModel)]="producto.precioProducto" name="precioProducto">
+            </div>
+          </fieldset>
+          <fieldset class="form-group">
+            <div class="col-sm-12">
+              <label class="control-label" for="nombre">Descripcion Producto</label>
+              <input type="text" class="form-control" required [(ngModel)]="producto.descripcionProducto" name="descripcionProducto">
+            </div>
+          </fieldset>
+          <fieldset class="form-group">
+            <div class="col-sm-12">
+              <label class="control-label" for="nombre">Fecha Vencimiento</label>
+              <input type="date" class="form-control" required [(ngModel)]="producto.fechaVencimiento" name="fechaVencimiento">
+            </div>
+          </fieldset>
+          <fieldset class="form-group">
+            <div class="col-sm-12">
+              <label class="control-label" for="nombre">Cantidad Existente</label>
+              <input type="number" class="form-control" required [(ngModel)]="producto.cantidadExistente" name="cantidadExistente">
+            </div>
+          </fieldset>
+          <fieldset class="form-group">
+            <div class="col-sm-12">
+              <label class="control-label" for="nombre">Categoria</label>
+              <input type="number" class="form-control" required [(ngModel)]="producto.categoria_idCategorias" name="categoria_idCategorias">
+            </div>
+          </fieldset>
+        <fieldset class="form-group">
+          <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-success" style="margin: 20px; margin-left: 200px; width: 200px;" [disabled]="!productoForm.form.valid">Guardar cambios</button>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

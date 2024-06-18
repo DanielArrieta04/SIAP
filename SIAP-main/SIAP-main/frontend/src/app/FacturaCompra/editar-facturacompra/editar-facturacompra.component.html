@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulario Factura Compra</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    
+    .container {
+      width: 80%;
+      max-width: 600px;
+      padding: 20px;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+  
+    .form-control {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+  
+    .form-group {
+      display: flex;
+      align-items: center;
+    }
+  
+    .form-group .col-label {
+      width: 30%;
+      text-align: right;
+      margin-right: 10px;
+      font-weight: bold;
+    }
+  
+    .form-group .col-input {
+      width: 70%;
+    }
+  
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="row" style="margin-top: 60px;">
+      <div class="col-sm-12">
+        <form (ngSubmit)="onSubmit()" #facturacompraForm="ngForm">
+          <div class="form-group">
+            <label class="col-label" for="nombre">ID</label>
+            <div class="col-input">
+              <input type="text" class="form-control" required [(ngModel)]="facturacompra.idFacturaCompra" name="nombre">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-label" for="nombre">Descripción</label>
+            <div class="col-input">
+              <input type="text" class="form-control" required [(ngModel)]="facturacompra.observacionesCompra" name="nombre">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-label" for="fecha">Fecha de la compra</label>
+            <div class="col-input">
+              <input type="date" class="form-control" required [(ngModel)]="facturacompra.fechaCompra" name="fecha">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-label" for="codProveedor">CodProveedor</label>
+            <div class="col-input">
+              <input type="number" class="form-control" required [(ngModel)]="facturacompra.proveedor_idProveedor" name="codProveedor">
+            </div>
+          </div>
+          <div class="form-group">
+            <button type="submit" class="btn btn-success" [disabled]="!facturacompraForm.form.valid">Guardar cambios</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

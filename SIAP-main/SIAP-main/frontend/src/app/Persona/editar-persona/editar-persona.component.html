@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulario de Persona</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f0f0f0;
+      overflow: hidden; 
+    }
+
+    .container-wrapper {
+      width: 100%;
+      max-width: 600px;
+      height: 90vh; 
+      overflow-y: auto; 
+      padding: 20px;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="container-wrapper">
+    <form (ngSubmit)="onSubmit()" #personaForm="ngForm">
+      <fieldset class="form-group">
+        <div class="col-sm-12">
+          <label class="control-label" for="Nombre1">Primer Nombre</label>
+          <input type="text" class="form-control" required [(ngModel)]="persona.Nombre1" name="Nombre1" id="Nombre1">
+        </div>
+      </fieldset>
+      <fieldset class="form-group">
+        <div class="col-sm-12">
+          <label class="control-label" for="Nombre2">Segundo Nombre</label>
+          <input type="text" class="form-control" required [(ngModel)]="persona.Nombre2" name="Nombre2" id="Nombre2">
+        </div>
+      </fieldset>
+      <fieldset class="form-group">
+        <div class="col-sm-12">
+          <label class="control-label" for="Apellido1">Primer Apellido</label>
+          <input type="text" class="form-control" required [(ngModel)]="persona.Apellido1" name="Apellido1" id="Apellido1">
+        </div>
+      </fieldset>
+      <fieldset class="form-group">
+        <div class="col-sm-12">
+          <label class="control-label" for="Apellido2">Segundo Apellido</label>
+          <input type="text" class="form-control" required [(ngModel)]="persona.Apellido2" name="Apellido2" id="Apellido2">
+        </div>
+      </fieldset>
+      <fieldset class="form-group">
+        <div class="col-sm-12">
+          <label class="control-label" for="fechaNacimiento">Fecha de Nacimiento</label>
+          <input type="date" class="form-control" required [(ngModel)]="persona.fechaNacimiento" name="fechaNacimiento" id="fechaNacimiento">
+        </div>
+      </fieldset>
+      <fieldset class="form-group">
+        <div class="col-sm-12">
+          <label class="control-label" for="Telefono">Teléfono</label>
+          <input type="number" class="form-control" required [(ngModel)]="persona.Telefono" name="Telefono" id="Telefono">
+        </div>
+      </fieldset>
+      <fieldset class="form-group">
+        <div class="col-sm-12">
+          <label class="control-label" for="CorreoElectronico">Correo Electrónico</label>
+          <input type="email" class="form-control" required [(ngModel)]="persona.CorreoElectronico" name="CorreoElectronico" id="CorreoElectronico">
+        </div>
+      </fieldset>
+      <fieldset class="form-group">
+        <div class="col-sm-12">
+          <label class="control-label" for="Contrasena">Contraseña</label>
+          <input type="password" class="form-control" required [(ngModel)]="persona.Contrasena" name="Contrasena" id="Contrasena">
+        </div>
+      </fieldset>
+      <fieldset class="form-group">
+        <div class="col-sm-12">
+          <label class="control-label" for="DireccionResidencia">Dirección de Residencia</label>
+          <input type="text" class="form-control" required [(ngModel)]="persona.DireccionResidencia" name="DireccionResidencia" id="DireccionResidencia">
+        </div>
+      </fieldset>
+      <fieldset class="form-group">
+        <div class="col-sm-12">
+          <label class="control-label" for="NumeroDocumentoIdentidad">Número de Documento de Identidad</label>
+          <input type="number" class="form-control" required [(ngModel)]="persona.NumeroDocumentoIdentidad" name="NumeroDocumentoIdentidad" id="NumeroDocumentoIdentidad">
+        </div>
+      </fieldset>
+      <fieldset class="form-group">
+        <div class="col-sm-12">
+          <label class="control-label" for="tipoDocumento_idtipoDocumento">Tipo de Documento</label>
+          <input type="number" class="form-control" required [(ngModel)]="persona.tipoDocumento_idtipoDocumento" name="tipoDocumento_idtipoDocumento" id="tipoDocumento_idtipoDocumento">
+        </div>
+      </fieldset>
+      <fieldset class="form-group">
+        <div class="col-sm-12">
+          <label class="control-label" for="Rol_idRol">Rol</label>
+          <input type="number" class="form-control" required [(ngModel)]="persona.Rol_idRol" name="Rol_idRol" id="Rol_idRol">
+        </div>
+      </fieldset>
+      <fieldset class="form-group">
+        <div class="col-sm-12">
+          <button type="submit" class="btn btn-success" [disabled]="!personaForm.form.valid || !puedeEditar()">Guardar cambios</button>
+        </div>
+      </fieldset>
+    </form>
+  </div>
+</body>
+</html>

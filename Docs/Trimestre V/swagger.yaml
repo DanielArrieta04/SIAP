@@ -1,0 +1,1700 @@
+openapi: 3.0.0
+info:
+  title: Documentación del Backend
+  version: 1.0.0
+paths:
+  /categoria:
+    get:
+      summary: Obtener todas las categorías
+      tags:
+        - Categoría
+      responses:
+        '200':
+          description: Respuesta exitosa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Categoria'
+    post:
+      summary: Agregar una nueva categoría
+      tags:
+        - Categoría
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Categoria'
+      responses:
+        '201':
+          description: Categoría añadida exitosamente
+  /categoria/{id}:
+    get:
+      summary: Obtener una categoría por su ID
+      tags:
+        - Categoría
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID de la categoría a obtener
+      responses:
+        '200':
+          description: Respuesta exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Categoria'
+    put:
+      summary: Actualizar una categoría por su ID
+      tags:
+        - Categoría
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID de la categoría a actualizar
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Categoria'
+      responses:
+        '200':
+          description: Categoría actualizada exitosamente
+    delete:
+      summary: Eliminar una categoría por su ID
+      tags:
+        - Categoría
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID de la categoría a eliminar
+      responses:
+        '204':
+          description: Categoría eliminada exitosamente
+         
+  /contrato:
+    get:
+      summary: Obtener todos los contratos
+      tags:
+        - Contrato
+      responses:
+        '200':
+          description: Respuesta exitosa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Contrato'
+    post:
+      summary: Agregar un nuevo contrato
+      tags:
+        - Contrato
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Contrato'
+      responses:
+        '201':
+          description: Contrato añadido exitosamente
+  /contrato/{id}:
+    get:
+      summary: Obtener un contrato por su ID
+      tags:
+        - Contrato
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID del contrato a obtener
+      responses:
+        '200':
+          description: Respuesta exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contrato'
+    put:
+      summary: Actualizar un contrato por su ID
+      tags:
+        - Contrato
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID del contrato a actualizar
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Contrato'
+      responses:
+        '200':
+          description: Contrato actualizado exitosamente
+    delete:
+      summary: Eliminar un contrato por su ID
+      tags:
+        - Contrato
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID del contrato a eliminar
+      responses:
+        '204':
+          description: Contrato eliminado exitosamente
+          
+  /Devolucion:
+    get:
+      summary: Obtener todos las devoluciones
+      tags:
+        - Devolucion
+      responses:
+        '200':
+          description: Respuesta exitosa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Devolucion'
+    post:
+      summary: Agregar una nueva devolucion
+      tags:
+        - Devolucion
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Devolucion'
+      responses:
+        '201':
+          description: Devolucion añadida exitosamente
+  /Devolucion/{id}:
+    get:
+      summary: Obtener un devolucion por su ID
+      tags:
+        - Devolucion
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID del Devolucion a obtener
+      responses:
+        '200':
+          description: Respuesta exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Devolucion'
+    put:
+      summary: Actualizar una devolucion por su ID
+      tags:
+        - Devolucion
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID de la Devolucion a actualizar
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Devolucion'
+      responses:
+        '200':
+          description: Devolucion actualizada exitosamente
+    delete:
+      summary: Eliminar una Devolucion por su ID
+      tags:
+        - Devolucion
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID de la Devolucion a eliminar
+      responses:
+        '204':
+          description: Devolucion eliminada exitosamente
+          
+  /Devoluciondetallada:
+    get:
+      summary: Obtener todos las Devoluciones detalladas
+      tags:
+        - Devoluciondetallada
+      responses:
+        '200':
+          description: Respuesta exitosa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Devoluciondetallada'
+    post:
+      summary: Agregar un nuevo devoluciones detalladas
+      tags:
+        - Devoluciondetallada
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Devoluciondetallada'
+      responses:
+        '201':
+          description: Devoluciones detallada añadidas exitosamente
+  /Devoluciondetallada/{id}:
+    get:
+      summary: Obtener un devoluciones detalladas por su ID
+      tags:
+        - Devoluciondetallada
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID de la Devolucion detallada a obtener
+      responses:
+        '200':
+          description: Respuesta exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Devoluciondetallada'
+    put:
+      summary: Actualizar un devolucion detallada por su ID
+      tags:
+        - Devoluciondetallada
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID de la Devolucion detallada a actualizar
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Devoluciondetallada'
+      responses:
+        '200':
+          description: Devolucion detallada actualizada exitosamente
+    delete:
+      summary: Eliminar una Devolucion detallada por su ID
+      tags:
+        - Devoluciondetallada
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID de la Devolucion detallada a eliminar
+      responses:
+        '204':
+          description: Devolucion detallada eliminada exitosamente    
+          
+  /facturacompra:
+    get:
+      summary: Obtener todos los Facturacompra
+      tags:
+        - facturacompra
+      responses:
+        '200':
+          description: Respuesta exitosa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/facturacompra'
+    post:
+      summary: Agregar una nueva Factura de compra
+      tags:
+        - facturacompra
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/facturacompra'
+      responses:
+        '201':
+          description: factura compra añadida exitosamente
+  /facturacompra/{id}:
+    get:
+      summary: Obtener unA factura comprapor su ID
+      tags:
+        - facturacompra
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID del Factura compra a obtener
+      responses:
+        '200':
+          description: Respuesta exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/facturacompra'
+    put:
+      summary: Actualizar un Factura compra por su ID
+      tags:
+        - facturacompra
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID de la factura compra a actualizar
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/facturacompra'
+      responses:
+        '200':
+          description: factura compra actualizado exitosamente
+    delete:
+      summary: Eliminar una Factura compra por su ID
+      tags:
+        - facturacompra
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID de la Factura compra a eliminar
+      responses:
+        '204':
+          description: Factura compra eliminada exitosamente   //
+          
+  /facturadetalle:
+    get:
+      summary: Obtener todas las factura detalle
+      tags:
+        - facturadetalle
+      responses:
+        '200':
+          description: Respuesta exitosa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/facturadetalle'
+    post:
+      summary: Agregar un nueva factura detalle
+      tags:
+        - facturadetalle
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/facturadetalle'
+      responses:
+        '201':
+          description: factura compra añadida exitosamente
+  /facturadetalle/{id}:
+    get:
+      summary: Obtener una factura detalle por su ID
+      tags:
+        - facturadetalle
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID del factura detalle a obtener
+      responses:
+        '200':
+          description: Respuesta exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/facturadetalle'
+    put:
+      summary: Actualizar una factura detalle por su ID
+      tags:
+        - facturadetalle
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID del factura detalle a actualizar
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/facturadetalle'
+      responses:
+        '200':
+          description: factura detalle actualizada exitosamente
+    delete:
+      summary: Eliminar un factura detalle por su ID
+      tags:
+        - facturadetalle
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID del factura detalle a eliminar
+      responses:
+        '204':
+          description: factura detalle eliminada exitosamente     //
+          
+  /gestionproducto:
+    get:
+      summary: Obtener todas las gestion producto
+      tags:
+        - gestionproducto
+      responses:
+        '200':
+          description: Respuesta exitosa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/gestionproducto'
+    post:
+      summary: Agregar un nueva gestion producto
+      tags:
+        - gestionproducto
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/gestionproducto'
+      responses:
+        '201':
+          description: gestion producto añadida exitosamente
+  /gestionproducto/{id}:
+    get:
+      summary: Obtener un gestion producto por su ID
+      tags:
+        - gestionproducto
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID del gestion producto a obtener
+      responses:
+        '200':
+          description: Respuesta exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/gestionproducto'
+    put:
+      summary: Actualizar una gestion producto por su ID
+      tags:
+        - gestionproducto
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID del gestion producto a actualizar
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/gestionproducto'
+      responses:
+        '200':
+          description: gestion producto actualizado exitosamente
+    delete:
+      summary: Eliminar una gestion producto por su ID
+      tags:
+        - gestionproducto
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID del gestion producto a eliminar
+      responses:
+        '204':
+          description: gestion producto eliminado exitosamente       // 
+          
+  /ordendesalida:
+    get:
+      summary: Obtener todas las orden de salida
+      tags:
+        - ordendesalida
+      responses:
+        '200':
+          description: Respuesta exitosa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ordendesalida'
+    post:
+      summary: Agregar un nueva orden de salida
+      tags:
+        - ordendesalida
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ordendesalida'
+      responses:
+        '201':
+          description: orden de salida añadida exitosamente
+  /ordendesalida/{id}:
+    get:
+      summary: Obtener una orden de salida por su ID
+      tags:
+        - ordendesalida
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID de la orden de salida a obtener
+      responses:
+        '200':
+          description: Respuesta exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ordendesalida'
+    put:
+      summary: Actualizar una orden de salida por su ID
+      tags:
+        - ordendesalida
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID del orden de salida a actualizar
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ordendesalida'
+      responses:
+        '200':
+          description: orden de salida actualizado exitosamente
+    delete:
+      summary: Eliminar una orden de salida por su ID
+      tags:
+        - ordendesalida
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID del orden de salida a eliminar
+      responses:
+        '204':
+          description: orden de salida eliminado exitosamente           //                
+          
+  /ordendesalidadetallada:
+    get:
+      summary: Obtener todas las ordenes de salida detallada
+      tags:
+        - ordendesalidadetallada
+      responses:
+        '200':
+          description: Respuesta exitosa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ordendesalidadetallada'
+    post:
+      summary: Agregar un nueva orden de salida detallada
+      tags:
+        - ordendesalidadetallada
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ordendesalidadetallada'
+      responses:
+        '201':
+          description: orden de salida detallada añadida exitosamente
+  /ordendesalidadetallada/{id}:
+    get:
+      summary: Obtener una orden de salida detallada por su ID
+      tags:
+        - ordendesalidadetallada
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID de la orden de salida detallada a obtener
+      responses:
+        '200':
+          description: Respuesta exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ordendesalidadetallada'
+    put:
+      summary: Actualizar una orden de salida edtallada por su ID
+      tags:
+        - ordendesalidadetallada
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID de la orden de salida detallada a actualizar
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ordendesalidadetallada'
+      responses:
+        '200':
+          description: orden de salida detallada actualizada exitosamente
+    delete:
+      summary: Eliminar una orden de salida detallada por su ID
+      tags:
+        - ordendesalidadetallada
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID de la orden de salida detallada a eliminar
+      responses:
+        '204':
+          description: orden de salida detallada eliminado exitosamente      //
+  
+  /persona:
+    get:
+      summary: Obtener todas las personas
+      tags:
+        - persona
+      responses:
+        '200':
+          description: Respuesta exitosa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/persona'
+    post:
+      summary: Agregar un nueva persona
+      tags:
+        - persona
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/persona'
+      responses:
+        '201':
+          description: persona añadida exitosamente
+  /persona/{id}:
+    get:
+      summary: Obtener persona por su ID
+      tags:
+        - persona
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID de la persona a obtener
+      responses:
+        '200':
+          description: Respuesta exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/persona'
+    put:
+      summary: Actualizar un persona por su ID
+      tags:
+        - persona
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID de la persona a actualizar
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ordendesalidadetallada'
+      responses:
+        '200':
+          description: persona actualizada exitosamente
+    delete:
+      summary: Eliminar una persona por su ID
+      tags:
+        - persona
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID de la persona a eliminar
+      responses:
+        '204':
+          description: persona eliminada exitosamente    //      
+          
+  /producto:
+    get:
+      summary: Obtener todas los productos
+      tags:
+        - producto
+      responses:
+        '200':
+          description: Respuesta exitosa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/producto'
+    post:
+      summary: Agregar un nuevo producto
+      tags:
+        - producto
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/producto'
+      responses:
+        '201':
+          description: producto añadida exitosamente
+  /producto/{id}:
+    get:
+      summary: Obtener producto por su ID
+      tags:
+        - producto
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID del producto a obtener
+      responses:
+        '200':
+          description: Respuesta exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/producto'
+    put:
+      summary: Actualizar un producto por su ID
+      tags:
+        - producto
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID de la producto a actualizar
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/producto'
+      responses:
+        '200':
+          description: producto actualizada exitosamente
+    delete:
+      summary: Eliminar una producto por su ID
+      tags:
+        - producto
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID de la producto a eliminar
+      responses:
+        '204':
+          description: producto eliminada exitosamente          //
+          
+          
+  /proveedor:
+    get:
+      summary: Obtener todas los proveedor
+      tags:
+        - proveedor
+      responses:
+        '200':
+          description: Respuesta exitosa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/proveedor'
+    post:
+      summary: Agregar un nuevo proveedor
+      tags:
+        - proveedor
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/proveedor'
+      responses:
+        '201':
+          description: proveedor añadida exitosamente
+  /proveedor/{id}:
+    get:
+      summary: Obtener proveedor por su ID
+      tags:
+        - proveedor
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID del proveedor a obtener
+      responses:
+        '200':
+          description: Respuesta exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/proveedor'
+    put:
+      summary: Actualizar un proveedor por su ID
+      tags:
+        - proveedor
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID de la proveedor a actualizar
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/proveedor'
+      responses:
+        '200':
+          description: proveedor actualizada exitosamente
+    delete:
+      summary: Eliminar una proveedor por su ID
+      tags:
+        - proveedor
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID de la proveedor a eliminar
+      responses:
+        '204':
+          description: proveedor eliminada exitosamente            ///
+          
+  /rol:
+    get:
+      summary: Obtener todas los roles
+      tags:
+        - rol
+      responses:
+        '200':
+          description: Respuesta exitosa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/rol'
+    post:
+      summary: Agregar un nuevo rol
+      tags:
+        - rol
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/rol'
+      responses:
+        '201':
+          description: rol añadida exitosamente
+  /rol/{id}:
+    get:
+      summary: Obtener rol por su ID
+      tags:
+        - rol
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID del rol a obtener
+      responses:
+        '200':
+          description: Respuesta exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rol'
+    put:
+      summary: Actualizar un rol por su ID
+      tags:
+        - rol
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID de la rol a actualizar
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/rol'
+      responses:
+        '200':
+          description: rol actualizada exitosamente
+    delete:
+      summary: Eliminar una rol por su ID
+      tags:
+        - rol
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID de la rol a eliminar
+      responses:
+        '204':
+          description: rol eliminada exitosamente        //
+          
+          
+  /subcategoria:
+    get:
+      summary: Obtener todas los subcategoria
+      tags:
+        - subcategoria
+      responses:
+        '200':
+          description: Respuesta exitosa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/subcategoria'
+    post:
+      summary: Agregar un nuevo subcategoria
+      tags:
+        - subcategoria
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/subcategoria'
+      responses:
+        '201':
+          description: subcategoria añadida exitosamente
+  /subcategoria/{id}:
+    get:
+      summary: Obtener subcategoria por su ID
+      tags:
+        - subcategoria
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID del subcategoria a obtener
+      responses:
+        '200':
+          description: Respuesta exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/subcategoria'
+    put:
+      summary: Actualizar un subcategoria por su ID
+      tags:
+        - subcategoria
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID de la subcategoria a actualizar
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/subcategoria'
+      responses:
+        '200':
+          description: subcategoria actualizada exitosamente
+    delete:
+      summary: Eliminar una subcategoria por su ID
+      tags:
+        - subcategoria
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID de la subcategoria a eliminar
+      responses:
+        '204':
+          description: subcategoria eliminada exitosamente               //
+          
+          
+  /tienda:
+    get:
+      summary: Obtener todas los tienda
+      tags:
+        - tienda
+      responses:
+        '200':
+          description: Respuesta exitosa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/tienda'
+    post:
+      summary: Agregar un nuevo tienda
+      tags:
+        - tienda
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/tienda'
+      responses:
+        '201':
+          description: tienda añadida exitosamente
+  /tienda/{id}:
+    get:
+      summary: Obtener tienda por su ID
+      tags:
+        - tienda
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID del tienda a obtener
+      responses:
+        '200':
+          description: Respuesta exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/tienda'
+    put:
+      summary: Actualizar un tienda por su ID
+      tags:
+        - tienda
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID de la tienda a actualizar
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/tienda'
+      responses:
+        '200':
+          description: tienda actualizada exitosamente
+    delete:
+      summary: Eliminar una tienda por su ID
+      tags:
+        - tienda
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID de la tienda a eliminar
+      responses:
+        '204':
+          description: tienda eliminada exitosamente               //
+          
+  /tipocontrato:
+    get:
+      summary: Obtener todas los tipocontrato
+      tags:
+        - tipocontrato
+      responses:
+        '200':
+          description: Respuesta exitosa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/tipocontrato'
+    post:
+      summary: Agregar un nuevo tipocontrato
+      tags:
+        - tipocontrato
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/tipocontrato'
+      responses:
+        '201':
+          description: tipocontrato añadida exitosamente
+  /tipocontrato/{id}:
+    get:
+      summary: Obtener tipocontrato por su ID
+      tags:
+        - tipocontrato
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID del tipocontrato a obtener
+      responses:
+        '200':
+          description: Respuesta exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/tipocontrato'
+    put:
+      summary: Actualizar un tipocontrato por su ID
+      tags:
+        - tipocontrato
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID de la tipocontrato a actualizar
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/tipocontrato'
+      responses:
+        '200':
+          description: tipocontrato actualizada exitosamente
+    delete:
+      summary: Eliminar una tipocontrato por su ID
+      tags:
+        - tipocontrato
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID de la tipocontrato a eliminar
+      responses:
+        '204':
+          description: tipocontrato eliminada exitosamente         ///
+          
+          
+  /tipodocumento:
+    get:
+      summary: Obtener todas los tipocontrato
+      tags:
+        - tipodocumento
+      responses:
+        '200':
+          description: Respuesta exitosa
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/tipodocumento'
+    post:
+      summary: Agregar un nuevo tipodocumento
+      tags:
+        - tipodocumento
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/tipodocumento'
+      responses:
+        '201':
+          description: tipodocumento añadida exitosamente
+  /tipodocumento/{id}:
+    get:
+      summary: Obtener tipodocumento por su ID
+      tags:
+        - tipodocumento
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID del tipodocumento a obtener
+      responses:
+        '200':
+          description: Respuesta exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/tipodocumento'
+    put:
+      summary: Actualizar un tipodocumento por su ID
+      tags:
+        - tipodocumento
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID de la tipodocumento a actualizar
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/tipodocumento'
+      responses:
+        '200':
+          description: tipodocumento actualizada exitosamente
+    delete:
+      summary: Eliminar una tipodocumento por su ID
+      tags:
+        - tipodocumento
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: ID de la tipodocumento a eliminar
+      responses:
+        '204':
+         description: tipocontrato eliminada exitosamente         
+          
+ 
+          
+
+components:
+  schemas:
+    Contrato:
+      type: object
+      properties:
+        idContrato:
+          type: integer
+        descripcion:
+          type: string
+        fechaInicio:
+          type: string
+          format: date
+        fechaFin:
+          type: string
+          format: date
+      example:
+        idContrato: 1
+        descripcion: Contrato de ejemplo
+        fechaInicio: 2024-04-01
+        fechaFin: 2024-04-30
+         
+    Categoria:
+      type: object
+      properties:
+        idCategorias:
+          type: integer
+          
+    Devolucion:
+      type: object
+      properties:
+        idDevolucion:
+          type: integer
+        descripcion:
+          type: string
+        fechaInicio:
+          type: string
+          format: date
+        fechaFin:
+          type: string
+          format: date
+      example:
+        idDevolucion: 1
+        descripcion: Contrato de ejemplo
+        fechaInicio: 2024-04-01
+        fechaFin: 2024-04-30   
+        
+    Devoluciondetallada:
+      type: object
+      properties:
+        idDevoluciondetallada:
+          type: integer
+        descripcion:
+          type: string
+        fechaInicio:
+          type: string
+          format: date
+        fechaFin:
+          type: string
+          format: date
+      example:
+        idDevoluciondetallada: 1
+        descripcion: Contrato de ejemplo
+        fechaInicio: 2024-04-01
+        fechaFin: 2024-04-30    
+        
+    facturacompra:
+      type: object
+      properties:
+        idfacturacompra:
+          type: integer
+        descripcion:
+          type: string
+        fechaInicio:
+          type: string
+          format: date
+        fechaFin:
+          type: string
+          format: date
+      example:
+        idfacturacompra: 1
+        descripcion: Contrato de ejemplo
+        fechaInicio: 2024-04-01
+        fechaFin: 2024-04-30    
+        
+    facturadetalle:
+      type: object
+      properties:
+        idfacturadetalle:
+          type: integer
+        descripcion:
+          type: string
+        fechaInicio:
+          type: string
+          format: date
+        fechaFin:
+          type: string
+          format: date
+      example:
+        idfacturadetalle: 1
+        descripcion: Contrato de ejemplo
+        fechaInicio: 2024-04-01
+        fechaFin: 2024-04-30    
+        
+    gestionproducto:
+      type: object
+      properties:
+        idgestionproducto:
+          type: integer
+        descripcion:
+          type: string
+        fechaInicio:
+          type: string
+          format: date
+        fechaFin:
+          type: string
+          format: date
+      example:
+        idgestionproducto: 1
+        descripcion: Contrato de ejemplo
+        fechaInicio: 2024-04-01
+        fechaFin: 2024-04-30     
+        
+    ordendesalida:
+      type: object
+      properties:
+        idordendesalida:
+          type: integer
+        descripcion:
+          type: string
+        fechaInicio:
+          type: string
+          format: date
+        fechaFin:
+          type: string
+          format: date
+      example:
+        idordendesalida: 1
+        descripcion: Contrato de ejemplo
+        fechaInicio: 2024-04-01
+        fechaFin: 2024-04-30    
+        
+    ordendesalidadetallada:
+      type: object
+      properties:
+        idordendesalidadetallada:
+          type: integer
+        descripcion:
+          type: string
+        fechaInicio:
+          type: string
+          format: date
+        fechaFin:
+          type: string
+          format: date
+      example:
+        idordendesalidadetallada: 1
+        descripcion: Contrato de ejemplo
+        fechaInicio: 2024-04-01
+        fechaFin: 2024-04-30     
+        
+    persona:
+      type: object
+      properties:
+        idpersona:
+          type: integer
+        descripcion:
+          type: string
+        fechaInicio:
+          type: string
+          format: date
+        fechaFin:
+          type: string
+          format: date
+      example:
+        idpersona: 1
+        descripcion: Contrato de ejemplo
+        fechaInicio: 2024-04-01
+        fechaFin: 2024-04-30              
+
+    producto:
+      type: object
+      properties:
+        idproducto:
+          type: integer
+        descripcion:
+          type: string
+        fechaInicio:
+          type: string
+          format: date
+        fechaFin:
+          type: string
+          format: date
+      example:
+        idproducto: 1
+        descripcion: Contrato de ejemplo
+        fechaInicio: 2024-04-01
+        fechaFin: 2024-04-30   
+        
+    proveedor:
+      type: object
+      properties:
+        idproveedor:
+          type: integer
+        descripcion:
+          type: string
+        fechaInicio:
+          type: string
+          format: date
+        fechaFin:
+          type: string
+          format: date
+      example:
+        idproveedor: 1
+        descripcion: Contrato de ejemplo
+        fechaInicio: 2024-04-01
+        fechaFin: 2024-04-30    
+        
+    rol:
+      type: object
+      properties:
+        idrol:
+          type: integer
+        descripcion:
+          type: string
+        fechaInicio:
+          type: string
+          format: date
+        fechaFin:
+          type: string
+          format: date
+      example:
+        idrol: 1
+        descripcion: Contrato de ejemplo
+        fechaInicio: 2024-04-01
+        fechaFin: 2024-04-30               
+        
+    subcategoria:
+      type: object
+      properties:
+        idsubcategoria:
+          type: integer
+        descripcion:
+          type: string
+        fechaInicio:
+          type: string
+          format: date
+        fechaFin:
+          type: string
+          format: date
+      example:
+        idsubcategoria: 1
+        descripcion: Contrato de ejemplo
+        fechaInicio: 2024-04-01
+        fechaFin: 2024-04-30   
+            
+    tienda:
+      type: object
+      properties:
+        idtienda:
+          type: integer
+        descripcion:
+          type: string
+        fechaInicio:
+          type: string
+          format: date
+        fechaFin:
+          type: string
+          format: date
+      example:
+        idtienda: 1
+        descripcion: Contrato de ejemplo
+        fechaInicio: 2024-04-01
+        fechaFin: 2024-04-30 
+        
+    tipocontrato:
+      type: object
+      properties:
+        idtipocontrato:
+          type: integer
+        descripcion:
+          type: string
+        fechaInicio:
+          type: string
+          format: date
+        fechaFin:
+          type: string
+          format: date
+      example:
+        idtipocontrato: 1
+        descripcion: Contrato de ejemplo
+        fechaInicio: 2024-04-01
+        fechaFin: 2024-04-30       
+        
+    tipodocumento:
+      type: object
+      properties:
+        idtipodocumento:
+          type: integer
+        descripcion:
+          type: string
+        fechaInicio:
+          type: string
+          format: date
+        fechaFin:
+          type: string
+          format: date
+      example:
+        idtipodocumento: 1
+        descripcion: Contrato de ejemplo
+        fechaInicio: 2024-04-01
+        fechaFin: 2024-04-30       

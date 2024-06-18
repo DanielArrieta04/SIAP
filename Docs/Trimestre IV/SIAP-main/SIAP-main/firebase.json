@@ -1,0 +1,19 @@
+{
+  "hosting": {
+    "public": "frontend/dist/crud_angular",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**",
+      "**/*.exe",
+      "**/*.sh",
+      "**/*.bat"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}

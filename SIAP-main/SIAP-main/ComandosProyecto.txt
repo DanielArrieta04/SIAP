@@ -1,0 +1,17 @@
+Comandos para instalar en el frontend Y en el backend:
+
+npm install
+
+npm install express mysql2 body-parser cors jsonwebtoken sweetalert2 nodemon -g concurrently rxjs pm2
+
+
+correr backend en un terminal "npm run serve" 
+Correr en otro terminal diferente del backend "npm run start-all"
+Correr en un terminal del frontend "ng serve -o"
+
+
+firebase login     
+firebase init 
+ng build --configuration production --output-path=dist/crud_angular
+firebase deploy
+

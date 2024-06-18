@@ -1,0 +1,27 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon server.js",
+    "serve": "node server.js",
+    "start-all": "pm2 start categoria.js && pm2 start contrato.js && pm2 start devolucion.js && pm2 start devoluciondetallada.js && pm2 start facturacompra.js && pm2 start facturadetalle.js && pm2 start gestionproducto.js && pm2 start ordendesalida.js && pm2 start ordendesalidadetallada.js && pm2 start proveedor.js && pm2 start rol.js && pm2 start subcategoria.js && pm2 start tienda.js && pm2 start tipocontrato.js && pm2 start tipodocumento.js && pm2 start producto.js"
+},
+  "author": "dev.xcheko51x",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^8.2.2",
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "mysql": "^2.18.1",
+    "mysql2": "^3.9.3",
+    "sweetalert2": "^11.10.7"
+  },
+  "devDependencies": {
+    "body-parser": "^1.20.2",
+    "nodemon": "^2.0.22"
+  }
+}

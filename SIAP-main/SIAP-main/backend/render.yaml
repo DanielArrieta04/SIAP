@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: SIAP_Backend
+    env: node
+    plan: free
+    buildCommand: "npm install -g pm2"
+    startCommand: "npm run start-all"
+    envVars:
+      - key: NODE_ENV
+        value: production

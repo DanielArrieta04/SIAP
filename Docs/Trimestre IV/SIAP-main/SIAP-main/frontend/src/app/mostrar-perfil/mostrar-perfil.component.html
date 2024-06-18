@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Datos del Usuario</title>
+  <!-- Agregamos el enlace al archivo de estilos de Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  
+</head>
+<body>
+ 
+      
+
+  <div class="container">
+    <h2>Datos del usuario:</h2>
+    <ul class="profile-info">
+      <li><label>Nombre:</label> <span>{{ user.Nombre1 }} {{ user.Nombre2 }}</span></li>
+      <li><label>Apellidos:</label> <span>{{ user.Apellido1 }} {{ user.Apellido2 }}</span></li>
+      <li><label>Correo Electrónico:</label> <span>{{ user.CorreoElectronico }}</span></li>
+      <li><label>Número de Documento de Identidad:</label> <span>{{ user.NumeroDocumentoIdentidad }}</span></li>
+      <li><label>Rol:</label> <span>{{ user.Rol_idRol }}</span></li>
+      <!-- Agrega aquí todos los campos adicionales que desees mostrar -->
+    </ul> 
+  </div>
+
+  <div *ngIf="!isAuth()">Has cerrado sesión exitosamente.</div>
+
+  
+</body>
+</html>
+
+
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+  <div class="barra-superior">
+    <button class="boton-casita" routerLink="/bienvenido">
+      <i class="fas fa-home" ></i>
+    </button>
+    
+     
+    <button class="boton-user" routerLink="/profile">
+      <i class="far fa-user"></i>
+    </button>
+
+
+    <div class="boton-prueba" routerLink="/alertas">
+      <i class="far fa-bell" [ngClass]="{'alerta': hayAlertas()}">
+        <span class="contador-alertas" *ngIf="hayAlertas()">{{ getAlertas().length }}</span>
+      </i>
+    </div>
+
+
+    
+    <div class="boton-cerrar" (click)="logout()">
+      <!-- Agregamos el icono de cerrar sesión -->
+      <i class="fas fa-sign-out-alt"></i> 
+    </div>
+    
+  
+
+
+<div class="sidebar">
+  
+  <span style="display: block; text-align: center; font-weight: bold; font-size: 2em;">S.I.A.P</span>
+
+
+  <ul>
+    <li> <a routerLink="/tienda">Tienda</a> </li>
+    <li>
+      <a routerLink="/categoria">Categoria</a>
+      <ul>
+        <li><a routerLink="/subcategoria">SubCategoria</a></li>
+        <!-- Puedes agregar más elementos de subcategorías aquí si lo deseas -->
+      </ul>
+    </li>
+    <li>
+      <a routerLink="/persona">Persona</a>
+      <ul>
+        <li><a routerLink="/tipodocumento">TipoDocumento</a></li>
+        <li> <a routerLink="/rol">Rol</a></li>
+        <!-- Puedes agregar más elementos de subcategorías aquí si lo deseas -->
+      </ul>
+    </li>
+
+    <li>
+      <a routerLink="/contrato">Contrato</a>
+      <ul>
+        <li><a routerLink="/tipocontrato">TipoContrato</a></li>
+        <!-- Puedes agregar más elementos de subcategorías aquí si lo deseas -->
+      </ul>
+    </li>
+    <li>
+      <a routerLink="/producto">Productos</a>
+      <ul>
+        <li> <a routerLink="/gestionproducto">Gestion Producto</a></li>
+        <li><a routerLink="/proveedor">Proveedores</a></li>
+        <!-- Puedes agregar más elementos de subcategorías aquí si lo deseas -->
+      </ul>
+    </li>
+<li>
+  <a routerLink="/facturacompra">Factura Compra</a>
+      <ul>
+        <li><a routerLink="/facturadetalle">Factura Detalle</a></li>
+        <!-- Puedes agregar más elementos de subcategorías aquí si lo deseas -->
+      </ul>
+    </li>
+    <li>
+      <a routerLink="/ordenDeSalida">Orden De Salida</a>
+      <ul>
+        <li><a routerLink="/ordenDeSalidaDetallada">Orden De Salida Detallada</a></li>
+        <!-- Puedes agregar más elementos de subcategorías aquí si lo deseas -->
+      </ul>
+    </li>
+
+    <li>
+      <a routerLink="/devolucion">Devolucion</a>
+      <ul>
+        <li><a routerLink="/devoluciondetallada">Devolucion Detallada</a></li>
+        <!-- Puedes agregar más elementos de subcategorías aquí si lo deseas -->
+      </ul>
+    </li>
+
+  </ul>
+</div>
+<div class="content">
