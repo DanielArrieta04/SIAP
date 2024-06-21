@@ -146,7 +146,6 @@ CREATE TABLE  producto (
     FOREIGN KEY (categoria_idCategorias)
     REFERENCES categoria (idCategorias));
     
-    select * from producto;
    
 -- Esta tabla tiene dos llaves foraneas, provenientes de las tablas #1 y #9 --
     --
@@ -327,74 +326,47 @@ END //
 -- Restablecer el delimitador al punto y coma predeterminado
 DELIMITER ;
 
-
-
 DELIMITER //
-
-CREATE PROCEDURE InsertarActualizarOrdenSalidaDetallada (
-    IN p_Producto_idProducto INT,
-    IN p_ordenDeSalida_idordenDeSalida INT,
-    IN p_Cantidad INT
+CREATE PROCEDURE InsertarActualizarOrdenSalidaDetallada(
+    IN in_Producto_idProducto INT,
+    IN in_ordenDeSalida_idordenDeSalida INT,
+    IN in_Cantidad INT
 )
 BEGIN
-    DECLARE v_existingCantidad INT DEFAULT 0;
-    DECLARE v_nuevaCantidad INT DEFAULT 0;
-    DECLARE v_count_facturadetalle INT DEFAULT 0;
+    DECLARE v_Existente INT;
 
-    -- Verificar si ya existe el registro en ordendesalidadetallada
-    SELECT Cantidad INTO v_existingCantidad
-    FROM ordendesalidadetallada
-    WHERE Producto_idProducto = p_Producto_idProducto
-      AND ordenDeSalida_idordenDeSalida = p_ordenDeSalida_idordenDeSalida
-    LIMIT 1;
+    -- Check if the product exists in the order details
+    SELECT COUNT(*) INTO v_Existente
+    FROM ordenesalidadetallada
+    WHERE Producto_idProducto = in_Producto_idProducto
+    AND ordenDeSalida_idordenDeSalida = in_ordenDeSalida_idordenDeSalida;
 
-    IF v_existingCantidad > 0 THEN
-        -- Si existe, actualizar la cantidad en ordendesalidadetallada
-        UPDATE ordendesalidadetallada
-        SET Cantidad = Cantidad + p_Cantidad
-        WHERE Producto_idProducto = p_Producto_idProducto
-          AND ordenDeSalida_idordenDeSalida = p_ordenDeSalida_idordenDeSalida;
+    IF v_Existente > 0 THEN
+        -- Update the order detail if it exists
+        UPDATE ordenesalidadetallada
+        SET Cantidad = in_Cantidad
+        WHERE Producto_idProducto = in_Producto_idProducto
+        AND ordenDeSalida_idordenDeSalida = in_ordenDeSalida_idordenDeSalida;
     ELSE
-        -- Si no existe, insertar un nuevo registro en ordendesalidadetallada
-        INSERT INTO ordendesalidadetallada (Producto_idProducto, ordenDeSalida_idordenDeSalida, Cantidad)
-        VALUES (p_Producto_idProducto, p_ordenDeSalida_idordenDeSalida, p_Cantidad);
+        -- Insert a new order detail if it does not exist
+        INSERT INTO ordenesalidadetallada (Producto_idProducto, ordenDeSalida_idordenDeSalida, Cantidad)
+        VALUES (in_Producto_idProducto, in_ordenDeSalida_idordenDeSalida, in_Cantidad);
     END IF;
 
-    -- Actualizar la cantidad en facturadetalle
-    UPDATE facturadetalle
-    SET CantidadProductos = GREATEST(CantidadProductos - p_Cantidad, 0)
-    WHERE Producto_idProducto = p_Producto_idProducto
-      AND FacturaCompra_idFacturaCompra = p_ordenDeSalida_idordenDeSalida;
+    -- If Cantidad is zero, delete the product from the table
+    IF in_Cantidad = 0 THEN
+        -- Delete dependent records in facturadetalle
+        DELETE FROM facturadetalle
+        WHERE Producto_idProducto = in_Producto_idProducto;
 
-    -- Actualizar la cantidad disponible en la tabla producto
-    UPDATE producto
-    SET cantidadExistente = GREATEST(cantidadExistente - p_Cantidad, 0)
-    WHERE idProducto = p_Producto_idProducto;
-
-    -- Verificar la cantidad actualizada en la tabla producto
-    SELECT cantidadExistente INTO v_nuevaCantidad
-    FROM producto
-    WHERE idProducto = p_Producto_idProducto
-    LIMIT 1;
-
-    -- Verificar si la cantidad en producto llega a cero y eliminar en facturadetalle
-    IF v_nuevaCantidad = 0 THEN
-        -- Verificar si hay registros en facturadetalle para este producto con cantidad mayor a cero
-        SELECT COUNT(*) INTO v_count_facturadetalle
-        FROM facturadetalle
-        WHERE Producto_idProducto = p_Producto_idProducto
-          AND CantidadProductos > 0;
-
-        -- Si no hay registros en facturadetalle con cantidad mayor a cero, eliminar el producto
-        IF v_count_facturadetalle = 0 THEN
-            DELETE FROM producto
-            WHERE idProducto = p_Producto_idProducto;
-        END IF;
+        -- Delete the product from the product table
+        DELETE FROM producto
+        WHERE idProducto = in_Producto_idProducto;
     END IF;
-
 END //
-
 DELIMITER ;
+
+
 
 
 

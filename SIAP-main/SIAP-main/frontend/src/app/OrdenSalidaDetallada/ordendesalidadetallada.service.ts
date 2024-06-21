@@ -14,10 +14,7 @@ export class OrdenDeSalidaDetalladaService {
   constructor(private http: HttpClient) { }
 
   obtenerOrdenDeSalidaDetallada(): Observable<OrdenDeSalidaDetalladaModel[]> {
-    return this.http.get<OrdenDeSalidaDetalladaModel[]>(`${this.BASE_URL}/ordenDeSalidaDetallada`)
-      .pipe(
-        catchError(this.handleError)
-      );
+    return this.http.get<OrdenDeSalidaDetalladaModel[]>(`${this.BASE_URL}/ordenDeSalidaDetallada`);
   }
 
   obtenerOrdenDeSalidaDetalladaPorId(id: string): Observable<OrdenDeSalidaDetalladaModel[]> {
@@ -28,7 +25,8 @@ export class OrdenDeSalidaDetalladaService {
   }
 
   agregarOrdenDeSalidaDetallada(ordenDeSalidaDetallada: OrdenDeSalidaDetalladaModel): Observable<any> {
-    return this.http.post<any>(`${this.BASE_URL}/ordenDeSalidaDetalladaAG`, ordenDeSalidaDetallada)
+    console.log('Datos enviados:', ordenDeSalidaDetallada);
+    return this.http.post(`${this.BASE_URL}/ordenDeSalidaDetalladaAG`, ordenDeSalidaDetallada)
       .pipe(
         catchError(this.handleError)
       );

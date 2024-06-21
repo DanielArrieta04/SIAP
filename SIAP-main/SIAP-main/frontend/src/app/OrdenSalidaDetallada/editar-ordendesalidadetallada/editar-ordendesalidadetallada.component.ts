@@ -12,7 +12,7 @@ import Swal from 'sweetalert2';
 export class EditarOrdenDeSalidaDetalladaComponent implements OnInit {
 
   id: string = '';
-  ordenDeSalidaDetallada : OrdenDeSalidaDetalladaModel = new OrdenDeSalidaDetalladaModel("","",""); 
+  ordenDeSalidaDetallada : OrdenDeSalidaDetalladaModel = new OrdenDeSalidaDetalladaModel("","","");
 
   constructor(
     private ordendesalidadetalladaService: OrdenDeSalidaDetalladaService,
@@ -23,7 +23,6 @@ export class EditarOrdenDeSalidaDetalladaComponent implements OnInit {
   ngOnInit() {
     this.id = this.route.snapshot.params['id'];
     if (this.id) {
-      console.log("EDITAR");
       this.ordendesalidadetalladaService.obtenerOrdenDeSalidaDetalladaPorId(this.id).subscribe(
         data => {
           if (data && data.length > 0) {
@@ -34,18 +33,14 @@ export class EditarOrdenDeSalidaDetalladaComponent implements OnInit {
           console.log(error);
         }
       );
-    } else {
-      console.log("CREAR");
     }
   }
 
   onSubmit() {
-    console.log('onSubmit');
-
-    if (this.id) { 
+    if (this.id) {
       this.ordendesalidadetalladaService.actualizarOrdenDeSalidaDetallada(this.ordenDeSalidaDetallada).subscribe(
         data => {
-          Swal.fire({ 
+          Swal.fire({
             position: "center",
             icon: "success",
             title: "La orden detallada se ha actualizado exitosamente",
@@ -55,7 +50,7 @@ export class EditarOrdenDeSalidaDetalladaComponent implements OnInit {
           this.router.navigate(['/ordenDeSalidaDetallada']);
         },
         error => {
-          console.log(error);
+          console.log('Error al actualizar:', error);
           Swal.fire({
             position: "center",
             icon: "error",
@@ -66,21 +61,20 @@ export class EditarOrdenDeSalidaDetalladaComponent implements OnInit {
         }
       );
     } else {
-      console.log('crear');
       this.ordendesalidadetalladaService.agregarOrdenDeSalidaDetallada(this.ordenDeSalidaDetallada).subscribe(
         data => {
-          Swal.fire({ 
+          Swal.fire({
             position: "center",
             icon: "success",
             title: "La orden detallada se ha creado exitosamente",
             showConfirmButton: false,
             timer: 1500
           });
-          this.router.navigate(['/ordenDeSalidaDetallada']); 
+          this.router.navigate(['/ordenDeSalidaDetallada']);
         },
         error => {
-          console.log(error);
-          Swal.fire({ 
+          console.log('Error al crear:', error);
+          Swal.fire({
             position: "center",
             icon: "error",
             title: "Hubo un error al crear la orden detallada",

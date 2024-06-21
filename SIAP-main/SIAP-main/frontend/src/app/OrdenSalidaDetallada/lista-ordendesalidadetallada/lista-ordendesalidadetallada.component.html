@@ -4,41 +4,43 @@
       <form class="form-inline">
         <fieldset class="form-group col-sm-11"></fieldset>
         <fieldset class="form-group col-sm-1">
-          <a class="btn btn-primary" style= "width: 100px;" routerLink="/ordenDeSalidaDetalladaAG"><img src="../../assets/folder-plus.svg" alt="imagen de agregar"></a>
+          <a class="btn btn-primary" style="width: 100px;" routerLink="/ordenDeSalidaDetalladaAG">
+            <img src="../../assets/folder-plus.svg" alt="imagen de agregar">
+          </a>
         </fieldset>
       </form>
       <br>
       <table class="table table-striped">
         <thead>
           <tr class="row">
-            <th class="col-sm-2"> ID Producto</th>
-            <th class="col-sm-4"> ID OrdenDeSalida </th>
-            <th class="col-sm-4"> Cantidad A Quitar </th>
-            <th class="col-sm-2"> Ajustes</th>
+            <th class="col-sm-2">ID Producto</th>
+            <th class="col-sm-4">ID OrdenDeSalida</th>
+            <th class="col-sm-4">Cantidad A Quitar</th>
+            <th class="col-sm-2">Ajustes</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let ordendesalidadetallada of ordendesalidadetalladas | async" class="row">
+          <tr *ngFor="let ordendesalidadetallada of ordendesalidadetalladas" class="row">
             <td class="col-sm-2"><i>{{ ordendesalidadetallada.Producto_idProducto }}</i></td>
             <td class="col-sm-4"><i>{{ ordendesalidadetallada.ordenDeSalida_idordenDeSalida }}</i></td>
             <td class="col-sm-4"><i>{{ ordendesalidadetallada.Cantidad }}</i></td>
             <td class="col-sm-1">
-              <fieldset class="form-group col-sm-1">
-                <a class="btn btn-warning bi bi-pencil-square" [routerLink]="['/ordenDeSalidaDetalladaAc', ordendesalidadetallada.Producto_idProducto]"><img src="../../assets/pencil-square.svg" alt="imagen de editar"></a>
-              </fieldset>
+              <a class="btn btn-warning" [routerLink]="['/ordenDeSalidaDetalladaAc', ordendesalidadetallada.Producto_idProducto]">
+                <img src="../../assets/pencil-square.svg" alt="imagen de editar">
+              </a>
             </td>
             <td class="col-sm-1">
-              <fieldset class="form-group col-sm-1">
-                <button class="btn btn-danger" (click)="borrarOrdenDeSalidaDetallada(ordendesalidadetallada.Producto_idProducto)">
-                  <img src="../../assets/trash.svg" alt="imagen de eliminar">
+              <button class="btn btn-danger" (click)="borrarOrdenDeSalidaDetallada(ordendesalidadetallada.Producto_idProducto)">
+                <img src="../../assets/trash.svg" alt="imagen de eliminar">
               </button>
-              </fieldset>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
   </div>
+</div>
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
 <div class="barra-superior">

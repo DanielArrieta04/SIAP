@@ -76,6 +76,14 @@ app.get('/ordenDeSalidaDetalladaID/:id', (req, res, next) =>{
 app.post('/ordenDeSalidaDetalladaAG', (req, res) => {
     const { Producto_idProducto, ordenDeSalida_idordenDeSalida, Cantidad } = req.body;
 
+    // Validar datos recibidos
+    console.log('Datos recibidos:', req.body);
+
+    if (!Producto_idProducto || !ordenDeSalida_idordenDeSalida || !Cantidad) {
+        console.error('Datos incompletos:', { Producto_idProducto, ordenDeSalida_idordenDeSalida, Cantidad });
+        return res.status(400).json({ error: 'Datos incompletos' });
+    }
+
     conexion.beginTransaction((err) => {
         if (err) {
             console.error('Error al iniciar la transacción:', err);
@@ -87,16 +95,30 @@ app.post('/ordenDeSalidaDetalladaAG', (req, res) => {
             [Producto_idProducto, ordenDeSalida_idordenDeSalida, Cantidad],
             (err, result) => {
                 if (err) {
+                    console.error('Error en la consulta:', err);
+
+                    // Imprimir el estado de la transacción antes del rollback
+                    console.log('Estado de la transacción antes del rollback:', err);
+
                     return conexion.rollback(() => {
-                        console.error('Error en la consulta:', err);
                         res.status(500).json({ error: 'Error al procesar la solicitud' });
                     });
                 }
 
+                // Verificar el resultado y hacer commit o rollback basado en la lógica de negocio
+                if (Cantidad === 0) {
+                    // Aquí puedes agregar lógica adicional si es necesario
+                    console.log('Eliminación pendiente de validación adicional.');
+                }
+
                 conexion.commit((err) => {
                     if (err) {
+                        console.error('Error al hacer commit:', err);
+
+                        // Imprimir el estado de la transacción antes del rollback
+                        console.log('Estado de la transacción antes del rollback:', err);
+
                         return conexion.rollback(() => {
-                            console.error('Error al hacer commit:', err);
                             res.status(500).json({ error: 'Error al hacer commit' });
                         });
                     }
@@ -107,9 +129,12 @@ app.post('/ordenDeSalidaDetalladaAG', (req, res) => {
     });
 });
 
+
+
 app.put('/ordenDeSalidaDetalladaAc/:id', (req, res) => {
     const Producto_idProducto = req.params.id;
     const { Cantidad, ordenDeSalida_idordenDeSalida } = req.body;
+    console.log('Llegó una solicitud POST a /ordenDeSalidaDetalladaAG');
 
     if (!ordenDeSalida_idordenDeSalida || !Cantidad || !Producto_idProducto) {
         return res.status(400).json({ error: 'Faltan datos en la solicitud' });
@@ -131,6 +156,7 @@ app.put('/ordenDeSalidaDetalladaAc/:id', (req, res) => {
                         res.status(500).json({ error: 'Error al procesar la solicitud' });
                     });
                 }
+                console.log('Resultado de la consulta:', result);
 
                 conexion.commit((err) => {
                     if (err) {
