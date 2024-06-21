@@ -198,6 +198,7 @@ CREATE TABLE facturadetalle (
     PrecioCompra DOUBLE,
     nomProducto VARCHAR(45),
     descripcionProducto VARCHAR(100),
+    fechaVencimiento DATE,
     categoria_idCategorias INT,
     PRIMARY KEY (FacturaCompra_idFacturaCompra, Producto_idProducto),
     INDEX fk_FacturaDetalle_FacturaCompra1_idx (FacturaCompra_idFacturaCompra ASC),
@@ -281,41 +282,52 @@ CREATE TABLE  gestionproducto (
    
 -- Esta tabla es compuesta, proveniente de las tablas #5 y #16 --
     --
+-- Cambiar el delimitador temporalmente
+-- Cambiar el delimitador temporalmente
 DELIMITER //
 
+-- Crear el procedimiento almacenado actualizado
 CREATE PROCEDURE InsertarFacturaDetalle(
     IN p_FacturaCompra_id INT,
-    IN p_Producto_id INT,
-    IN p_Cantidad INT,
-    IN p_Precio DOUBLE,
-    IN p_nomProducto VARCHAR(45),
+    IN p_Producto_id INT,                
+    IN p_Cantidad INT,                    
+    IN p_Precio DOUBLE,                        
+    IN p_nomProducto VARCHAR(45),              
     IN p_descripcionProducto VARCHAR(100),
-    IN p_categoria_id INT
-)
+    IN p_fechaVencimiento DATE,
+    IN p_categoria_id INT                   
+ )
 BEGIN
-    DECLARE v_cantidadExistente INT;
+    DECLARE v_cantidadExistente INT;           -- Declarar una variable para la cantidad existente
 
     -- Verificar la cantidad existente actual del producto
     SELECT cantidadExistente INTO v_cantidadExistente
     FROM producto
     WHERE idProducto = p_Producto_id;
 
+    -- Insertar o actualizar el producto según exista o no
     IF v_cantidadExistente IS NULL THEN
         -- Insertar el producto si no existe
         INSERT INTO producto (idProducto, nomProducto, precioProducto, descripcionProducto, fechaVencimiento, cantidadExistente, categoria_idCategorias)
-        VALUES (p_Producto_id, p_nomProducto, p_Precio, p_descripcionProducto, CURDATE(), p_Cantidad, p_categoria_id);
+        VALUES (p_Producto_id, p_nomProducto, p_Precio, p_descripcionProducto, p_fechaVencimiento, p_Cantidad, p_categoria_id);
     ELSE
         -- Actualizar la cantidad existente del producto
         UPDATE producto
-        SET cantidadExistente = v_cantidadExistente + p_Cantidad
+        SET cantidadExistente = v_cantidadExistente + p_Cantidad,
+            fechaVencimiento = p_fechaVencimiento -- Actualizar también la fecha de vencimiento
         WHERE idProducto = p_Producto_id;
     END IF;
 
     -- Insertar en facturadetalle
-    INSERT INTO facturadetalle (FacturaCompra_idFacturaCompra, Producto_idProducto, CantidadProductos, PrecioCompra, nomProducto, descripcionProducto, categoria_idCategorias)
-    VALUES (p_FacturaCompra_id, p_Producto_id, p_Cantidad, p_Precio, p_nomProducto, p_descripcionProducto, p_categoria_id);
+    INSERT INTO facturadetalle (FacturaCompra_idFacturaCompra, Producto_idProducto, CantidadProductos, PrecioCompra, nomProducto, descripcionProducto, fechaVencimiento, categoria_idCategorias)
+    VALUES (p_FacturaCompra_id, p_Producto_id, p_Cantidad, p_Precio, p_nomProducto, p_descripcionProducto, p_fechaVencimiento, p_categoria_id);
 
 END //
+
+-- Restablecer el delimitador al punto y coma predeterminado
+DELIMITER ;
+
+
 
 DELIMITER //
 

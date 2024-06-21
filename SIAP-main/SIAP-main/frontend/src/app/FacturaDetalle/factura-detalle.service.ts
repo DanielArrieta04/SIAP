@@ -27,12 +27,13 @@ export class FacturaDetalleService {
       );
   }
 
-  agregarFacturaDetalle(facturadetalle: FacturaDetalleModel): Observable<any> {
-    return this.http.post<any>(`${this.BASE_URL}/facturadetalleAG`, facturadetalle)
+  agregarFacturaDetalle(facturaDetalles: FacturaDetalleModel[]): Observable<any> {
+    return this.http.post<any>(`${this.BASE_URL}/facturadetalleAG`, { productos: facturaDetalles })
       .pipe(
         catchError(this.handleError)
       );
   }
+  
 
   actualizarFacturaDetalle(facturadetalle: FacturaDetalleModel): Observable<any> {
     const id = facturadetalle.FacturaCompra_idFacturaCompra; // Asumiendo que el ID está en idFacturaCompra

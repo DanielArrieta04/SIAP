@@ -7,6 +7,7 @@ export class FacturaDetalleModel {
       public PrecioCompra: string,
       public nomProducto: string,
       public descripcionProducto: string,
+      public fechaVencimiento: string,
       public categoria_idCategorias: string
     ) { }
   

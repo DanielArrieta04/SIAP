@@ -25,7 +25,7 @@ const conexion = mysql.createConnection({
     host: 'localhost',
     database: 'siap',
     user: 'root',
-    password: '', // Reemplaza con tu contraseña
+    password: '04120413', // Reemplaza con tu contraseña
     port: 3306, // El puerto por defecto de MySQL
 });
 
@@ -72,19 +72,71 @@ app.get('/facturadetalleID/:id', (req, res, next) =>{
     });
 });
 
+    
 app.post('/facturadetalleAG', (req, res) => {
-    const { FacturaCompra_idFacturaCompra, Producto_idProducto, CantidadProductos, PrecioCompra, nomProducto, descripcionProducto, categoria_idCategorias } = req.body;
-    conexion.query("CALL InsertarFacturaDetalle(?, ?, ?, ?, ?, ?, ?)",
-        [FacturaCompra_idFacturaCompra, Producto_idProducto, CantidadProductos, PrecioCompra, nomProducto, descripcionProducto, categoria_idCategorias],
-        (err, result) => {
-            if (err) {
-                console.error("Error al insertar detalle de factura:", err);
-                return res.status(500).json({ error: "Error interno del servidor" });
-            }
-            console.log("Detalle de factura agregado:", req.body);
-            res.status(201).json({ "Item añadido": result.affectedRows });
+    console.log('Solicitud POST recibida en /facturadetalleAG');
+    const productos = req.body.productos;
+    console.log('Datos recibidos en el servidor:', productos);
+
+    if (!Array.isArray(productos) || productos.length === 0) {
+        return res.status(400).json({ error: 'El cuerpo de la solicitud debe contener un arreglo de productos' });
+    }
+
+    conexion.beginTransaction(err => {
+        if (err) {
+            console.error('Error al iniciar la transacción:', err);
+            return handleServerError(res, err);
+        }
+
+        productos.forEach(producto => {
+            const sql = "CALL InsertarFacturaDetalle(?, ?, ?, ?, ?, ?, ?, ?)";
+            const {
+                FacturaCompra_idFacturaCompra,
+                Producto_idProducto,
+                CantidadProductos,
+                PrecioCompra,
+                nomProducto,
+                descripcionProducto,
+                fechaVencimiento,
+                categoria_idCategorias
+            } = producto;
+
+            conexion.query(sql, [
+                FacturaCompra_idFacturaCompra,
+                Producto_idProducto,
+                CantidadProductos,
+                PrecioCompra,
+                nomProducto,
+                descripcionProducto,
+                fechaVencimiento,
+                categoria_idCategorias
+            ], (err, result) => {
+                if (err) {
+                    conexion.rollback(() => {
+                        console.error("Error al insertar detalle de factura:", err);
+                        handleServerError(res, err);
+                    });
+                } else {
+                    console.log("Detalle de factura agregado:", producto);
+                }
+            });
         });
+
+        conexion.commit(err => {
+            if (err) {
+                conexion.rollback(() => {
+                    console.error('Error al hacer commit de la transacción:', err);
+                    handleServerError(res, err);
+                });
+            } else {
+                res.status(201).json({ message: 'Productos agregados exitosamente' });
+            }
+        });
+    });
 });
+
+
+
 
 
 app.delete('/facturadetalleEl/:id',(request,response)=>{
@@ -100,17 +152,38 @@ app.delete('/facturadetalleEl/:id',(request,response)=>{
 
 app.put('/facturadetalleAc/:id', (req, res) => {
     const id = req.params.id;
-    const { FacturaCompra_idFacturaCompra, Producto_idProducto, CantidadProductos, PrecioCompra, nomProducto, descripcionProducto, categoria_idCategorias } = req.body;
+    const {
+        FacturaCompra_idFacturaCompra,
+        Producto_idProducto,
+        CantidadProductos,
+        PrecioCompra,
+        nomProducto,
+        descripcionProducto,
+        fechaVencimiento,
+        categoria_idCategorias
+    } = req.body;
+
     const sql = "CALL ActualizarFacturaDetalle(?, ?, ?, ?, ?, ?, ?, ?)";
-    conexion.query(sql, [id, FacturaCompra_idFacturaCompra, Producto_idProducto, CantidadProductos, PrecioCompra, nomProducto, descripcionProducto, categoria_idCategorias],
-        (error, result) => {
-            if (error) {
-                console.error("Error al actualizar detalle de factura:", error);
-                return res.status(500).json({ error: "Error interno del servidor" });
-            }
-            console.log("Detalle de factura actualizado:", req.body);
-            res.status(200).json({ "Datos actualizados": result.affectedRows, "id": id });
-        });
+
+    conexion.query(sql, [
+        id,
+        FacturaCompra_idFacturaCompra,
+        Producto_idProducto,
+        CantidadProductos,
+        PrecioCompra,
+        nomProducto,
+        descripcionProducto,
+        fechaVencimiento,
+        categoria_idCategorias
+    ], (error, result) => {
+        if (error) {
+            console.error("Error al actualizar detalle de factura:", error);
+            return res.status(500).json({ error: "Error interno del servidor" });
+        }
+        console.log("Detalle de factura actualizado:", req.body);
+        res.status(200).json({ "Datos actualizados": result.affectedRows, "id": id });
+    });
 });
+
 
 

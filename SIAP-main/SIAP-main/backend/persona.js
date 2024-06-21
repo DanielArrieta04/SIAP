@@ -22,7 +22,7 @@ const conexion = mysql.createConnection({
     host: 'localhost',
     database: 'siap',
     user: 'root',
-    password: '', // Reemplaza con tu contraseña
+    password: '04120413', // Reemplaza con tu contraseña
     port: 3306,
 });
 

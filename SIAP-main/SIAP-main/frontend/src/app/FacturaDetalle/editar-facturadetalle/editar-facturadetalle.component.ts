@@ -13,8 +13,7 @@ import Swal from 'sweetalert2';
 export class EditarFacturaDetalleComponent implements OnInit {
 
   id: string = '';
-
-  facturadetalle: FacturaDetalleModel = new FacturaDetalleModel("", "", "", "","","","");
+  facturadetalles: FacturaDetalleModel[] = []; // Array para almacenar múltiples detalles de factura
 
   constructor(
     private facturadetalleService: FacturaDetalleService,
@@ -29,7 +28,7 @@ export class EditarFacturaDetalleComponent implements OnInit {
       this.facturadetalleService.obtenerFacturaDetallePorId(this.id).subscribe(
         data => {
           if (data && data.length > 0) {
-            this.facturadetalle = data[0];
+            this.facturadetalles = data; // Asignar los detalles recuperados a la lista
           }
         },
         error => {
@@ -41,55 +40,37 @@ export class EditarFacturaDetalleComponent implements OnInit {
     }
   }
 
+  agregarDetalle() {
+    this.facturadetalles.push(new FacturaDetalleModel("", "", "", "", "", "", "", "")); // Agregar un nuevo detalle vacío
+  }
+
+  eliminarDetalle(index: number) {
+    this.facturadetalles.splice(index, 1); // Eliminar el detalle en la posición `index`
+  }
+
   onSubmit() {
-    console.log('onSubmit');
-    if (this.id) { // Si hay un ID, entonces estamos editando
-      this.facturadetalleService.actualizarFacturaDetalle(this.facturadetalle).subscribe(
-        data => {
-          Swal.fire({
-            position: "center",
-            icon: "success",
-            title: "Se ha actualizado exitosamente",
-            showConfirmButton: false,
-            timer: 1500
-          });
-          this.router.navigate(['/facturadetalle']);
-        },
-        error => {
-          console.log(error);
-          Swal.fire({
-            position: "center",
-            icon: "error",
-            title: "Hubo un error al actualizar",
-            showConfirmButton: false,
-            timer: 1500
-          });
-        }
-      );
-    } else { // Si no hay un ID, entonces estamos creando
-      console.log('crear');
-      this.facturadetalleService.agregarFacturaDetalle(this.facturadetalle).subscribe(
-        data => {
-          Swal.fire({
-            position: "center",
-            icon: "success",
-            title: "Se ha creado exitosamente",
-            showConfirmButton: false,
-            timer: 1500
-          });
-          this.router.navigate(['/facturadetalle']);
-        },
-        error => {
-          console.log(error);
-          Swal.fire({
-            position: "center",
-            icon: "error",
-            title: "Hubo un error al crear",
-            showConfirmButton: false,
-            timer: 1500
-          });
-        }
-      );
-    }
+    console.log('Datos a enviar:', this.facturadetalles); // Verificar los datos antes de enviar la solicitud POST
+    this.facturadetalleService.agregarFacturaDetalle(this.facturadetalles).subscribe(
+      data => {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Se han creado exitosamente los detalles",
+          showConfirmButton: false,
+          timer: 1500
+        });
+        this.router.navigate(['/facturadetalle']);
+      },
+      error => {
+        console.log(error);
+        Swal.fire({
+          position: "center",
+          icon: "error",
+          title: "Hubo un error al crear los detalles",
+          showConfirmButton: false,
+          timer: 1500
+        });
+      }
+    );
   }
 }
