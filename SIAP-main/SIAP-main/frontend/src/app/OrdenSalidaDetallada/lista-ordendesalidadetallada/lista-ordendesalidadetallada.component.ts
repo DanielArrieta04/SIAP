@@ -20,10 +20,10 @@ export class ListaOrdenDeSalidaDetalladaComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.cargarOrdenesDeSalidaDetallada();
+    this.obtenerOrdenDeSalidaDetallada();
   }
 
-  cargarOrdenesDeSalidaDetallada() {
+  obtenerOrdenDeSalidaDetallada() {
     this.ordendesalidadetalladaService.obtenerOrdenDeSalidaDetallada().subscribe({
       next: (data) => this.ordendesalidadetalladas = data,
       error: (error) => console.error('Error al obtener órdenes de salida detallada:', error)
@@ -49,7 +49,7 @@ export class ListaOrdenDeSalidaDetalladaComponent implements OnInit {
               text: "El registro se ha eliminado con éxito.",
               icon: "success"
             });
-            this.cargarOrdenesDeSalidaDetallada(); // Actualiza la lista después de eliminar
+            this.obtenerOrdenDeSalidaDetallada(); // Actualiza la lista después de eliminar
           },
           error => {
             console.error('Error al eliminar:', error);

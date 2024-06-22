@@ -190,28 +190,24 @@ CREATE TABLE  producto (
     --
 
 -- Tabla #13
-CREATE TABLE facturadetalle (
-    FacturaCompra_idFacturaCompra INT NOT NULL,
-    Producto_idProducto INT NOT NULL,
-    CantidadProductos INT,
-    PrecioCompra DOUBLE,
-    nomProducto VARCHAR(45),
-    descripcionProducto VARCHAR(100),
-    fechaVencimiento DATE,
-    categoria_idCategorias INT,
-    PRIMARY KEY (FacturaCompra_idFacturaCompra, Producto_idProducto),
-    INDEX fk_FacturaDetalle_FacturaCompra1_idx (FacturaCompra_idFacturaCompra ASC),
-    INDEX fk_FacturaDetalle_Producto1_idx (Producto_idProducto ASC),
-    CONSTRAINT fk_FacturaDetalle_FacturaCompra1
-        FOREIGN KEY (FacturaCompra_idFacturaCompra)
-        REFERENCES facturacompra (idFacturaCompra),
-    CONSTRAINT fk_FacturaDetalle_Producto1
-        FOREIGN KEY (Producto_idProducto)
-        REFERENCES producto (idProducto),
-    CONSTRAINT fk_FacturaDetalle_Categoria1
-        FOREIGN KEY (categoria_idCategorias)
-        REFERENCES categoria (idCategorias)
-);
+CREATE TABLE `facturadetalle` (
+   `FacturaCompra_idFacturaCompra` int NOT NULL,
+   `Producto_idProducto` int NOT NULL,
+   `CantidadProductos` int DEFAULT NULL,
+   `PrecioCompra` double DEFAULT NULL,
+   `nomProducto` varchar(45) DEFAULT NULL,
+   `descripcionProducto` varchar(100) DEFAULT NULL,
+   `fechaVencimiento` date DEFAULT NULL,
+   `categoria_idCategorias` int DEFAULT NULL,
+   PRIMARY KEY (`FacturaCompra_idFacturaCompra`,`Producto_idProducto`),
+   KEY `fk_FacturaDetalle_FacturaCompra1_idx` (`FacturaCompra_idFacturaCompra`),
+   KEY `fk_FacturaDetalle_Producto1_idx` (`Producto_idProducto`),
+   KEY `fk_FacturaDetalle_Categoria1` (`categoria_idCategorias`),
+   CONSTRAINT `fk_FacturaDetalle_Categoria1` FOREIGN KEY (`categoria_idCategorias`) REFERENCES `categoria` (`idCategorias`),
+   CONSTRAINT `fk_FacturaDetalle_FacturaCompra1` FOREIGN KEY (`FacturaCompra_idFacturaCompra`) REFERENCES `facturacompra` (`idFacturaCompra`),
+   CONSTRAINT `fk_FacturaDetalle_Producto1` FOREIGN KEY (`Producto_idProducto`) REFERENCES `producto` (`idProducto`) ON DELETE CASCADE
+ ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 
 
    
@@ -265,20 +261,21 @@ CREATE TABLE  gestionproducto (
     --
    
     -- Tabla #17
-    CREATE TABLE ordenDeSalidaDetallada (
+   CREATE TABLE ordenDeSalidaDetallada (
     Producto_idProducto INT NOT NULL,
     ordenDeSalida_idordenDeSalida INT NOT NULL,
     Cantidad INT,
-    PRIMARY KEY (Producto_idProducto,ordenDeSalida_idordenDeSalida),
+    PRIMARY KEY (Producto_idProducto, ordenDeSalida_idordenDeSalida),
     INDEX fk_Producto_has_ordenDeSalida_producto1_idx (Producto_idProducto ASC),
     INDEX fk_Producto_has_ordenDeSalida_ordenDeSalida1_idx (ordenDeSalida_idordenDeSalida ASC),
     CONSTRAINT fk_Producto_has_ordenDeSalida_producto1
-    FOREIGN KEY (Producto_idProducto)
-    REFERENCES producto (idProducto),
+        FOREIGN KEY (Producto_idProducto)
+        REFERENCES producto (idProducto)
+        ON DELETE NO ACTION, -- Evitar la eliminación en cascada
     CONSTRAINT fk_Producto_has_ordenDeSalida_ordenDeSalida1
-    FOREIGN KEY (ordenDeSalida_idordenDeSalida)
-    REFERENCES ordenDeSalida (idordenDeSalida));
-   
+        FOREIGN KEY (ordenDeSalida_idordenDeSalida)
+        REFERENCES ordenDeSalida (idordenDeSalida)
+);
 -- Esta tabla es compuesta, proveniente de las tablas #5 y #16 --
     --
 -- Cambiar el delimitador temporalmente
@@ -326,56 +323,72 @@ END //
 -- Restablecer el delimitador al punto y coma predeterminado
 DELIMITER ;
 
+
+
+
 DELIMITER //
-CREATE PROCEDURE InsertarActualizarOrdenSalidaDetallada(
-    IN in_Producto_idProducto INT,
-    IN in_ordenDeSalida_idordenDeSalida INT,
-    IN in_Cantidad INT
+
+CREATE PROCEDURE InsertarActualizarOrdenSalidaDetallada (
+    IN p_Producto_idProducto INT,
+    IN p_ordenDeSalida_idordenDeSalida INT,
+    IN p_Cantidad INT
 )
 BEGIN
-    DECLARE v_Existente INT;
+    -- Variables locales
+    DECLARE v_existingCantidad INT DEFAULT 0;
+    DECLARE v_nuevaCantidad INT DEFAULT 0;
 
-    -- Check if the product exists in the order details
-    SELECT COUNT(*) INTO v_Existente
-    FROM ordenesalidadetallada
-    WHERE Producto_idProducto = in_Producto_idProducto
-    AND ordenDeSalida_idordenDeSalida = in_ordenDeSalida_idordenDeSalida;
+    -- Verificar si ya existe el registro en ordendesalidadetallada
+    SELECT Cantidad INTO v_existingCantidad
+    FROM ordendesalidadetallada
+    WHERE Producto_idProducto = p_Producto_idProducto
+      AND ordenDeSalida_idordenDeSalida = p_ordenDeSalida_idordenDeSalida
+    LIMIT 1;
 
-    IF v_Existente > 0 THEN
-        -- Update the order detail if it exists
-        UPDATE ordenesalidadetallada
-        SET Cantidad = in_Cantidad
-        WHERE Producto_idProducto = in_Producto_idProducto
-        AND ordenDeSalida_idordenDeSalida = in_ordenDeSalida_idordenDeSalida;
+    -- Si existe, actualizar la cantidad en ordendesalidadetallada; si no, insertar nuevo registro
+    IF v_existingCantidad > 0 THEN
+        UPDATE ordendesalidadetallada
+        SET Cantidad = Cantidad + p_Cantidad
+        WHERE Producto_idProducto = p_Producto_idProducto
+          AND ordenDeSalida_idordenDeSalida = p_ordenDeSalida_idordenDeSalida;
     ELSE
-        -- Insert a new order detail if it does not exist
-        INSERT INTO ordenesalidadetallada (Producto_idProducto, ordenDeSalida_idordenDeSalida, Cantidad)
-        VALUES (in_Producto_idProducto, in_ordenDeSalida_idordenDeSalida, in_Cantidad);
+        INSERT INTO ordendesalidadetallada (Producto_idProducto, ordenDeSalida_idordenDeSalida, Cantidad)
+        VALUES (p_Producto_idProducto, p_ordenDeSalida_idordenDeSalida, p_Cantidad);
     END IF;
 
-    -- If Cantidad is zero, delete the product from the table
-    IF in_Cantidad = 0 THEN
-        -- Delete dependent records in facturadetalle
+    -- Actualizar la cantidad en facturadetalle
+    UPDATE facturadetalle
+    SET CantidadProductos = GREATEST(CantidadProductos - p_Cantidad, 0)
+    WHERE Producto_idProducto = p_Producto_idProducto
+      AND FacturaCompra_idFacturaCompra = p_ordenDeSalida_idordenDeSalida;
+
+    -- Verificar si la cantidad de productos en facturadetalle llega a cero y eliminar la fila correspondiente
+    SELECT CantidadProductos INTO v_nuevaCantidad
+    FROM facturadetalle
+    WHERE Producto_idProducto = p_Producto_idProducto
+      AND FacturaCompra_idFacturaCompra = p_ordenDeSalida_idordenDeSalida;
+
+    IF v_nuevaCantidad = 0 THEN
         DELETE FROM facturadetalle
-        WHERE Producto_idProducto = in_Producto_idProducto;
-
-        -- Delete the product from the product table
-        DELETE FROM producto
-        WHERE idProducto = in_Producto_idProducto;
+        WHERE Producto_idProducto = p_Producto_idProducto
+          AND FacturaCompra_idFacturaCompra = p_ordenDeSalida_idordenDeSalida;
     END IF;
+
+    -- Actualizar la cantidad disponible en la tabla producto
+    UPDATE producto
+    SET cantidadExistente = GREATEST(cantidadExistente - p_Cantidad, 0)
+    WHERE idProducto = p_Producto_idProducto;
+
+    -- Si la cantidad disponible del producto es cero, eliminar el producto
+    SELECT cantidadExistente INTO v_nuevaCantidad
+    FROM producto
+    WHERE idProducto = p_Producto_idProducto;
+
+    IF v_nuevaCantidad = 0 THEN
+        DELETE FROM producto
+        WHERE idProducto = p_Producto_idProducto;
+    END IF;
+
 END //
+
 DELIMITER ;
-
-
-
-
-
-
-
-
-
-
-
-
-
-

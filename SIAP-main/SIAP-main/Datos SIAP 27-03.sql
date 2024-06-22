@@ -291,9 +291,11 @@ CALL InsertarFacturaDetalle(1, 1, 70, 70000, 'Prueba', 'Prueba','2024-06-25', 1 
       (1,'2022-09-25','1');
 
 
+
  SELECT * FROM Producto;
     SELECT * FROM facturadetalle;
-      
+      SELECT * FROM ordenDeSalidaDetallada;
+
       
       
       

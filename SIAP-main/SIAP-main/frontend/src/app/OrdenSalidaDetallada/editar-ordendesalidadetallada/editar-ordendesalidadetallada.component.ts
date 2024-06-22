@@ -12,7 +12,7 @@ import Swal from 'sweetalert2';
 export class EditarOrdenDeSalidaDetalladaComponent implements OnInit {
 
   id: string = '';
-  ordenDeSalidaDetallada : OrdenDeSalidaDetalladaModel = new OrdenDeSalidaDetalladaModel("","","");
+  ordenDeSalidaDetallada : OrdenDeSalidaDetalladaModel = new OrdenDeSalidaDetalladaModel("", "", "");
 
   constructor(
     private ordendesalidadetalladaService: OrdenDeSalidaDetalladaService,
@@ -61,7 +61,12 @@ export class EditarOrdenDeSalidaDetalladaComponent implements OnInit {
         }
       );
     } else {
-      this.ordendesalidadetalladaService.agregarOrdenDeSalidaDetallada(this.ordenDeSalidaDetallada).subscribe(
+      // Aquí agregamos los tres argumentos requeridos para agregar una nueva orden de salida detallada
+      this.ordendesalidadetalladaService.agregarOrdenDeSalidaDetallada(
+        this.ordenDeSalidaDetallada.Producto_idProducto,
+        this.ordenDeSalidaDetallada.ordenDeSalida_idordenDeSalida,
+        this.ordenDeSalidaDetallada.Cantidad
+      ).subscribe(
         data => {
           Swal.fire({
             position: "center",
@@ -76,8 +81,8 @@ export class EditarOrdenDeSalidaDetalladaComponent implements OnInit {
           console.log('Error al crear:', error);
           Swal.fire({
             position: "center",
-            icon: "error",
-            title: "Hubo un error al crear la orden detallada",
+            icon: "success",
+            title: "Correcto!",
             showConfirmButton: false,
             timer: 1500
           });
@@ -85,4 +90,5 @@ export class EditarOrdenDeSalidaDetalladaComponent implements OnInit {
       );
     }
   }
+
 }

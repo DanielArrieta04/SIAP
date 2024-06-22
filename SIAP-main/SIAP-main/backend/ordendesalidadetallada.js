@@ -76,57 +76,17 @@ app.get('/ordenDeSalidaDetalladaID/:id', (req, res, next) =>{
 app.post('/ordenDeSalidaDetalladaAG', (req, res) => {
     const { Producto_idProducto, ordenDeSalida_idordenDeSalida, Cantidad } = req.body;
 
-    // Validar datos recibidos
-    console.log('Datos recibidos:', req.body);
-
-    if (!Producto_idProducto || !ordenDeSalida_idordenDeSalida || !Cantidad) {
-        console.error('Datos incompletos:', { Producto_idProducto, ordenDeSalida_idordenDeSalida, Cantidad });
-        return res.status(400).json({ error: 'Datos incompletos' });
-    }
-
-    conexion.beginTransaction((err) => {
-        if (err) {
-            console.error('Error al iniciar la transacción:', err);
-            return res.status(500).json({ error: 'Error al iniciar la transacción' });
-        }
-
-        conexion.query(
-            "CALL InsertarActualizarOrdenSalidaDetallada(?, ?, ?)",
-            [Producto_idProducto, ordenDeSalida_idordenDeSalida, Cantidad],
-            (err, result) => {
-                if (err) {
-                    console.error('Error en la consulta:', err);
-
-                    // Imprimir el estado de la transacción antes del rollback
-                    console.log('Estado de la transacción antes del rollback:', err);
-
-                    return conexion.rollback(() => {
-                        res.status(500).json({ error: 'Error al procesar la solicitud' });
-                    });
-                }
-
-                // Verificar el resultado y hacer commit o rollback basado en la lógica de negocio
-                if (Cantidad === 0) {
-                    // Aquí puedes agregar lógica adicional si es necesario
-                    console.log('Eliminación pendiente de validación adicional.');
-                }
-
-                conexion.commit((err) => {
-                    if (err) {
-                        console.error('Error al hacer commit:', err);
-
-                        // Imprimir el estado de la transacción antes del rollback
-                        console.log('Estado de la transacción antes del rollback:', err);
-
-                        return conexion.rollback(() => {
-                            res.status(500).json({ error: 'Error al hacer commit' });
-                        });
-                    }
-                    res.status(201).json({ message: "Operación completada", result });
-                });
+    conexion.query(
+        "CALL InsertarActualizarOrdenSalidaDetallada(?, ?, ?)",
+        [Producto_idProducto, ordenDeSalida_idordenDeSalida, Cantidad],
+        (error, result) => {
+            if (error) {
+                console.error('Error al ejecutar el procedimiento almacenado:', error);
+                return res.status(500).json({ error: 'Error al procesar la solicitud' });
             }
-        );
-    });
+            res.status(200).json(result); // Opcional: puedes devolver algún mensaje de éxito si lo deseas
+        }
+    );
 });
 
 
