@@ -284,7 +284,7 @@ SET FOREIGN_KEY_CHECKS=0;
 VALUES
 (1,'adios', '2023-10-20', 7);
 
-CALL InsertarFacturaDetalle(1, 1, 70, 70000, 'Prueba', 'Prueba','2024-06-25', 1 );
+CALL InsertarFacturaDetalle(1, 2, 70, 70000, 'Prueba2', 'Prueba2','2024-06-25', 1,2 );
 
  INSERT INTO ordenDeSalida (idordenDeSalida,fechaSalida,tienda_idTienda)
       VALUES
@@ -295,7 +295,7 @@ CALL InsertarFacturaDetalle(1, 1, 70, 70000, 'Prueba', 'Prueba','2024-06-25', 1 
  SELECT * FROM Producto;
     SELECT * FROM facturadetalle;
       SELECT * FROM ordenDeSalidaDetallada;
-
+SELECT * FROM gestionproducto;
       
       
       

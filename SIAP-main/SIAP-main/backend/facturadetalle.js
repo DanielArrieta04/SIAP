@@ -85,11 +85,11 @@ app.post('/facturadetalleAG', (req, res) => {
     conexion.beginTransaction(err => {
         if (err) {
             console.error('Error al iniciar la transacción:', err);
-            return handleServerError(res, err);
+            return res.status(500).json({ error: 'Error al iniciar la transacción' });
         }
 
         productos.forEach(producto => {
-            const sql = "CALL InsertarFacturaDetalle(?, ?, ?, ?, ?, ?, ?, ?)";
+            const sql = "CALL InsertarFacturaDetalle(?, ?, ?, ?, ?, ?, ?, ?, ?)";
             const {
                 FacturaCompra_idFacturaCompra,
                 Producto_idProducto,
@@ -98,8 +98,16 @@ app.post('/facturadetalleAG', (req, res) => {
                 nomProducto,
                 descripcionProducto,
                 fechaVencimiento,
-                categoria_idCategorias
+                categoria_idCategorias,
+                Persona_idPersona
             } = producto;
+
+            if (typeof Persona_idPersona === 'undefined' || Persona_idPersona === null) {
+                conexion.rollback(() => {
+                    return res.status(400).json({ error: 'Persona_idPersona es requerido' });
+                });
+                return;
+            }
 
             conexion.query(sql, [
                 FacturaCompra_idFacturaCompra,
@@ -109,12 +117,13 @@ app.post('/facturadetalleAG', (req, res) => {
                 nomProducto,
                 descripcionProducto,
                 fechaVencimiento,
-                categoria_idCategorias
+                categoria_idCategorias,
+                Persona_idPersona
             ], (err, result) => {
                 if (err) {
                     conexion.rollback(() => {
                         console.error("Error al insertar detalle de factura:", err);
-                        handleServerError(res, err);
+                        return res.status(500).json({ error: 'Error al insertar detalle de factura' });
                     });
                 } else {
                     console.log("Detalle de factura agregado:", producto);
@@ -126,7 +135,7 @@ app.post('/facturadetalleAG', (req, res) => {
             if (err) {
                 conexion.rollback(() => {
                     console.error('Error al hacer commit de la transacción:', err);
-                    handleServerError(res, err);
+                    return res.status(500).json({ error: 'Error al hacer commit de la transacción' });
                 });
             } else {
                 res.status(201).json({ message: 'Productos agregados exitosamente' });

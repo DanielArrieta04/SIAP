@@ -1,38 +1,29 @@
+<div *ngIf="hayAlertas()">
+  <h2>Alertas de productos próximos a vencer:</h2>
+  <ul>
+    <li *ngFor="let alerta of getAlertas()?.proximosAVencer">
+      <strong>Nombre:</strong> {{ alerta.nomProducto }} <br>
+      <strong>Precio:</strong> {{ alerta.precioProducto }} <br>
+      <strong>Descripción:</strong> {{ alerta.descripcionProducto }} <br>
+      <strong>Fecha de vencimiento:</strong> {{ alerta.fechaVencimiento | date:'dd/MM/yyyy' }} <br>
+    </li>
+  </ul>
 
-<div class="container">
-  <div class="formulario">
-      <div *ngIf="alertas.length > 0">
-          <h2>Alertas de productos próximos a vencer</h2>
-          <table>
-              <thead>
-                  <tr>
-                      <th>ID</th>
-                      <th>Nombre</th>
-                      <th>Precio</th>
-                      <th>Descripción</th>
-                      <th>Fecha de vencimiento</th>
-                      <th>Cantidad Existente</th>
-                      <th>ID de Categoría</th>
-                  </tr>
-              </thead>
-              <tbody>
-                  <tr *ngFor="let alerta of alertas">
-                      <td>{{ alerta.idProducto }}</td>
-                      <td>{{ alerta.nomProducto }}</td>
-                      <td>{{ alerta.precioProducto }}</td>
-                      <td>{{ alerta.descripcionProducto }}</td>
-                      <td>{{ alerta.fechaVencimiento | date:'dd/MM/yyyy' }}</td>
-                      <td>{{ alerta.cantidadExistente }}</td>
-                      <td>{{ alerta.categoria_idCategorias }}</td>
-                  </tr>
-              </tbody>
-          </table>
-      </div>
-      <div *ngIf="alertas.length === 0">
-          <p>No hay productos próximos a vencer en los próximos 7 días.</p>
-      </div>
-  </div>
+  <h2>Alertas de productos bajo stock:</h2>
+  <ul>
+    <li *ngFor="let alerta of getAlertas()?.bajoStock">
+      <strong>Nombre:</strong> {{ alerta.nomProducto }} <br>
+      <strong>Precio:</strong> {{ alerta.precioProducto }} <br>
+      <strong>Descripción:</strong> {{ alerta.descripcionProducto }} <br>
+      <strong>Cantidad existente:</strong> {{ alerta.cantidadExistente }} <br>
+    </li>
+  </ul>
 </div>
+
+<div *ngIf="!hayAlertas()">
+  <p>No hay alertas disponibles en este momento.</p>
+</div>
+
 
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">

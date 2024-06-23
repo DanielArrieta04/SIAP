@@ -15,11 +15,13 @@ import { AuthService } from 'src/app/services/auth.service';
 export class ListaCategoriaComponent implements OnInit {
 
   categorias: Observable<CategoriaModel[]> | undefined;
+  isAdmin = false;
 
   constructor(private categoriaService: CategoriaService, private alertasService: AlertasService,private authService: AuthService) { }
 
   ngOnInit() {
       this.obtenerCategoria();
+      this.isAdmin = this.authService.getRol() === 1;
   }
 
   obtenerCategoria() {
@@ -50,49 +52,44 @@ export class ListaCategoriaComponent implements OnInit {
 
   borrarCategoria(id: string) {
     if (!this.authService.isAuth()) {
-      // Redireccionar o mostrar mensaje de error si el usuario no está autenticado
-      return;
+      return; // Manejar adecuadamente en tu aplicación (redirección o mensaje de error)
     }
 
-    const userRole = this.authService.getUser().Rol_idRol; // Obtener el rol del usuario desde el servicio AuthService
-
-    // Verificar permisos basados en el rol del usuario
-    if (userRole === 1) {
-      console.log("ID de la subcategoria a eliminar:", id);
-      Swal.fire({
-        title: "¿Está seguro de que desea eliminar el dato?",
-        text: "¡No podrá revertir este cambio!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Sí, eliminar!"
-      }).then((result) => {
-        if (result.isConfirmed) {
-          this.categoriaService.borrarCategoria(id).subscribe(
-            () => {
-              Swal.fire({
-                title: "¡Eliminado!",
-                text: "El registro se ha eliminado con éxito.",
-                icon: "success"
-              });
-              this.obtenerCategoria();
-            },
-            error => {
-              console.error("Error al eliminar subcategoria:", error);
-              Swal.fire({
-                title: "Error",
-                text: "Hubo un error al eliminar la subcategoria. Por favor, inténtelo de nuevo más tarde.",
-                icon: "error"
-              });
-            }
-          );
-        }
-      });
-    } else {
-      // Mostrar mensaje de error o redireccionar si el usuario no tiene permisos suficientes
+    if (!this.isAdmin) {
       console.log("Acceso denegado. Permiso insuficiente.");
+      return; // Mostrar mensaje de error o redireccionar si el usuario no es administrador
     }
+
+    Swal.fire({
+      title: "¿Está seguro de que desea eliminar el dato?",
+      text: "¡No podrá revertir este cambio!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, eliminar!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.categoriaService.borrarCategoria(id).subscribe(
+          () => {
+            Swal.fire({
+              title: "¡Eliminado!",
+              text: "El registro se ha eliminado con éxito.",
+              icon: "success"
+            });
+            this.obtenerCategoria(); // Actualizar la lista después de la eliminación
+          },
+          error => {
+            console.error("Error al eliminar categoría:", error);
+            Swal.fire({
+              title: "Error",
+              text: "Hubo un error al eliminar la categoría. Por favor, inténtelo de nuevo más tarde.",
+              icon: "error"
+            });
+          }
+        );
+      }
+    });
   }
 
   ngOnInitCategoria(): void {

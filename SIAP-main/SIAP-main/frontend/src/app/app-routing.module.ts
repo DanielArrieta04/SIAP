@@ -58,6 +58,7 @@ import { MostrarPerfilComponent } from './mostrar-perfil/mostrar-perfil.componen
 import { AlertasComponent } from './alertas/alertas.component';
 
 import { IsLoggedInGuard } from './guards/is-logged-in.guard';
+import { AuthGuard } from './guards/auth.service';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -68,41 +69,41 @@ const routes: Routes = [
   { path: 'tiendaAc/:id', component: EditarTiendaComponent, canActivate: [IsLoggedInGuard] },
   { path: 'tiendaAG', component: EditarTiendaComponent, canActivate: [IsLoggedInGuard] },
 
-  { path: 'categoria', component: ListaCategoriaComponent, canActivate: [IsLoggedInGuard] },
-  { path: 'categoriaAc/:id', component: EditarCategoriaComponent, canActivate: [IsLoggedInGuard] },
-  { path: 'categoriaAG', component: EditarCategoriaComponent, canActivate: [IsLoggedInGuard] },
+  {  path: 'categoria', component: ListaCategoriaComponent, canActivate: [AuthGuard],data: { allowedRoles: [1] } },
+  { path: 'categoriaAc/:id', component: EditarCategoriaComponent, canActivate: [AuthGuard],data: { allowedRoles: [1] } },
+  { path: 'categoriaAG', component: EditarCategoriaComponent, canActivate: [AuthGuard],data: { allowedRoles: [1] } },
 
-  { path: 'subcategoria', component: ListaSubCategoriaComponent, canActivate: [IsLoggedInGuard] },
-  { path: 'subcategoriaAG', component: EditarSubCategoriaComponent, canActivate: [IsLoggedInGuard] },
-  { path: 'subcategoriaAc/:id', component: EditarSubCategoriaComponent, canActivate: [IsLoggedInGuard] },
+  { path: 'subcategoria', component: ListaSubCategoriaComponent, canActivate: [AuthGuard],data: { allowedRoles: [1] }},
+  { path: 'subcategoriaAG', component: EditarSubCategoriaComponent, canActivate: [AuthGuard],data: { allowedRoles: [1] } },
+  { path: 'subcategoriaAc/:id', component: EditarSubCategoriaComponent, canActivate: [AuthGuard],data: { allowedRoles: [1] } },
 
-  { path: 'rol', component: ListaRolComponent, canActivate: [IsLoggedInGuard] },
-  { path: 'rolAG', component: EditarRolComponent, canActivate: [IsLoggedInGuard] },
-  { path: 'rolAc/:id', component: EditarRolComponent, canActivate: [IsLoggedInGuard] },
+  { path: 'rol', component: ListaRolComponent, canActivate: [AuthGuard],data: { allowedRoles: [1] } },
+  { path: 'rolAG', component: EditarRolComponent, canActivate: [AuthGuard],data: { allowedRoles: [1] }},
+  { path: 'rolAc/:id', component: EditarRolComponent, canActivate: [AuthGuard],data: { allowedRoles: [1] }},
 
-  { path: 'tipodocumento', component: ListaTipoDocumentoComponent, canActivate: [IsLoggedInGuard] },
-  { path: 'tipodocumentoAG', component: EditarTipoDocumentoComponent, canActivate: [IsLoggedInGuard] },
-  { path: 'tipodocumentoAc/:id', component: EditarTipoDocumentoComponent, canActivate: [IsLoggedInGuard] },
+  { path: 'tipodocumento', component: ListaTipoDocumentoComponent, canActivate: [AuthGuard],data: { allowedRoles: [1] }},
+  { path: 'tipodocumentoAG', component: EditarTipoDocumentoComponent, canActivate: [AuthGuard],data: { allowedRoles: [1] }},
+  { path: 'tipodocumentoAc/:id', component: EditarTipoDocumentoComponent, canActivate: [AuthGuard],data: { allowedRoles: [1] }},
 
-  { path: 'persona', component: ListaPersonaComponent, canActivate: [IsLoggedInGuard] },
-  { path: 'personaAG', component: EditarPersonaComponent, canActivate: [IsLoggedInGuard] },
-  { path: 'personaAc/:id', component: EditarPersonaComponent, canActivate: [IsLoggedInGuard] },
+  { path: 'persona', component: ListaPersonaComponent, canActivate: [AuthGuard],data: { allowedRoles: [1] }},
+  { path: 'personaAG', component: EditarPersonaComponent, canActivate: [AuthGuard],data: { allowedRoles: [1] }},
+  { path: 'personaAc/:id', component: EditarPersonaComponent, canActivate: [AuthGuard],data: { allowedRoles: [1] }},
 
-  { path: 'tipocontrato', component: ListaTipoContratoComponent, canActivate: [IsLoggedInGuard] },
-  { path: 'tipocontratoAG', component: EditarTipoContratoComponent, canActivate: [IsLoggedInGuard] },
-  { path: 'tipocontratoAc/:id', component: EditarTipoContratoComponent, canActivate: [IsLoggedInGuard] },
+  { path: 'tipocontrato', component: ListaTipoContratoComponent, canActivate: [AuthGuard],data: { allowedRoles: [1] }},
+  { path: 'tipocontratoAG', component: EditarTipoContratoComponent, canActivate: [AuthGuard],data: { allowedRoles: [1] }},
+  { path: 'tipocontratoAc/:id', component: EditarTipoContratoComponent, canActivate: [AuthGuard],data: { allowedRoles: [1] }},
 
-  { path: 'contrato', component: ListaContratoComponent, canActivate: [IsLoggedInGuard] },
-  { path: 'contratoAG', component: EditarContratoComponent, canActivate: [IsLoggedInGuard] },
-  { path: 'contratoAc/:id', component: EditarContratoComponent, canActivate: [IsLoggedInGuard] },
+  { path: 'contrato', component: ListaContratoComponent, canActivate: [AuthGuard],data: { allowedRoles: [1] } },
+  { path: 'contratoAG', component: EditarContratoComponent, canActivate: [AuthGuard],data: { allowedRoles: [1] }},
+  { path: 'contratoAc/:id', component: EditarContratoComponent, canActivate: [AuthGuard],data: { allowedRoles: [1] }},
 
-  { path: 'devolucion', component: ListaDevolucionComponent, canActivate: [IsLoggedInGuard] },
-  { path: 'devolucionAG', component: EditarDevolucionComponent, canActivate: [IsLoggedInGuard] },
-  { path: 'devolucionAc/:id', component: EditarDevolucionComponent, canActivate: [IsLoggedInGuard] },
+  { path: 'devolucion', component: ListaDevolucionComponent, canActivate: [AuthGuard],data: { allowedRoles: [1] }},
+  { path: 'devolucionAG', component: EditarDevolucionComponent, canActivate: [AuthGuard],data: { allowedRoles: [1] }},
+  { path: 'devolucionAc/:id', component: EditarDevolucionComponent, canActivate: [AuthGuard],data: { allowedRoles: [1] }},
 
-  { path: 'proveedor', component: ListaProveedorComponent, canActivate: [IsLoggedInGuard] },
-  { path: 'proveedorAG', component: EditarProveedorComponent, canActivate: [IsLoggedInGuard] },
-  { path: 'proveedorAc/:id', component: EditarProveedorComponent, canActivate: [IsLoggedInGuard] },
+  { path: 'proveedor', component: ListaProveedorComponent, canActivate: [AuthGuard],data: { allowedRoles: [1] }},
+  { path: 'proveedorAG', component: EditarProveedorComponent, canActivate: [AuthGuard],data: { allowedRoles: [1] }},
+  { path: 'proveedorAc/:id', component: EditarProveedorComponent, canActivate: [AuthGuard],data: { allowedRoles: [1] }},
 
   { path: 'producto', component: ListaProductoComponent, canActivate: [IsLoggedInGuard] },
   { path: 'productoAG', component: EditarProductoComponent, canActivate: [IsLoggedInGuard] },
@@ -128,9 +129,9 @@ const routes: Routes = [
   { path: 'ordenDeSalidaDetalladaAG', component: EditarOrdenDeSalidaDetalladaComponent, canActivate: [IsLoggedInGuard] },
   { path: 'ordenDeSalidaDetalladaAc/:id', component: EditarOrdenDeSalidaDetalladaComponent, canActivate: [IsLoggedInGuard] },
 
-  { path: 'devoluciondetallada', component: ListaDevolucionDetalladaComponent, canActivate: [IsLoggedInGuard] },
-  { path: 'devoluciondetalladaAG', component: EditarDevolucionDetalladaComponent, canActivate: [IsLoggedInGuard] },
-  { path: 'devoluciondetalladaAc/:id', component: EditarDevolucionDetalladaComponent, canActivate: [IsLoggedInGuard] },
+  { path: 'devoluciondetallada', component: ListaDevolucionDetalladaComponent, canActivate: [AuthGuard],data: { allowedRoles: [1] }},
+  { path: 'devoluciondetalladaAG', component: EditarDevolucionDetalladaComponent, canActivate: [AuthGuard],data: { allowedRoles: [1] }},
+  { path: 'devoluciondetalladaAc/:id', component: EditarDevolucionDetalladaComponent, canActivate: [AuthGuard],data: { allowedRoles: [1] }},
 
   { path: 'bienvenido', component: BienvenidoComponent, canActivate: [IsLoggedInGuard] },
 

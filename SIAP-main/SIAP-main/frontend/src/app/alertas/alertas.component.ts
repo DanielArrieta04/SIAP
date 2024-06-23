@@ -7,9 +7,9 @@ import { AlertasService } from './alertas.service';
   styleUrls: ['./alertas.component.css'],
 })
 export class AlertasComponent implements OnInit {
-  alertas: any[] = [];
+  alertas: any = {}; // Objeto para almacenar las alertas recibidas del servicio
 
-  constructor(private alertasService: AlertasService ) {}
+  constructor(private alertasService: AlertasService) {}
 
   ngOnInit(): void {
     this.obtenerAlertas();
@@ -19,18 +19,8 @@ export class AlertasComponent implements OnInit {
     this.alertasService.obtenerAlertas().subscribe(
       (data) => {
         this.alertas = data;
-        this.alertasService.actualizarAlertas(data);
-      },
-      (error) => {
-        console.error('Error al obtener alertas', error);
-      }
-    );
-  }
-
-  obtenerAlertasAA(): void {
-    this.alertasService.obtenerAlertas().subscribe(
-      (alertas) => {
-        this.alertasService.actualizarAlertas(alertas);
+        this.alertasService.actualizarAlertas(data); // Actualizar alertas en el servicio
+        console.log('Alertas actualizadas en el componente:', this.alertas);
       },
       (error) => {
         console.error('Error al obtener alertas:', error);
@@ -42,7 +32,7 @@ export class AlertasComponent implements OnInit {
     return this.alertasService.hayAlertas();
   }
 
-  getAlertas(): any[] {
+  getAlertas(): any {
     return this.alertasService.getAlertas();
   }
 }

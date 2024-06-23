@@ -34,15 +34,13 @@ export class FacturaDetalleService {
       );
   }
   
-
   actualizarFacturaDetalle(facturadetalle: FacturaDetalleModel): Observable<any> {
-    const id = facturadetalle.FacturaCompra_idFacturaCompra; // Asumiendo que el ID está en idFacturaCompra
+    const id = facturadetalle.FacturaCompra_idFacturaCompra; // Asumiendo que el ID está en FacturaCompra_idFacturaCompra
     return this.http.put<any>(`${this.BASE_URL}/facturadetalleAc/${id}`, facturadetalle)
       .pipe(
         catchError(this.handleError)
       );
   }
-  
 
   borrarFacturaDetalle(id: string): Observable<any> {
     return this.http.delete<any>(`${this.BASE_URL}/facturadetalleEl/${id}`)

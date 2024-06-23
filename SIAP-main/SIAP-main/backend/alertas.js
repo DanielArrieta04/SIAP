@@ -39,26 +39,52 @@ db.connect((err) => {
     console.log('Conectado a la base de datos');
 });
 
-// Endpoint para verificar productos próximos a vencer
+// Endpoint para obtener alertas de productos próximos a vencer y bajo stock
 router.get('/alertas', (req, res) => {
     const hoy = moment().format('YYYY-MM-DD');
-    const enSieteDias = moment().add(7, 'days').format('YYYY-MM-DD');
+    const enTreintaDias = moment().add(30, 'days').format('YYYY-MM-DD');
 
-    const query = `
-        SELECT * FROM producto
+    const query1 = `
+        SELECT idProducto, nomProducto, fechaVencimiento, DATEDIFF(fechaVencimiento, ?) AS diasRestantes
+        FROM producto
         WHERE fechaVencimiento BETWEEN ? AND ?
     `;
 
-    db.query(query, [hoy, enSieteDias], (err, results) => {
-        if (err) {
-            return res.status(500).send(err.message);
+    const query2 = `
+        SELECT idProducto, nomProducto, cantidadExistente
+        FROM producto
+        WHERE cantidadExistente <= 50
+    `;
+
+    db.query(query1, [hoy, hoy, enTreintaDias], (err1, results1) => {
+        if (err1) {
+            return res.status(500).send(err1.message);
         }
-        res.json(results);
+
+        // Almacenar resultados de la primera consulta
+        const alertasVencimiento = results1;
+
+        db.query(query2, (err2, results2) => {
+            if (err2) {
+                return res.status(500).send(err2.message);
+            }
+
+            // Almacenar resultados de la segunda consulta
+            const alertasBajoStock = results2;
+
+            // Combinar resultados en un solo objeto de respuesta
+            const alertas = {
+                proximosAVencer: alertasVencimiento,
+                bajoStock: alertasBajoStock
+            };
+
+            res.json(alertas);
+        });
     });
 });
 
 // Usar el router
-app.use(router);
+app.use('/alertas', router); // Ruta base para el router
 
 // Iniciar el servidor
 app.listen(PUERTO, () => {

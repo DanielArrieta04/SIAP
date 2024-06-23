@@ -9,7 +9,6 @@ import Swal from 'sweetalert2';
   templateUrl: './editar-facturadetalle.component.html',
   styleUrls: ['./editar-facturadetalle.component.css']
 })
-
 export class EditarFacturaDetalleComponent implements OnInit {
 
   id: string = '';
@@ -41,7 +40,7 @@ export class EditarFacturaDetalleComponent implements OnInit {
   }
 
   agregarDetalle() {
-    this.facturadetalles.push(new FacturaDetalleModel("", "", "", "", "", "", "", "")); // Agregar un nuevo detalle vacío
+    this.facturadetalles.push(new FacturaDetalleModel("", "", "", "", "", "", "", "","")); // Agregar un nuevo detalle vacío
   }
 
   eliminarDetalle(index: number) {

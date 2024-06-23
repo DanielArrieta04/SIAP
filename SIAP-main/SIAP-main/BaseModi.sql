@@ -277,12 +277,11 @@ CREATE TABLE  gestionproducto (
         REFERENCES ordenDeSalida (idordenDeSalida)
 );
 -- Esta tabla es compuesta, proveniente de las tablas #5 y #16 --
-    --
--- Cambiar el delimitador temporalmente
--- Cambiar el delimitador temporalmente
+    
+    
+    
 DELIMITER //
 
--- Crear el procedimiento almacenado actualizado
 CREATE PROCEDURE InsertarFacturaDetalle(
     IN p_FacturaCompra_id INT,
     IN p_Producto_id INT,                
@@ -291,10 +290,11 @@ CREATE PROCEDURE InsertarFacturaDetalle(
     IN p_nomProducto VARCHAR(45),              
     IN p_descripcionProducto VARCHAR(100),
     IN p_fechaVencimiento DATE,
-    IN p_categoria_id INT                   
- )
+    IN p_categoria_id INT,
+    IN p_Persona_id INT  -- Añadir ID de persona como parámetro
+)
 BEGIN
-    DECLARE v_cantidadExistente INT;           -- Declarar una variable para la cantidad existente
+    DECLARE v_cantidadExistente INT;   -- Declarar una variable para la cantidad existente
 
     -- Verificar la cantidad existente actual del producto
     SELECT cantidadExistente INTO v_cantidadExistente
@@ -318,12 +318,21 @@ BEGIN
     INSERT INTO facturadetalle (FacturaCompra_idFacturaCompra, Producto_idProducto, CantidadProductos, PrecioCompra, nomProducto, descripcionProducto, fechaVencimiento, categoria_idCategorias)
     VALUES (p_FacturaCompra_id, p_Producto_id, p_Cantidad, p_Precio, p_nomProducto, p_descripcionProducto, p_fechaVencimiento, p_categoria_id);
 
+    -- Insertar en gestionproducto
+    INSERT INTO gestionproducto (Persona_idPersona, Producto_idProducto, Estado)
+    VALUES (p_Persona_id, p_Producto_id, 'Añadido');
+
 END //
 
--- Restablecer el delimitador al punto y coma predeterminado
 DELIMITER ;
 
 
+
+
+
+-- ---------------------------------------------------------------------------
+
+-- ----------------------------------------------------------------------------
 
 
 DELIMITER //
