@@ -9,7 +9,7 @@ import { DevolucionModel } from './devolucion.model';
 })
 export class DevolucionService {
 
-  BASE_URL = "http://localhost:4007";
+  BASE_URL = "https://siapbackend.azurewebsites.net";
 
   constructor(private http: HttpClient) { }
 

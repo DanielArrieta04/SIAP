@@ -9,7 +9,7 @@ import { ProveedorModel } from './proveedor.model';
 })
 export class ProveedorService {
 
-  BASE_URL = "http://localhost:4008";
+  BASE_URL = "https://siapbackend.azurewebsites.net";
 
   constructor(private http: HttpClient) { }
 

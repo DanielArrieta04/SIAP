@@ -19,11 +19,11 @@ app.use(bodyParser.json());
 const PUERTO = process.env.PORT || 4020;
 
 const conexion = mysql.createConnection({
-    host: 'localhost',
-    database: 'siap',
-    user: 'root',
-    password: '04120413', // Reemplaza con tu contraseña
-    port: 3306,
+    host: 'bdsiap.mysql.database.azure.com',
+    user: 'siapadmin',
+    password: 'Pollitos123456.', // Reemplaza con tu contraseña
+    database: 'bdsiap', // Nombre de tu base de datos en Azure
+    port: 3306 // El puerto por defecto de MySQL
 });
 
 conexion.connect(error => {

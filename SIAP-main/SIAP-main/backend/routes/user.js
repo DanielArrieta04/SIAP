@@ -5,6 +5,18 @@ const conexion = require('../persona'); // Importa la conexión a la base de dat
 const { authenticateToken, authorize } = require('../auth'); // Importa los middlewares de autenticación y autorización
 const { ACCESS_TOKEN_SECRET } = require('../config'); // Importa la clave secreta desde config.js
 
+const cors = require('cors');
+
+// Configuración de CORS
+const corsOptions = {
+  origin: 'https://siap-p.web.app', // URL del frontend en Firebase
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Métodos permitidos
+  allowedHeaders: ['Content-Type', 'Authorization'], // Encabezados permitidos
+};
+
+// Aplicación de middleware CORS a todas las rutas
+router.use(cors(corsOptions));
+
 // Asegúrate de que el secreto sea suficientemente largo y seguro
 if (ACCESS_TOKEN_SECRET.length < 32) {
   throw new Error('ACCESS_TOKEN_SECRET is too short; it should be at least 32 characters long.');
@@ -46,6 +58,6 @@ router.post('/singin', (req, res) => {
   );
 });
 
-
+// Agrega aquí más rutas y lógica de negocio según sea necesario
 
 module.exports = router;

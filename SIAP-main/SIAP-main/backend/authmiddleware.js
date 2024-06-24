@@ -4,11 +4,11 @@ const { ACCESS_TOKEN_SECRET } = require('./config'); // Ajusta la ruta según la
 
 // Configuración de la conexión a la base de datos
 const conexion = mysql.createConnection({
-    host: 'localhost',
-    database: 'siap',
-    user: 'root',
-    password: '04120413', // Reemplaza con tu contraseña
-    port: 3306, // El puerto por defecto de MySQL
+    host: 'bdsiap.mysql.database.azure.com',
+    user: 'siapadmin',
+    password: 'Pollitos123456.', // Reemplaza con tu contraseña
+    database: 'bdsiap', // Nombre de tu base de datos en Azure
+    port: 3306 // El puerto por defecto de MySQL
 });
 
 // Función para obtener el rol de usuario desde la base de datos

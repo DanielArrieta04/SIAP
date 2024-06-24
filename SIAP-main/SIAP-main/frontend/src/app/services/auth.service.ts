@@ -10,7 +10,7 @@ import { map, catchError } from 'rxjs/operators';
 })
 export class AuthService {
 
-  private URL = 'http://localhost:1000';
+  private URL = 'https://siapbackend.azurewebsites.net';
 
   constructor(
     private http: HttpClient,

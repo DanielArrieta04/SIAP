@@ -9,7 +9,7 @@ import { CategoriaModel } from './categoria.model';
 })
 export class CategoriaService {
 
-  BASE_URL = 'http://localhost:4000';
+  BASE_URL = 'https://siapbackend.azurewebsites.net';
 
   constructor(private http: HttpClient) { }
 

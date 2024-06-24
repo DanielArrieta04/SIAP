@@ -9,7 +9,7 @@ import { ProductoModel } from './producto.model';
 })
 export class ProductoService {
 
-  BASE_URL = "http://localhost:4009";
+  BASE_URL = "https://siapbackend.azurewebsites.net";
 
 
   constructor(private http: HttpClient) { }

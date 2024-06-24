@@ -9,7 +9,7 @@ import { TipoContratoModel } from './tipocontrato-model';
 })
 export class TipoContratoService {
 
-  BASE_URL = "http://localhost:4005";
+  BASE_URL = "https://siapbackend.azurewebsites.net";
 
   constructor(private http: HttpClient) { }
 

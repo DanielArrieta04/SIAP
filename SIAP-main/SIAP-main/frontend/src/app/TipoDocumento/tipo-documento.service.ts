@@ -10,7 +10,7 @@ import { TipoDocumentoModel } from './tipodocumento.model';
 export class TipoDocumentoService 
 {
 
-  BASE_URL = "http://localhost:4003";
+  BASE_URL = "https://siapbackend.azurewebsites.net";
 
   constructor(private http: HttpClient) { }
 

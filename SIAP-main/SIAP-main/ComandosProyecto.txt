@@ -10,6 +10,7 @@ Correr en otro terminal diferente del backend "npm run start-all"
 Correr en un terminal del frontend "ng serve -o"
 
 aaa
+npm install -g firebase-tools
 firebase login     
 firebase init 
 ng build --configuration production --output-path=dist/crud_angular

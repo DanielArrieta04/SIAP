@@ -9,7 +9,7 @@ import { OrdenDeSalidaModel } from './ordendesalida.model';
 })
 export class OrdenDeSalidaService {
 
-  BASE_URL = "http://localhost:4015";
+  BASE_URL = "https://siapbackend.azurewebsites.net";
 
   constructor(private http: HttpClient) { }
 

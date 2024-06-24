@@ -9,7 +9,7 @@ import { FacturacompraModel } from './facturacompra.model';
 })
 export class FacturacompraService {
 
-  BASE_URL = "http://localhost:4010";
+  BASE_URL = "https://siapbackend.azurewebsites.net";
 
   constructor(private http: HttpClient) { }
 

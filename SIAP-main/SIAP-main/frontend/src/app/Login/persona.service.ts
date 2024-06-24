@@ -9,7 +9,7 @@ import { PersonaModel } from './persona.model';
 })
 export class PersonaService {
 
-  BASE_URL = "http://localhost:4020";
+  BASE_URL = "https://siapbackend.azurewebsites.net";
 
   constructor(private http: HttpClient) { }
 
