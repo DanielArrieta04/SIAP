@@ -4,22 +4,14 @@ const jwt = require('jsonwebtoken');
 const conexion = require('../persona'); // Importa la conexión a la base de datos
 const { authenticateToken, authorize } = require('../auth'); // Importa los middlewares de autenticación y autorización
 const { ACCESS_TOKEN_SECRET } = require('../config'); // Importa la clave secreta desde config.js
+const cors = require('cors'); // Importa el módulo cors
 
-const cors = require('cors');
-
-// Configuración de CORS
-app.use(function (req, res, next) {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-
-  // Manejo de la solicitud preflight
-  if (req.method === 'OPTIONS') {
-      res.sendStatus(204);
-  } else {
-      next();
-  }
-});
+// Configuración de CORS para permitir todos los orígenes durante el desarrollo
+router.use(cors({
+  origin: 'https://siap-p.web.app',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Métodos permitidos
+  allowedHeaders: ['Content-Type', 'Authorization'], // Encabezados permitidos
+}));
 // Asegúrate de que el secreto sea suficientemente largo y seguro
 if (ACCESS_TOKEN_SECRET.length < 32) {
   throw new Error('ACCESS_TOKEN_SECRET is too short; it should be at least 32 characters long.');
