@@ -22,6 +22,7 @@ jobs:
       run: |
         cd SIAP-main\SIAP-main\backend
         npm install
+        npm install express mysql2 body-parser cors jsonwebtoken sweetalert2 nodemon concurrently rxjs pm2
 
     - name: 'Build and run tests'
       run: |
