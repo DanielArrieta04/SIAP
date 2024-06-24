@@ -133,7 +133,7 @@ const routes: Routes = [
   { path: 'devoluciondetalladaAG', component: EditarDevolucionDetalladaComponent, canActivate: [AuthGuard],data: { allowedRoles: [1] }},
   { path: 'devoluciondetalladaAc/:id', component: EditarDevolucionDetalladaComponent, canActivate: [AuthGuard],data: { allowedRoles: [1] }},
 
-  { path: 'bienvenido', component: BienvenidoComponent, canActivate: [IsLoggedInGuard] },
+  { path: 'bienvenido', component: BienvenidoComponent},
 
   { path: '', redirectTo: '/login', pathMatch: 'full' }
 ];
