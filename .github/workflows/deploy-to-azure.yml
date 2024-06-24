@@ -1,0 +1,37 @@
+name: Deploy Node.js app to Azure Web App
+
+on:
+  push:
+    branches:
+      - main  # Asegúrate de que la rama sea la correcta
+
+jobs:
+  build-and-deploy:
+    runs-on: windows-latest
+
+    steps:
+    - name: 'Checkout GitHub Action'
+      uses: actions/checkout@v3
+
+    - name: Set up Node.js version
+      uses: actions/setup-node@v3
+      with:
+        node-version: '20.x'
+
+    - name: 'Install dependencies'
+      run: |
+        cd SIAP-main\SIAP-main\backend
+        npm install
+
+    - name: 'Build and run tests'
+      run: |
+        cd SIAP-main\SIAP-main\backend
+        npm run build # O el comando de construcción que uses, si es necesario
+
+    - name: 'Deploy to Azure Web App'
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: 'nombre-de-tu-app' # Reemplaza con el nombre de tu App Service
+        slot-name: 'production'
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+        package: SIAP-main\SIAP-main\backend
