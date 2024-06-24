@@ -8,15 +8,18 @@ const { ACCESS_TOKEN_SECRET } = require('../config'); // Importa la clave secret
 const cors = require('cors');
 
 // Configuración de CORS
-const corsOptions = {
-  origin: 'https://siap-p.web.app', // URL del frontend en Firebase
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Métodos permitidos
-  allowedHeaders: ['Content-Type', 'Authorization'], // Encabezados permitidos
-};
+app.use(function (req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
 
-// Aplicación de middleware CORS a todas las rutas
-router.use(cors(corsOptions));
-
+  // Manejo de la solicitud preflight
+  if (req.method === 'OPTIONS') {
+      res.sendStatus(204);
+  } else {
+      next();
+  }
+});
 // Asegúrate de que el secreto sea suficientemente largo y seguro
 if (ACCESS_TOKEN_SECRET.length < 32) {
   throw new Error('ACCESS_TOKEN_SECRET is too short; it should be at least 32 characters long.');
