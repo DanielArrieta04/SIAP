@@ -6,8 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon server.js",
-    "serve": "node server.js",
-    "start-all": "pm2 start ecosystem.config.js"
+    "start": "pm2-runtime start ecosystem.config.js",
+    "serve": "node server.js"
   },
   "author": "",
   "license": "ISC",
