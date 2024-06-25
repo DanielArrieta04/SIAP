@@ -31,10 +31,10 @@ const mysql = require('mysql2');
 
 conexion = mysql.createConnection({
 
-    host:'localhost',
-    database:'siap',
-    user:'root',
-    password:'04120413'
+    host:'bdsiap.mysql.database.azure.com',
+    database:'bdsiap',
+    user:'siapadmin',
+    password:'Pollitos123456.'
 })
 
 
