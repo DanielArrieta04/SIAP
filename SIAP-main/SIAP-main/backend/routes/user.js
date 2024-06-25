@@ -2,13 +2,13 @@
 const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
-const cors = require('cors');
-const conexion = require('../conexion'); // Corrige la importación a la conexión correcta
+const conexion = require('../conexion'); // Importar conexión correcta
+const cors = require('cors'); 
 const { ACCESS_TOKEN_SECRET } = require('../config');
 
 // Configuración de CORS
 router.use(cors({
-  origin: 'https://siap-p.web.app', // Reemplaza esto con el origen correcto de tu frontend
+  origin: '*',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 }));
@@ -18,7 +18,7 @@ if (ACCESS_TOKEN_SECRET.length < 32) {
   throw new Error('ACCESS_TOKEN_SECRET is too short; it should be at least 32 characters long.');
 }
 
-router.post('/signin', (req, res) => { // Usa 'signin' en lugar de 'singin'
+router.post('/signin', (req, res) => { // Nombre de ruta correcto
   const { CorreoElectronico, Contrasena } = req.body;
 
   // Consulta SQL para verificar las credenciales del usuario

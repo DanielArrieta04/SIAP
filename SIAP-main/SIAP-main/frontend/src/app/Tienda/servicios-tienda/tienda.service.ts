@@ -21,14 +21,14 @@ export class TiendaService {
   }
 
   obtenerTiendaPorId(id: string): Observable<TiendaModel[]> {
-    return this.http.get<TiendaModel[]>(`${this.BASE_URL}/tiendaID/${id}`)
+    return this.http.get<TiendaModel[]>(`${this.BASE_URL}/${id}`)
       .pipe(
         catchError(this.handleError)
       );
   }
 
   agregarTienda(tienda: TiendaModel): Observable<any> {
-    return this.http.post<any>(`${this.BASE_URL}/tiendaAG`, tienda)
+    return this.http.post<any>(`${this.BASE_URL}/agregar`, tienda)
       .pipe(
         catchError(this.handleError)
       );

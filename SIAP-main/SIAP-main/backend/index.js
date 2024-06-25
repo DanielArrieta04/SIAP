@@ -21,7 +21,7 @@ const tienda = require('./tienda');
 const tipocontrato = require('./tipocontrato');
 const tipodocumento = require('./tipodocumento');
 
-const userRoutes = require('./routes/user');
+const userRoutes = require('./routes/user'); // Importa rutas de usuario
 
 const app = express();
 const PORT = process.env.PORT || 5200;
@@ -30,11 +30,13 @@ const conexion = require('./conexion');
 app.use(cors());
 app.use(bodyParser.json());
 
+// Conectar a la base de datos
 conexion.connect((error) => {
   if (error) throw error;
   console.log('Conexión a base de datos exitosa');
 });
 
+// Registra todas las rutas
 aler.RegisterAlertas(app);
 categoria.RegisterCategoria(app);
 contrato.RegisterContrato(app);
@@ -54,6 +56,10 @@ tienda.RegisterTienda(app);
 tipocontrato.RegisterTipoContrato(app);
 tipodocumento.RegisterTipoDocumento(app);
 
+// Usa las rutas de usuario
+app.use('/user', userRoutes); // Asegúrate de usar '/user' antes de userRoutes
+
+// Middleware de manejo de errores
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send({ error: 'Something went wrong!' });
