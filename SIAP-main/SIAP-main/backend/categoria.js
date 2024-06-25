@@ -1,112 +1,72 @@
-const express = require("express");
-const mysql = require("mysql2");
-const bodyParser = require("body-parser");
+const moduleName = "categoria";
 
-const app = express();
-
-// Configuración de CORS
-app.use(function (req, res, next) {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-
-    // Manejo de la solicitud preflight
-    if (req.method === 'OPTIONS') {
-        res.sendStatus(204);
-    } else {
-        next();
-    }
-});
-app.use(bodyParser.json());
-
-const PUERTO = process.env.PORT || 4000; // Usar el puerto del entorno si está disponible
-
-const conexion = mysql.createConnection({
-    host: 'bdsiap.mysql.database.azure.com',
-    user: 'siapadmin',
-    password: 'Pollitos123456.', // Reemplaza con tu contraseña
-    database: 'bdsiap', // Nombre de tu base de datos en Azure
-    port: 3306 // El puerto por defecto de MySQL
-});
-
-conexion.connect(error => {
-    if (error) {
-        console.error('Error al conectar a la base de datos:', error);
-    } else {
-        console.log('Conectado a la base de datos de Azure');
-    }
-});
-
-app.listen(PUERTO, () => {
-    console.log(`Servidor escuchando en el puerto: ${PUERTO}`);
-});
-
-app.get('/categoria', (_req, res, next) =>{
-    const query = 'SELECT * FROM categoria;'
-    conexion.query(query, (error, resultado) =>{
-        if(error) {
-            return next(error); // Pasar el error al siguiente middleware de manejo de errores
+function RegisterCategoria(app){
+// -- LISTAR CATEGORIA --
+app.get(`/${moduleName}`, (_req, res, next) => {
+    const query = `SELECT * FROM ${moduleName};`;
+    conexion.query(query, (error, resultado) => {
+        if (error) {
+            return next(error); 
         }
-        
-        if(resultado.length > 0) { // Verificar si hay registros
+        if (resultado.length > 0) {
             res.json(resultado);
         } else {
-            res.status(404).json({ error: 'No hay registros' }); // Devolver un estado 404 si no hay registros
+            res.status(404).json({ error: 'No hay registros' });
         }
     });
 });
 
-app.get('/categoriaID/:id', (req, res, next) =>{
+// -- LISTAR MEDIANTE ID --
+app.get(`/${moduleName}/:id`, (req, res, next) => {
     const id = req.params.id;
-    const query = 'SELECT * FROM categoria WHERE idCategorias=?';
-    conexion.query(query, [id], (error, resultado) =>{
-        if(error) {
-            return next(error); // Pasar el error al siguiente middleware de manejo de errores
+    const query = `SELECT * FROM ${moduleName} WHERE idCategorias=?;`;
+    conexion.query(query, [id], (error, resultado) => {
+        if (error) {
+            return next(error); 
         }
-        
-        if(resultado.length > 0) { // Verificar si hay registros
+        if (resultado.length > 0) {
             res.json(resultado);
         } else {
-            res.status(404).json({ error: 'No hay registros de id' }); // Devolver un estado 404 si no hay registros
+            res.status(404).json({ error: 'No hay registros de id' });
         }
     });
 });
 
-app.post('/categoriaAG', (req, res) => {
+// -- AGREGAR CATEGORIA --
+app.post(`/${moduleName}/agregar`, (req, res, next) => {
     const { nombreCategoria } = req.body;
-    conexion.query("INSERT INTO categoria (nombreCategoria) VALUES (?)",
-        [nombreCategoria],
-        (err, result) => {
-            if (err) {
-                throw err;
-            }
-            console.log(req.body);
-            res.status(201).json({ "Item añadido": result.affectedRows });
-            return;
-        });
-});
-
-
-app.delete('/categoriaEl/:id',(request,response)=>{
-    const id=request.params.id;
-    conexion.query("Delete from categoria where idCategorias=?",
-    [id],
-    (error,results) =>{
-        if(error)
-        throw error;
-        console.log(req.body);
-    response.status(201).json({"item eliminado":results.affectedRows});
+    const query = `INSERT INTO ${moduleName} (nombreCategoria) VALUES (?);`;
+    conexion.query(query, [nombreCategoria], (err, result) => {
+        if (err) {
+            return next(err); 
+        }
+        res.status(201).json({ "Item añadido": result.affectedRows });
     });
 });
 
-app.put('/categoriaAc/:id',(req,_res)=>{
+// -- ELIMINAR CATEGORIA --
+app.delete(`/${moduleName}/borrar/:id`, (req, res, next) => {
     const id = req.params.id;
-    const {nombreCategoria} = req.body;
-    const sql = "update categoria set nombreCategoria = ? where idCategorias = ?";
-    conexion.query(sql,[nombreCategoria,id],
-        (error,res)=>{
-            if(error)
-            throw error;
-        _res.status(201).json({"Datos actualizados: ":res.affectedRows, "id:":id,})
-        })
-})
+    const query = `DELETE FROM  WHERE idCategorias=?;`;
+    conexion.query(query, [id], (error, results) => {
+        if (error) {
+            return next(error); 
+        }
+        res.status(201).json({ "item eliminado": results.affectedRows });
+    });
+});
+
+// -- ACTUALIZAR CATEGORIA --
+app.put(`/${moduleName}/editar/:id`, (req, res, next) => {
+    const id = req.params.id;
+    const { nombreCategoria } = req.body;
+    const query = `UPDATE ${moduleName} SET nombreCategoria = ? WHERE idCategorias = ?;`;
+    conexion.query(query, [nombreCategoria, id], (error, result) => {
+        if (error) {
+            return next(error);
+        }
+        res.status(201).json({ "Datos actualizados: ": result.affectedRows, "id:": id });
+    });
+});
+}
+module.exports = {RegisterCategoria};

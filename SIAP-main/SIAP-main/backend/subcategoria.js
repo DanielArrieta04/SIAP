@@ -1,53 +1,13 @@
-const express = require("express");
-const mysql = require("mysql2");
-const bodyParser = require("body-parser");
+const moduleName = "subcategoria";
 
-const app = express();
+function RegisterSubCategoria(app){
 
-// Configuración de CORS
-app.use(function (req, res, next) {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-
-    // Manejo de la solicitud preflight
-    if (req.method === 'OPTIONS') {
-        res.sendStatus(204);
-    } else {
-        next();
-    }
-});
-app.use(bodyParser.json());
-
-const PUERTO = process.env.PORT || 4001; // Usar el puerto del entorno si está disponible
-
-const conexion = mysql.createConnection({
-    host: 'bdsiap.mysql.database.azure.com',
-    user: 'siapadmin',
-    password: 'Pollitos123456.', // Reemplaza con tu contraseña
-    database: 'bdsiap', // Nombre de tu base de datos en Azure
-    port: 3306 // El puerto por defecto de MySQL
-});
-
-conexion.connect(error => {
-    if (error) {
-        console.error('Error al conectar a la base de datos:', error);
-    } else {
-        console.log('Conectado a la base de datos de Azure');
-    }
-});
-
-app.listen(PUERTO, () => {
-    console.log(`Servidor escuchando en el puerto: ${PUERTO}`);
-});
-
-app.get('/subcategoria', (_req, res, next) =>{
-    const query = 'SELECT * FROM subcategoria;'
+    app.get(`/${moduleName}`, (_req, res, next) => {
+        const query = `SELECT * FROM ${moduleName};`
     conexion.query(query, (error, resultado) =>{
         if(error) {
             return next(error); 
         }
-        
         if(resultado.length > 0) { 
             res.json(resultado);
         } else {
@@ -56,14 +16,13 @@ app.get('/subcategoria', (_req, res, next) =>{
     });
 });
 
-app.get('/subcategoriaID/:id', (req, res, next) =>{
+app.get(`/${moduleName}/:id`, (req, res, next) => {
     const id = req.params.id;
-    const query = 'SELECT * FROM subcategoria WHERE idsubCategoria=?';
+    const query = `SELECT * FROM ${moduleName} WHERE idsubCategoria=?`;
     conexion.query(query, [id], (error, resultado) =>{
         if(error) {
             return next(error); 
         }
-        
         if(resultado.length > 0) { 
             res.json(resultado);
         } else {
@@ -72,9 +31,9 @@ app.get('/subcategoriaID/:id', (req, res, next) =>{
     });
 });
 
-app.post('/subcategoriaAG', (req, res) => {
+app.post(`/${moduleName}/agregar`, (req, res, next) => {
     const { NombreSubCategoria,Categoria_idCategorias } = req.body;
-    conexion.query("INSERT INTO subcategoria (NombreSubCategoria,Categoria_idCategorias) VALUES (?,?)",
+    conexion.query(`INSERT INTO ${moduleName} (NombreSubCategoria,Categoria_idCategorias) VALUES (?,?)`,
         [NombreSubCategoria,Categoria_idCategorias],
         (err, result) => {
             if (err) {
@@ -87,9 +46,9 @@ app.post('/subcategoriaAG', (req, res) => {
 });
 
 
-app.delete('/subcategoriaEl/:id',(request,response)=>{
+app.delete(`/${moduleName}/borrar/:id`, (req, res, next) => {
     const id=request.params.id;
-    conexion.query("Delete from subcategoria where idsubCategoria=?",
+    conexion.query(`Delete from ${moduleName} where idsubCategoria=?`,
     [id],
     (error,results) =>{
         if(error)
@@ -98,10 +57,10 @@ app.delete('/subcategoriaEl/:id',(request,response)=>{
     });
 });
 
-app.put('/subcategoriaAc/:id',(req,_res)=>{
+app.put(`/${moduleName}/editar/:id`, (req, res, next) => {
     const id = req.params.id;
     const {NombreSubCategoria,Categoria_idCategorias} = req.body;
-    const sql = "update subcategoria set NombreSubCategoria = ?, Categoria_idCategorias = ? where idsubCategoria = ?";
+    const sql = `update ${moduleName} set NombreSubCategoria = ?, Categoria_idCategorias = ? where idsubCategoria = ?`;
     conexion.query(sql,[NombreSubCategoria,Categoria_idCategorias,id],
         (error,res)=>{
             if(error)
@@ -109,3 +68,5 @@ app.put('/subcategoriaAc/:id',(req,_res)=>{
         _res.status(201).json({"Datos actualizados: ":res.affectedRows, "id:":id,})
         })
 })
+}
+module.exports = {RegisterSubCategoria};

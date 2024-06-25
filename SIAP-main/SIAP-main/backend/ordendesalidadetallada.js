@@ -1,54 +1,13 @@
-const express = require("express");
-const mysql = require("mysql2");
-const bodyParser = require("body-parser");
+const moduleName = "ordenDeSalidaDetallada";
 
-const app = express();
+function RegisterOrdenDeSalidaDetallada(app){
 
-// Configuración de CORS
-app.use(function (req, res, next) {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-
-    // Manejo de la solicitud preflight
-    if (req.method === 'OPTIONS') {
-        res.sendStatus(204);
-    } else {
-        next();
-    }
-});
-
-app.use(bodyParser.json());
-
-const PUERTO = process.env.PORT || 4016; // Usar el puerto del entorno si está disponible
-
-const conexion = mysql.createConnection({
-    host: 'bdsiap.mysql.database.azure.com',
-    user: 'siapadmin',
-    password: 'Pollitos123456.', // Reemplaza con tu contraseña
-    database: 'bdsiap', // Nombre de tu base de datos en Azure
-    port: 3306 // El puerto por defecto de MySQL
-});
-
-conexion.connect(error => {
-    if (error) {
-        console.error('Error al conectar a la base de datos:', error);
-    } else {
-        console.log('Conectado a la base de datos');
-    }
-});
-
-app.listen(PUERTO, () => {
-    console.log(`Servidor escuchando en el puerto: ${PUERTO}`);
-});
-
-app.get('/ordenDeSalidaDetallada', (_req, res, next) =>{
-    const query = 'SELECT * FROM ordenDeSalidaDetallada;'
+    app.get(`/${moduleName}`, (_req, res, next) => {
+        const query = `SELECT * FROM ${moduleName};`
     conexion.query(query, (error, resultado) =>{
         if(error) {
             return next(error); 
         }
-        
         if(resultado.length > 0) { 
             res.json(resultado);
         } else {
@@ -57,9 +16,9 @@ app.get('/ordenDeSalidaDetallada', (_req, res, next) =>{
     });
 });
 
-app.get('/ordenDeSalidaDetalladaID/:id', (req, res, next) =>{
+app.get(`/${moduleName}/:id`, (req, res, next) => {
     const id = req.params.id;
-    const query = 'SELECT * FROM ordenDeSalidaDetallada WHERE Producto_idProducto=?';
+    const query = `SELECT * FROM ${moduleName} WHERE Producto_idProducto=?`;
     conexion.query(query, [id], (error, resultado) =>{
         if(error) {
             return next(error); 
@@ -73,9 +32,8 @@ app.get('/ordenDeSalidaDetalladaID/:id', (req, res, next) =>{
     });
 });
 
-app.post('/ordenDeSalidaDetalladaAG', (req, res) => {
+app.post(`/${moduleName}/agregar`, (req, res, next) => {
     const { Producto_idProducto, ordenDeSalida_idordenDeSalida, Cantidad } = req.body;
-
     conexion.query(
         "CALL InsertarActualizarOrdenSalidaDetallada(?, ?, ?)",
         [Producto_idProducto, ordenDeSalida_idordenDeSalida, Cantidad],
@@ -84,14 +42,14 @@ app.post('/ordenDeSalidaDetalladaAG', (req, res) => {
                 console.error('Error al ejecutar el procedimiento almacenado:', error);
                 return res.status(500).json({ error: 'Error al procesar la solicitud' });
             }
-            res.status(200).json(result); // Opcional: puedes devolver algún mensaje de éxito si lo deseas
+            res.status(200).json(result); 
         }
     );
 });
 
 
 
-app.put('/ordenDeSalidaDetalladaAc/:id', (req, res) => {
+app.put(`/${moduleName}/editar/:id`, (req, res, next) => {
     const Producto_idProducto = req.params.id;
     const { Cantidad, ordenDeSalida_idordenDeSalida } = req.body;
     console.log('Llegó una solicitud POST a /ordenDeSalidaDetalladaAG');
@@ -137,12 +95,14 @@ app.put('/ordenDeSalidaDetalladaAc/:id', (req, res) => {
     });
 });
 
-app.delete('/ordenDeSalidaDetalladaEl/:id', (request, response) => {
+app.delete(`/${moduleName}/borrar/:id`, (req, res, next) => {
     const id = request.params.id;
-    conexion.query("DELETE FROM ordenDeSalidaDetallada WHERE Producto_idProducto=?",
+    conexion.query(`DELETE FROM ${moduleName} WHERE Producto_idProducto=?`,
     [id],
     (error, results) =>{
         if(error) throw error;
         response.status(201).json({"item eliminado":results.affectedRows});
     });
 });
+}
+module.exports = {RegisterOrdenDeSalidaDetallada};

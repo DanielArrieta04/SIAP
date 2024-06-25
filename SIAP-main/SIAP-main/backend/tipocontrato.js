@@ -1,53 +1,12 @@
-const express = require("express");
-const mysql = require("mysql2");
-const bodyParser = require("body-parser");
+const moduleName = "tipocontrato";
 
-const app = express();
-
-// Configuración de CORS
-app.use(function (req, res, next) {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-
-    // Manejo de la solicitud preflight
-    if (req.method === 'OPTIONS') {
-        res.sendStatus(204);
-    } else {
-        next();
-    }
-});
-app.use(bodyParser.json());
-
-const PUERTO = process.env.PORT || 4005; // Usar el puerto del entorno si está disponible
-
-const conexion = mysql.createConnection({
-    host: 'bdsiap.mysql.database.azure.com',
-    user: 'siapadmin',
-    password: 'Pollitos123456.', // Reemplaza con tu contraseña
-    database: 'bdsiap', // Nombre de tu base de datos en Azure
-    port: 3306 // El puerto por defecto de MySQL
-});
-
-conexion.connect(error => {
-    if (error) {
-        console.error('Error al conectar a la base de datos:', error);
-    } else {
-        console.log('Conectado a la base de datos de Azure');
-    }
-});
-
-app.listen(PUERTO, () => {
-    console.log(`Servidor escuchando en el puerto: ${PUERTO}`);
-});
-
-app.get('/tipocontrato', (_req, res, next) =>{
-    const query = 'SELECT * FROM tipocontrato;'
+function RegisterTipoContrato(app){
+    app.get(`/${moduleName}`, (_req, res, next) => {
+        const query = `SELECT * FROM ${moduleName};`
     conexion.query(query, (error, resultado) =>{
         if(error) {
             return next(error); 
         }
-        
         if(resultado.length > 0) { 
             res.json(resultado);
         } else {
@@ -56,14 +15,13 @@ app.get('/tipocontrato', (_req, res, next) =>{
     });
 });
 
-app.get('/tipocontratoID/:id', (req, res, next) =>{
+app.get(`/${moduleName}/:id`, (req, res, next) => {
     const id = req.params.id;
-    const query = 'SELECT * FROM tipocontrato WHERE idtipoContrato=?';
+    const query = `SELECT * FROM ${moduleName} WHERE idtipoContrato=?`;
     conexion.query(query, [id], (error, resultado) =>{
         if(error) {
             return next(error); 
         }
-        
         if(resultado.length > 0) { 
             res.json(resultado);
         } else {
@@ -72,9 +30,9 @@ app.get('/tipocontratoID/:id', (req, res, next) =>{
     });
 });
 
-app.post('/tipocontratoAG', (req, res) => {
+app.post(`/${moduleName}/agregar`, (req, res, next) => {
     const { descripcionTipoContrato} = req.body;
-    conexion.query("INSERT INTO tipocontrato (descripcionTipoContrato) VALUES (?)",
+    conexion.query(`INSERT INTO ${moduleName} (descripcionTipoContrato) VALUES (?)`,
         [descripcionTipoContrato],
         (err, result) => {
             if (err) {
@@ -87,9 +45,9 @@ app.post('/tipocontratoAG', (req, res) => {
 });
 
 
-app.delete('/tipocontratoEl/:id',(request,response)=>{
+app.delete(`/${moduleName}/borrar/:id`, (req, res, next) => {
     const id=request.params.id;
-    conexion.query("DELETE FROM tipocontrato WHERE idtipoContrato=?",
+    conexion.query(`DELETE FROM ${moduleName} WHERE idtipoContrato=?`,
     [id],
     (error,results) =>{
         if(error)
@@ -98,10 +56,10 @@ app.delete('/tipocontratoEl/:id',(request,response)=>{
     });
 });
 
-app.put('/tipocontratoAc/:id',(req,_res)=>{
+app.put(`/${moduleName}/editar/:id`, (req, res, next) => {
     const id = req.params.id;
     const {descripcionTipoContrato} = req.body;
-    const sql = "UPDATE tipocontrato SET descripcionTipoContrato = ? WHERE idtipoContrato = ?";
+    const sql = `UPDATE ${moduleName} SET descripcionTipoContrato = ? WHERE idtipoContrato = ?`;
     conexion.query(sql,[descripcionTipoContrato,id],
         (error,res)=>{
             if(error)
@@ -109,4 +67,5 @@ app.put('/tipocontratoAc/:id',(req,_res)=>{
         _res.status(201).json({"Datos actualizados: ":res.affectedRows, "id:":id,})
         })
 })
-
+}
+module.exports = {RegisterTipoContrato};

@@ -1,48 +1,8 @@
-const express = require("express");
-const mysql = require("mysql2");
-const bodyParser = require("body-parser");
+const moduleName = "devolucion";
 
-const app = express();
-
-// Configuración de CORS
-app.use(function (req, res, next) {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-
-    // Manejo de la solicitud preflight
-    if (req.method === 'OPTIONS') {
-        res.sendStatus(204);
-    } else {
-        next();
-    }
-});
-app.use(bodyParser.json());
-
-const PUERTO = process.env.PORT || 4007; // Usar el puerto del entorno si está disponible
-
-const conexion = mysql.createConnection({
-    host: 'bdsiap.mysql.database.azure.com',
-    user: 'siapadmin',
-    password: 'Pollitos123456.', // Reemplaza con tu contraseña
-    database: 'bdsiap', // Nombre de tu base de datos en Azure
-    port: 3306 // El puerto por defecto de MySQL
-});
-
-conexion.connect(error => {
-    if (error) {
-        console.error('Error al conectar a la base de datos:', error);
-    } else {
-        console.log('Conectado a la base de datos de Azure');
-    }
-});
-
-app.listen(PUERTO, () => {
-    console.log(`Servidor escuchando en el puerto: ${PUERTO}`);
-});
-
-app.get('/devolucion', (_req, res, next) =>{
-    const query = 'SELECT * FROM devolucion;'
+function RegisterDevolucion(app){
+app.get(`/${moduleName}`, (_req, res, next) =>{
+    const query = `SELECT * FROM ${moduleName};`
     conexion.query(query, (error, resultado) =>{
         if(error) {
             return next(error); 
@@ -56,14 +16,13 @@ app.get('/devolucion', (_req, res, next) =>{
     });
 });
 
-app.get('/devolucionID/:id', (req, res, next) =>{
+app.get(`/${moduleName}/:id`, (req, res, next) =>{
     const id = req.params.id;
-    const query = 'SELECT * FROM devolucion WHERE idDevolucion=?';
+    const query = `SELECT * FROM ${moduleName} WHERE idDevolucion=?`;
     conexion.query(query, [id], (error, resultado) =>{
         if(error) {
             return next(error); 
         }
-        
         if(resultado.length > 0) { 
             res.json(resultado);
         } else {
@@ -72,9 +31,9 @@ app.get('/devolucionID/:id', (req, res, next) =>{
     });
 });
 
-app.post('/devolucionAG', (req, res) => {
+app.post(`/${moduleName}/agregar`, (req, res) => {
     const { DescripcionMotivoDevolucion,FechaDevolucion} = req.body;
-    conexion.query("INSERT INTO devolucion (DescripcionMotivoDevolucion,FechaDevolucion) VALUES (?,?)",
+    conexion.query(`INSERT INTO ${moduleName} (DescripcionMotivoDevolucion,FechaDevolucion) VALUES (?,?)`,
         [DescripcionMotivoDevolucion,FechaDevolucion],
         (err, result) => {
             if (err) {
@@ -87,9 +46,9 @@ app.post('/devolucionAG', (req, res) => {
 });
 
 
-app.delete('/devolucionEl/:id',(request,response)=>{
+app.delete(`/${moduleName}/borrar/:id`,(request,response)=>{
     const id=request.params.id;
-    conexion.query("DELETE FROM devolucion WHERE idDevolucion=?",
+    conexion.query(`DELETE FROM ${moduleName} WHERE idDevolucion=?`,
     [id],
     (error,results) =>{
         if(error)
@@ -98,10 +57,10 @@ app.delete('/devolucionEl/:id',(request,response)=>{
     });
 });
 
-app.put('/devolucionAc/:id',(req,_res)=>{
+app.put(`/${moduleName}/editar/:id`,(req,_res)=>{
     const id = req.params.id;
     const { DescripcionMotivoDevolucion,FechaDevolucion} = req.body;
-    const sql = "UPDATE devolucion SET DescripcionMotivoDevolucion = ?, FechaDevolucion = ? WHERE idDevolucion = ?";
+    const sql = `UPDATE ${moduleName} SET DescripcionMotivoDevolucion = ?, FechaDevolucion = ? WHERE idDevolucion = ?`;
     conexion.query(sql,[ DescripcionMotivoDevolucion,FechaDevolucion,id],
         (error,res)=>{
             if(error)
@@ -109,4 +68,5 @@ app.put('/devolucionAc/:id',(req,_res)=>{
         _res.status(201).json({"Datos actualizados: ":res.affectedRows, "id:":id,})
         })
 })
-
+}
+module.exports = {RegisterDevolucion};

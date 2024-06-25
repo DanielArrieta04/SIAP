@@ -1,53 +1,13 @@
-const express = require("express");
-const mysql = require("mysql2");
-const bodyParser = require("body-parser");
+const moduleName = "facturadetalle";
 
-const app = express();
+function RegisterFacturaDetalle(app){
 
-// Configuración de CORS
-app.use(function (req, res, next) {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-
-    // Manejo de la solicitud preflight
-    if (req.method === 'OPTIONS') {
-        res.sendStatus(204);
-    } else {
-        next();
-    }
-});
-app.use(bodyParser.json());
-
-const PUERTO = process.env.PORT || 4012; // Usar el puerto del entorno si está disponible
-
-const conexion = mysql.createConnection({
-    host: 'bdsiap.mysql.database.azure.com',
-    user: 'siapadmin',
-    password: 'Pollitos123456.', // Reemplaza con tu contraseña
-    database: 'bdsiap', // Nombre de tu base de datos en Azure
-    port: 3306 // El puerto por defecto de MySQL
-});
-
-conexion.connect(error => {
-    if (error) {
-        console.error('Error al conectar a la base de datos:', error);
-    } else {
-        console.log('Conectado a la base de datos de Azure');
-    }
-});
-
-app.listen(PUERTO, () => {
-    console.log(`Servidor escuchando en el puerto: ${PUERTO}`);
-});
-
-app.get('/facturadetalle', (_req, res, next) =>{
-    const query = 'SELECT * FROM facturadetalle;'
+    app.get(`/${moduleName}`, (_req, res, next) => {
+        const query = `SELECT * FROM ${moduleName};`
     conexion.query(query, (error, resultado) =>{
         if(error) {
             return next(error); 
         }
-        
         if(resultado.length > 0) { 
             res.json(resultado);
         } else {
@@ -56,14 +16,13 @@ app.get('/facturadetalle', (_req, res, next) =>{
     });
 });
 
-app.get('/facturadetalleID/:id', (req, res, next) =>{
+app.get(`/${moduleName}/:id`, (req, res, next) => {
     const id = req.params.id;
-    const query = 'SELECT * FROM facturadetalle WHERE FacturaCompra_idFacturaCompra=?';
+    const query = `SELECT * FROM ${moduleName} WHERE FacturaCompra_idFacturaCompra=?`;
     conexion.query(query, [id], (error, resultado) =>{
         if(error) {
             return next(error); 
         }
-        
         if(resultado.length > 0) { 
             res.json(resultado);
         } else {
@@ -73,7 +32,7 @@ app.get('/facturadetalleID/:id', (req, res, next) =>{
 });
 
     
-app.post('/facturadetalleAG', (req, res) => {
+app.post(`/${moduleName}/agregar`, (req, res, next) => {
     console.log('Solicitud POST recibida en /facturadetalleAG');
     const productos = req.body.productos;
     console.log('Datos recibidos en el servidor:', productos);
@@ -144,13 +103,9 @@ app.post('/facturadetalleAG', (req, res) => {
     });
 });
 
-
-
-
-
-app.delete('/facturadetalleEl/:id',(request,response)=>{
+app.delete(`/${moduleName}/borrar/:id`, (req, res, next) => {
     const id=request.params.id;
-    conexion.query("DELETE FROM facturadetalle WHERE FacturaCompra_idFacturaCompra=?",
+    conexion.query(`DELETE FROM ${moduleName} WHERE FacturaCompra_idFacturaCompra=?`,
     [id],
     (error,results) =>{
         if(error)
@@ -159,7 +114,7 @@ app.delete('/facturadetalleEl/:id',(request,response)=>{
     });
 });
 
-app.put('/facturadetalleAc/:id', (req, res) => {
+app.put(`/${moduleName}/editar/:id`, (req, res, next) => {
     const id = req.params.id;
     const {
         FacturaCompra_idFacturaCompra,
@@ -193,6 +148,6 @@ app.put('/facturadetalleAc/:id', (req, res) => {
         res.status(200).json({ "Datos actualizados": result.affectedRows, "id": id });
     });
 });
+}
 
-
-
+module.exports = {RegisterFacturaDetalle};
