@@ -28,7 +28,7 @@ export class TiendaService {
   }
 
   agregarTienda(tienda: TiendaModel): Observable<any> {
-    return this.http.post<any>(`${this.BASE_URL}/agregar`, tienda)
+    return this.http.post<any>(`${this.BASE_URL}/tienda/agregar`, tienda)
       .pipe(
         catchError(this.handleError)
       );
@@ -36,14 +36,14 @@ export class TiendaService {
 
   actualizarTienda(tienda: TiendaModel): Observable<any> {
     const id = tienda.idTienda; // Ajustar según el nombre del campo de ID en tu modelo TiendaModel
-    return this.http.put<any>(`${this.BASE_URL}/tiendaAc/${id}`, tienda)
+    return this.http.put<any>(`${this.BASE_URL}/tienda/editar/${id}`, tienda)
       .pipe(
         catchError(this.handleError)
       );
   }
 
   borrarTienda(id: string): Observable<any> {
-    return this.http.delete<any>(`${this.BASE_URL}/tiendaEl/${id}`)
+    return this.http.delete<any>(`${this.BASE_URL}/tienda/borrar/${id}`)
       .pipe(
         catchError(this.handleError)
       );

@@ -65,5 +65,6 @@ app.put(`/${moduleName}/editar/:id`, (req, res, next) => {
     });
 });
 
+
 }
 module.exports = {RegisterTienda};
