@@ -1,5 +1,5 @@
 const moduleName = "persona";
-
+const conexion = require('./conexion');
 function RegisterPersona(app){
 
 // Protege tus rutas con authenticateToken y authorize según sea necesario

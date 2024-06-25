@@ -1,5 +1,5 @@
 const moduleName = "facturadetalle";
-
+const conexion = require('./conexion');
 function RegisterFacturaDetalle(app){
 
     app.get(`/${moduleName}`, (_req, res, next) => {

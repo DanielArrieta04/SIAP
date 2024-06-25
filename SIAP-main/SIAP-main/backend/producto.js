@@ -1,5 +1,5 @@
 const moduleName = "producto";
-
+const conexion = require('./conexion');
 function RegisterProducto(app){
 
     app.get(`/${moduleName}`, (_req, res, next) => {

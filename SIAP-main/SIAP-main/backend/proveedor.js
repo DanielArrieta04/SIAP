@@ -1,5 +1,5 @@
 const moduleName = "proveedor";
-
+const conexion = require('./conexion');
 function RegisterProveedor(app){
 
     app.get(`/${moduleName}`, (_req, res, next) => {

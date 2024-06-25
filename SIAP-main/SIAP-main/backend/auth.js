@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const conexion = require('./conexion');
 const { ACCESS_TOKEN_SECRET } = require('./config'); // Asegúrate de ajustar la ruta y el nombre de la clave secreta según tu configuración
 
 function authenticateToken(req, res, next) {

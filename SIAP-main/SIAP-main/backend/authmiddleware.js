@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const mysql = require('mysql2/promise');
+const conexion = require('./conexion');
 const { ACCESS_TOKEN_SECRET } = require('./config'); // Ajusta la ruta según la ubicación de tu archivo config.js
 
 // Configuración de la conexión a la base de datos

@@ -1,5 +1,5 @@
 const moduleName = "subcategoria";
-
+const conexion = require('./conexion');
 function RegisterSubCategoria(app){
 
     app.get(`/${moduleName}`, (_req, res, next) => {

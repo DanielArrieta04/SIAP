@@ -1,5 +1,5 @@
 const moduleName = "rol";
-
+const conexion = require('./conexion');
 function RegisterRol(app){
 
     app.get(`/${moduleName}`, (_req, res, next) => {

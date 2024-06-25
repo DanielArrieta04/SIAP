@@ -1,5 +1,5 @@
 // authorize.js
-
+const conexion = require('./conexion');
 const authorize = (role) => {
     return (req, res, next) => {
         // Verificar el rol del usuario obtenido del token decodificado

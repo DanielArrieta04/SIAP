@@ -1,5 +1,5 @@
 const moduleName = "tipodocumento";
-
+const conexion = require('./conexion');
 function RegisterTipoDocumento(app){
 
     app.get(`/${moduleName}`, (_req, res, next) => {

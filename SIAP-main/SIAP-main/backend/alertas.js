@@ -1,5 +1,5 @@
 const moduleName = "alertas";
-
+const conexion = require('./conexion');
 function RegisterAlertas(router){
 router.get('/alertas', (req, res) => {
     const hoy = moment().format('YYYY-MM-DD');

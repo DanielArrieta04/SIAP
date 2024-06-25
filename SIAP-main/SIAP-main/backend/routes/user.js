@@ -5,6 +5,7 @@ const conexion = require('../persona'); // Importa la conexión a la base de dat
 const { authenticateToken, authorize } = require('../auth'); // Importa los middlewares de autenticación y autorización
 const { ACCESS_TOKEN_SECRET } = require('../config'); // Importa la clave secreta desde config.js
 const cors = require('cors'); // Importa el módulo cors
+const conexion = require('./conexion');
 
 // Configuración de CORS para permitir todos los orígenes durante el desarrollo
 router.use(cors({

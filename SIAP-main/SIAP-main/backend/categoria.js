@@ -1,5 +1,5 @@
 const moduleName = "categoria";
-
+const conexion = require('./conexion');
 function RegisterCategoria(app){
 // -- LISTAR CATEGORIA --
 app.get(`/${moduleName}`, (_req, res, next) => {

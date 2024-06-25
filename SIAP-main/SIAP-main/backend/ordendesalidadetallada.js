@@ -1,5 +1,5 @@
 const moduleName = "ordenDeSalidaDetallada";
-
+const conexion = require('./conexion');
 function RegisterOrdenDeSalidaDetallada(app){
 
     app.get(`/${moduleName}`, (_req, res, next) => {

@@ -1,5 +1,5 @@
 const moduleName = "contrato";
-
+const conexion = require('./conexion');
 function RegisterContrato(app){
 app.get(`/${moduleName}`, (_req, res, next) =>{
     const query = `SELECT * FROM ${moduleName};`
