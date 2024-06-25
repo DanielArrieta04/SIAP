@@ -9,7 +9,7 @@ import { GestionProductoModel } from './gestionproducto.model';
 })
 export class GestionProductoService {
 
-  BASE_URL = "https://siapbackend.azurewebsites.net";
+  BASE_URL = "hhttps://siap-tf6o.onrender.com";
 
   constructor(private http: HttpClient) { }
 

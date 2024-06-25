@@ -7,7 +7,7 @@ import { catchError } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class AlertasService {
-  private apiUrl = 'https://siapbackend.azurewebsites.net'; // URL base para las alertas
+  private apiUrl = 'https://siap-tf6o.onrender.com'; // URL base para las alertas
   private alertas: any = {}; // Variable local para almacenar las alertas
 
   constructor(private http: HttpClient) {}

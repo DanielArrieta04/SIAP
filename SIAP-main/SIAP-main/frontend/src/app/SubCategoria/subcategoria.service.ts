@@ -9,7 +9,7 @@ import { SubCategoriaModel } from './subcategoria.model';
 })
 export class SubCategoriaService {
 
-  BASE_URL = "https://siapbackend.azurewebsites.net";
+  BASE_URL = "https://siap-tf6o.onrender.com";
 
   constructor(private http: HttpClient) { }
 

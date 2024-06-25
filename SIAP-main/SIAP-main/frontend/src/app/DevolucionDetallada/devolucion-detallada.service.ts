@@ -9,7 +9,7 @@ import { DevolucionDetalladaModel } from './devoluciondetallada.model';
 })
 export class DevolucionDetalladaService {
 
-  BASE_URL = "https://siapbackend.azurewebsites.net";
+  BASE_URL = "https://siap-tf6o.onrender.com";
 
   constructor(private http: HttpClient) { }
 

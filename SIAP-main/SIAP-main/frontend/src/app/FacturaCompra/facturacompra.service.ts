@@ -9,7 +9,7 @@ import { FacturacompraModel } from './facturacompra.model';
 })
 export class FacturacompraService {
 
-  BASE_URL = "https://siapbackend.azurewebsites.net";
+  BASE_URL = "https://siap-tf6o.onrender.com";
 
   constructor(private http: HttpClient) { }
 

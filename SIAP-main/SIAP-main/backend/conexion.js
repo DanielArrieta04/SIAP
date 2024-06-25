@@ -1,9 +1,15 @@
-const con = require('mysql2');
+const mysql = require('mysql2');
 
+const conexion = mysql.createConnection({
+  host:'bdsiap.mysql.database.azure.com',
+  database:'bdsiap',
+  user:'siapadmin',
+  password:'Pollitos123456.'
+});
 
-    conexion = con.createConnection({
-    host:'localhost',
-    database:'siap',
-    user:'root',
-    password:'04120413'
-})
+conexion.connect((error) => {
+  if (error) throw error;
+  console.log("Conexión a base de datos exitosa");
+});
+
+module.exports = conexion;

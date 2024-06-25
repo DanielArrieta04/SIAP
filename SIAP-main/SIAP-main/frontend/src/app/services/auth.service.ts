@@ -10,7 +10,7 @@ import { map, catchError } from 'rxjs/operators';
 })
 export class AuthService {
 
-  private URL = 'https://siapbackend.azurewebsites.net';
+  private URL = 'https://siap-tf6o.onrender.com';
 
   constructor(
     private http: HttpClient,

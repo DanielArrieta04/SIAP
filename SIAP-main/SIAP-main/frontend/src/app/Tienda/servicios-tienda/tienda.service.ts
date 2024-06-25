@@ -9,7 +9,7 @@ import { TiendaModel } from './tienda.model';
 })
 export class TiendaService {
 
-  BASE_URL = "https://siapbackend.azurewebsites.net";
+  BASE_URL = "https://siap-tf6o.onrender.com";
 
   constructor(private http: HttpClient) { }
 

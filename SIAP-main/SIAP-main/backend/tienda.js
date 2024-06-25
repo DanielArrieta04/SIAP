@@ -1,5 +1,5 @@
 const moduleName = "tienda";
-
+const conexion = require('./conexion');
 function RegisterTienda(app){
     app.get(`/${moduleName}`, (_req, res, next) => {
         const query = `SELECT * FROM ${moduleName};`;

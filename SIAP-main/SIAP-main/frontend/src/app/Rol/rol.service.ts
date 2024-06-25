@@ -9,7 +9,7 @@ import { RolModel } from './rol.model';
 })
 export class RolService {
 
-  BASE_URL = "https://siapbackend.azurewebsites.net";
+  BASE_URL = "https://siap-tf6o.onrender.com";
 
   constructor(private http: HttpClient) { }
 

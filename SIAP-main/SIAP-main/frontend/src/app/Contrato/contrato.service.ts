@@ -9,7 +9,7 @@ import { ContratoModel } from './contrato.model';
 })
 export class ContratoService {
 
-  BASE_URL = "https://siapbackend.azurewebsites.net";
+  BASE_URL = "https://siap-tf6o.onrender.com";
 
   constructor(private http: HttpClient) { }
 

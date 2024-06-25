@@ -9,7 +9,7 @@ import { ProductoModel } from './producto.model';
 })
 export class ProductoService {
 
-  BASE_URL = "https://siapbackend.azurewebsites.net";
+  BASE_URL = "https://siap-tf6o.onrender.com";
 
 
   constructor(private http: HttpClient) { }
