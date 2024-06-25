@@ -3,6 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const aler = require('./alertas');
+const categoria = require('./categoria');
 const contrato = require('./contrato');
 const devolucion = require('./devolucion');
 const devoluciondetallada = require('./devoluciondetallada');
@@ -33,6 +34,7 @@ conexion.connect((error) => {
 });
 
 aler.RegisterAlertas(app);
+categoria.RegisterCategoria(app);
 contrato.RegisterContrato(app);
 devolucion.RegisterDevolucion(app);
 devoluciondetallada.RegisterDevolucionDetallada(app);
