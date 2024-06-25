@@ -21,6 +21,8 @@ const tienda = require('./tienda');
 const tipocontrato = require('./tipocontrato');
 const tipodocumento = require('./tipodocumento');
 
+const userRoutes = require('./routes/user');
+
 const app = express();
 const PORT = process.env.PORT || 5200;
 const conexion = require('./conexion');

@@ -1,59 +1,55 @@
+// routes/user.js
 const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
-const conexion = require('../persona'); // Importa la conexión a la base de datos
-const { authenticateToken, authorize } = require('../auth'); // Importa los middlewares de autenticación y autorización
-const { ACCESS_TOKEN_SECRET } = require('../config'); // Importa la clave secreta desde config.js
-const cors = require('cors'); // Importa el módulo cors
-const conexion = require('./conexion');
+const cors = require('cors');
+const conexion = require('../conexion'); // Corrige la importación a la conexión correcta
+const { ACCESS_TOKEN_SECRET } = require('../config');
 
-// Configuración de CORS para permitir todos los orígenes durante el desarrollo
+// Configuración de CORS
 router.use(cors({
-  origin: 'https://siap-p.web.app',
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // Métodos permitidos
-  allowedHeaders: ['Content-Type', 'Authorization'], // Encabezados permitidos
+  origin: 'https://siap-p.web.app', // Reemplaza esto con el origen correcto de tu frontend
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
 }));
+
 // Asegúrate de que el secreto sea suficientemente largo y seguro
 if (ACCESS_TOKEN_SECRET.length < 32) {
   throw new Error('ACCESS_TOKEN_SECRET is too short; it should be at least 32 characters long.');
 }
 
-router.post('/singin', (req, res) => {
-  const { CorreoElectronico, Contrasena } = req.body; // Extrae correo y contraseña del cuerpo de la solicitud
+router.post('/signin', (req, res) => { // Usa 'signin' en lugar de 'singin'
+  const { CorreoElectronico, Contrasena } = req.body;
 
   // Consulta SQL para verificar las credenciales del usuario
   conexion.query(
     'SELECT * FROM persona WHERE CorreoElectronico=? AND Contrasena=?',
     [CorreoElectronico, Contrasena],
-    (err, rows, fields) => {
+    (err, rows) => {
       if (!err) {
         if (rows.length > 0) {
-          const usuario = rows[0]; // Obtiene el primer usuario encontrado
-          
+          const usuario = rows[0];
+
           // Genera un token JWT con los datos del usuario
           const token = jwt.sign(
             { id: usuario.idPersona, correo: usuario.CorreoElectronico, Rol_idRol: usuario.Rol_idRol },
-            ACCESS_TOKEN_SECRET // Utiliza la clave secreta configurada en config.js
+            ACCESS_TOKEN_SECRET
           );
 
-          console.log('Datos del usuario:', usuario); // Imprime los datos del usuario en la consola del servidor
-          console.log('Token generado:', token); // Imprime el token JWT generado
+          console.log('Datos del usuario:', usuario);
+          console.log('Token generado:', token);
 
           // Envía el token JWT y los datos del usuario como respuesta
           res.json({ token, usuario });
         } else {
-          // Si no se encontró ningún usuario con las credenciales proporcionadas
           res.status(401).json('Usuario o contraseña incorrectos');
         }
       } else {
-        // Si hubo un error en la consulta a la base de datos
-        console.log(err); // Registra el error en la consola del servidor
+        console.log(err);
         res.status(500).json('Error interno del servidor');
       }
     }
   );
 });
-
-// Agrega aquí más rutas y lógica de negocio según sea necesario
 
 module.exports = router;
