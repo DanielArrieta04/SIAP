@@ -1,42 +1,37 @@
 const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
-const conexion = require('../persona'); // Importa la conexión a la base de datos
+const conexion = require('../conexion'); // Asegúrate de importar la conexión correcta
 const { ACCESS_TOKEN_SECRET } = require('../config'); // Importa la clave secreta desde config.js
 
 // Ruta POST para iniciar sesión
 router.post('/singin', (req, res) => {
-  const { CorreoElectronico, Contrasena } = req.body; // Extrae correo y contraseña del cuerpo de la solicitud
+  const { CorreoElectronico, Contrasena } = req.body;
 
-  // Consulta SQL para verificar las credenciales del usuario
   conexion.query(
     'SELECT * FROM persona WHERE CorreoElectronico=? AND Contrasena=?',
     [CorreoElectronico, Contrasena],
     (err, rows, fields) => {
-      if (!err) {
-        if (rows.length > 0) {
-          const usuario = rows[0]; // Obtiene el primer usuario encontrado
-          
-          // Genera un token JWT con los datos del usuario
-          const token = jwt.sign(
-            { id: usuario.idPersona, correo: usuario.CorreoElectronico, Rol_idRol: usuario.Rol_idRol },
-            ACCESS_TOKEN_SECRET // Utiliza la clave secreta configurada en config.js
-          );
-
-          console.log('Datos del usuario:', usuario); // Imprime los datos del usuario en la consola del servidor
-          console.log('Token generado:', token); // Imprime el token JWT generado
-
-          // Envía el token JWT y los datos del usuario como respuesta
-          res.json({ token, usuario });
-        } else {
-          // Si no se encontró ningún usuario con las credenciales proporcionadas
-          res.status(401).json('Usuario o contraseña incorrectos');
-        }
-      } else {
-        // Si hubo un error en la consulta a la base de datos
-        console.log(err); // Registra el error en la consola del servidor
-        res.status(500).json('Error interno del servidor');
+      if (err) {
+        console.error('Error en la consulta SQL:', err);
+        return res.status(500).json({ error: 'Error interno del servidor' });
       }
+
+      if (rows.length === 0) {
+        return res.status(401).json({ error: 'Usuario o contraseña incorrectos' });
+      }
+
+      const usuario = rows[0];
+          
+      const token = jwt.sign(
+        { id: usuario.idPersona, correo: usuario.CorreoElectronico, Rol_idRol: usuario.Rol_idRol },
+        ACCESS_TOKEN_SECRET
+      );
+
+      console.log('Datos del usuario:', usuario);
+      console.log('Token generado:', token);
+
+      res.json({ token, usuario });
     }
   );
 });
