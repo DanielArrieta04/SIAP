@@ -5,9 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon server.js",
-    "start": "pm2-runtime start ecosystem.config.js",
-    "serve": "node server.js",
+    "start": "node index.js",
     "build": "echo \"No build step required\"" 
   },
   "author": "",
