@@ -25,7 +25,6 @@ const authMiddleware = require("./authmiddleware");
 const authorize = require("./authorize");
 const config = require("./config");
 const server = require("./server");
-const ecosystem = require("./ecosystem.config");
 
 
 const mysql = require('mysql2');
