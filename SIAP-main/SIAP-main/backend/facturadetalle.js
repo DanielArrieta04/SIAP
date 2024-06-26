@@ -34,7 +34,7 @@ app.get(`/${moduleName}/:id`, (req, res, next) => {
 });
 
     
-app.post(`/facturadetalle/agregar`, async (req, res) => {
+app.post('/facturadetalle/agregar', async (req, res) => {
     console.log('Solicitud POST recibida en /facturadetalle/agregar');
     const productos = req.body.productos;
     console.log('Datos recibidos en el servidor:', productos);
@@ -66,41 +66,23 @@ app.post(`/facturadetalle/agregar`, async (req, res) => {
             Persona_idPersona
           } = producto;
   
-          // Verificar si el producto existe en la base de datos
-          const [rows] = await conexion.query(
-            "SELECT COUNT(*) AS count FROM producto WHERE idProducto = ?",
-            [Producto_idProducto]
-          );
-  
-          const count = rows[0].count;
-  
-          if (count === 0) {
-            // Insertar el producto si no existe
-            await conexion.query(
-              "INSERT INTO producto (idProducto, nomProducto, precioProducto, descripcionProducto, fechaVencimiento, cantidadExistente, categoria_idCategorias) VALUES (?, ?, ?, ?, ?, ?, ?)",
-              [Producto_idProducto, nomProducto, PrecioCompra, descripcionProducto, fechaVencimiento, CantidadProductos, categoria_idCategorias]
-            );
-          } else {
-            // Actualizar la cantidad existente y la fecha de vencimiento del producto
-            await conexion.query(
-              "UPDATE producto SET cantidadExistente = cantidadExistente + ?, fechaVencimiento = ? WHERE idProducto = ?",
-              [CantidadProductos, fechaVencimiento, Producto_idProducto]
-            );
-          }
-  
-          // Insertar en facturadetalle
+          // Llamar al procedimiento almacenado InsertarFacturaDetalle
           await conexion.query(
-            "INSERT INTO facturadetalle (FacturaCompra_idFacturaCompra, Producto_idProducto, CantidadProductos, PrecioCompra, nomProducto, descripcionProducto, fechaVencimiento, categoria_idCategorias) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-            [FacturaCompra_idFacturaCompra, Producto_idProducto, CantidadProductos, PrecioCompra, nomProducto, descripcionProducto, fechaVencimiento, categoria_idCategorias]
+            'CALL InsertarFacturaDetalle(?, ?, ?, ?, ?, ?, ?, ?, ?)',
+            [
+              FacturaCompra_idFacturaCompra,
+              Producto_idProducto,
+              CantidadProductos,
+              PrecioCompra,
+              nomProducto,
+              descripcionProducto,
+              fechaVencimiento,
+              categoria_idCategorias,
+              Persona_idPersona
+            ]
           );
   
-          // Insertar en gestionproducto
-          await conexion.query(
-            "INSERT INTO gestionproducto (Persona_idPersona, Producto_idProducto, Estado) VALUES (?, ?, ?)",
-            [Persona_idPersona, Producto_idProducto, 'Añadido']
-          );
-  
-          console.log("Detalle de factura agregado:", producto);
+          console.log('Detalle de factura agregado:', producto);
         }
   
         // Confirmar la transacción
