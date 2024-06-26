@@ -1,7 +1,7 @@
-// index.js
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const conexion = require('./conexion');
 const aler = require('./alertas');
 const categoria = require('./categoria');
 const contrato = require('./contrato');
@@ -25,13 +25,16 @@ const userRoutes = require('./routes/user'); // Importa rutas de usuario
 
 const app = express();
 const PORT = process.env.PORT || 5200;
-const conexion = require('./conexion');
 
+// Middleware para manejar CORS
 app.use(cors({
-  origin: 'https://siap-tf6o.onrender.com', // Cambia este valor si tu frontend corre en otro puerto
-  optionsSuccessStatus: 200
-}
-));
+  origin: ['https://siap-tf6o.onrender.com', 'https://siap-p.web.app'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  optionsSuccessStatus: 200 // Algunos navegadores antiguos (IE11) interpretan mal los códigos de éxito de CORS, por lo que es mejor especificar explícitamente 200
+}));
+
+// Middleware para parsear JSON
 app.use(bodyParser.json());
 
 // Conectar a la base de datos
