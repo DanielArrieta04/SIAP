@@ -53,12 +53,6 @@
         <form (ngSubmit)="onSubmit()" #ordendesalidaForm="ngForm">
           <fieldset class="form-group">
             <div class="col-sm-12">
-              <label class="control-label" for="nombre">ID</label>
-              <input type="number" class="form-control" required [(ngModel)]="ordenDeSalida.idordenDeSalida" name="fechaSalida">
-            </div>
-          </fieldset>
-          <fieldset class="form-group">
-            <div class="col-sm-12">
               <label class="control-label" for="nombre">Fecha Salida</label>
               <input type="date" class="form-control" required [(ngModel)]="ordenDeSalida.fechaSalida" name="fechaSalida">
             </div>

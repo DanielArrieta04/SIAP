@@ -9,7 +9,7 @@ import { DevolucionDetalladaModel } from './devoluciondetallada.model';
 })
 export class DevolucionDetalladaService {
 
-  BASE_URL = "https://siap-tf6o.onrender.com";
+  BASE_URL = 'https://siap-tf6o.onrender.com';
 
   constructor(private http: HttpClient) { }
 
@@ -21,14 +21,14 @@ export class DevolucionDetalladaService {
   }
 
   obtenerDevolucionDetalladaPorId(id: string): Observable<DevolucionDetalladaModel[]> {
-    return this.http.get<DevolucionDetalladaModel[]>(`${this.BASE_URL}/devoluciondetalladaID/${id}`)
+    return this.http.get<DevolucionDetalladaModel[]>(`${this.BASE_URL}/devoluciondetallada/${id}`)
       .pipe(
         catchError(this.handleError)
       );
   }
 
   agregarDevolucionDetallada(devoluciondetallada: DevolucionDetalladaModel): Observable<any> {
-    return this.http.post<any>(`${this.BASE_URL}/devoluciondetalladaAG`, devoluciondetallada)
+    return this.http.post<any>(`${this.BASE_URL}/devoluciondetallada/agregar`, devoluciondetallada)
       .pipe(
         catchError(this.handleError)
       );
@@ -36,14 +36,14 @@ export class DevolucionDetalladaService {
 
   actualizarDevolucionDetallada(devoluciondetallada: DevolucionDetalladaModel): Observable<any> {
     const id = devoluciondetallada.Producto_idProducto; 
-    return this.http.put<any>(`${this.BASE_URL}/devoluciondetalladaAc/${id}`, devoluciondetallada)
+    return this.http.put<any>(`${this.BASE_URL}/devoluciondetallada/editar/${id}`, devoluciondetallada)
       .pipe(
         catchError(this.handleError)
       );
   }
 
   borrarDevolucionDetallada(id: string): Observable<any> {
-    return this.http.delete<any>(`${this.BASE_URL}/devoluciondetalladaEl/${id}`)
+    return this.http.delete<any>(`${this.BASE_URL}/devoluciondetallada/borrar/${id}`)
       .pipe(
         catchError(this.handleError)
       );

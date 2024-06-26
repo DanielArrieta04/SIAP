@@ -1,6 +1,8 @@
 const moduleName = "facturadetalle";
 const conexion = require('./conexion');
-function RegisterFacturaDetalle(app){
+const mysql = require('mysql2/promise');
+
+async function RegisterFacturaDetalle(app){
 
     app.get(`/${moduleName}`, (_req, res, next) => {
         const query = `SELECT * FROM ${moduleName};`
@@ -18,7 +20,7 @@ function RegisterFacturaDetalle(app){
 
 app.get(`/${moduleName}/:id`, (req, res, next) => {
     const id = req.params.id;
-    const query = `SELECT * FROM ${moduleName} WHERE FacturaCompra_idFacturaCompra=?`;
+    const query = `SELECT * FROM ${moduleName} WHERE Producto_idProducto=?`;
     conexion.query(query, [id], (error, resultado) =>{
         if(error) {
             return next(error); 
@@ -32,8 +34,8 @@ app.get(`/${moduleName}/:id`, (req, res, next) => {
 });
 
     
-app.post(`/${moduleName}/agregar`, (req, res, next) => {
-    console.log('Solicitud POST recibida en /facturadetalleAG');
+app.post(`/${moduleName}/agregar`, async (req, res) => {
+    console.log('Solicitud POST recibida en /facturadetalle/agregar');
     const productos = req.body.productos;
     console.log('Datos recibidos en el servidor:', productos);
 
@@ -41,14 +43,21 @@ app.post(`/${moduleName}/agregar`, (req, res, next) => {
         return res.status(400).json({ error: 'El cuerpo de la solicitud debe contener un arreglo de productos' });
     }
 
-    conexion.beginTransaction(err => {
-        if (err) {
-            console.error('Error al iniciar la transacción:', err);
-            return res.status(500).json({ error: 'Error al iniciar la transacción' });
-        }
+    let conexion;
 
-        productos.forEach(producto => {
-            const sql = "CALL InsertarFacturaDetalle(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    try {
+        // Conexión a la base de datos con soporte para promesas
+        conexion = await mysql.createConnection({
+            host: 'localhost',
+            user: 'root',
+            password: '04120413',
+            database: 'siap'
+        });
+
+        // Iniciar la transacción
+        await conexion.beginTransaction();
+
+        for (const producto of productos) {
             const {
                 FacturaCompra_idFacturaCompra,
                 Producto_idProducto,
@@ -61,64 +70,86 @@ app.post(`/${moduleName}/agregar`, (req, res, next) => {
                 Persona_idPersona
             } = producto;
 
-            if (typeof Persona_idPersona === 'undefined' || Persona_idPersona === null) {
-                conexion.rollback(() => {
-                    return res.status(400).json({ error: 'Persona_idPersona es requerido' });
-                });
-                return;
-            }
+            // Verificar si el producto existe en la base de datos
+            const [rows] = await conexion.query(
+                "SELECT COUNT(*) AS count FROM producto WHERE idProducto = ?",
+                [Producto_idProducto]
+            );
 
-            conexion.query(sql, [
-                FacturaCompra_idFacturaCompra,
-                Producto_idProducto,
-                CantidadProductos,
-                PrecioCompra,
-                nomProducto,
-                descripcionProducto,
-                fechaVencimiento,
-                categoria_idCategorias,
-                Persona_idPersona
-            ], (err, result) => {
-                if (err) {
-                    conexion.rollback(() => {
-                        console.error("Error al insertar detalle de factura:", err);
-                        return res.status(500).json({ error: 'Error al insertar detalle de factura' });
-                    });
-                } else {
-                    console.log("Detalle de factura agregado:", producto);
-                }
-            });
-        });
+            const count = rows[0].count;
 
-        conexion.commit(err => {
-            if (err) {
-                conexion.rollback(() => {
-                    console.error('Error al hacer commit de la transacción:', err);
-                    return res.status(500).json({ error: 'Error al hacer commit de la transacción' });
-                });
+            if (count === 0) {
+                // Insertar el producto si no existe
+                await conexion.query(
+                    "INSERT INTO producto (idProducto, nomProducto, precioProducto, descripcionProducto, fechaVencimiento, cantidadExistente, categoria_idCategorias) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                    [Producto_idProducto, nomProducto, PrecioCompra, descripcionProducto, fechaVencimiento, CantidadProductos, categoria_idCategorias]
+                );
             } else {
-                res.status(201).json({ message: 'Productos agregados exitosamente' });
+                // Actualizar la cantidad existente y la fecha de vencimiento del producto
+                await conexion.query(
+                    "UPDATE producto SET cantidadExistente = cantidadExistente + ?, fechaVencimiento = ? WHERE idProducto = ?",
+                    [CantidadProductos, fechaVencimiento, Producto_idProducto]
+                );
             }
-        });
-    });
+
+            // Insertar en facturadetalle
+            await conexion.query(
+                "INSERT INTO facturadetalle (FacturaCompra_idFacturaCompra, Producto_idProducto, CantidadProductos, PrecioCompra, nomProducto, descripcionProducto, fechaVencimiento, categoria_idCategorias) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                [FacturaCompra_idFacturaCompra, Producto_idProducto, CantidadProductos, PrecioCompra, nomProducto, descripcionProducto, fechaVencimiento, categoria_idCategorias]
+            );
+
+            // Insertar en gestionproducto
+            await conexion.query(
+                "INSERT INTO gestionproducto (Persona_idPersona, Producto_idProducto, Estado) VALUES (?, ?, ?)",
+                [Persona_idPersona, Producto_idProducto, 'Añadido']
+            );
+
+            console.log("Detalle de factura agregado:", producto);
+        }
+
+        // Confirmar la transacción
+        await conexion.commit();
+        console.log('Transacción completada con éxito.');
+        res.status(201).json({ message: 'Detalle de factura(s) agregado(s) correctamente' });
+    } catch (err) {
+        // Manejar el error y hacer rollback
+        console.error('Error durante la transacción:', err);
+        if (conexion) {
+            await conexion.rollback();
+        }
+        res.status(500).json({ error: 'Error al procesar la transacción' });
+    } finally {
+        // Cerrar la conexión
+        if (conexion) {
+            conexion.close();
+        }
+    }
 });
+
+
+
+
+
 
 app.delete(`/${moduleName}/borrar/:id`, (req, res, next) => {
-    const id=request.params.id;
-    conexion.query(`DELETE FROM ${moduleName} WHERE FacturaCompra_idFacturaCompra=?`,
-    [id],
-    (error,results) =>{
-        if(error)
-        throw error;
-    response.status(201).json({"item eliminado":results.affectedRows});
+    const id = req.params.id; // Usando req.params.id para obtener el ID del producto a eliminar
+    const sql = `DELETE FROM ${moduleName} WHERE Producto_idProducto = ?`; // Utilizando el parámetro adecuadamente
+
+    conexion.query(sql, [id], (error, results) => {
+        if (error) {
+            console.error("Error al borrar producto:", error);
+            return res.status(500).json({ error: "Error interno del servidor" });
+        }
+
+        console.log("Producto eliminado:", id);
+        res.status(200).json({ "Producto eliminado": results.affectedRows });
     });
 });
+
 
 app.put(`/${moduleName}/editar/:id`, (req, res, next) => {
     const id = req.params.id;
     const {
-        FacturaCompra_idFacturaCompra,
-        Producto_idProducto,
         CantidadProductos,
         PrecioCompra,
         nomProducto,
@@ -131,8 +162,7 @@ app.put(`/${moduleName}/editar/:id`, (req, res, next) => {
 
     conexion.query(sql, [
         id,
-        FacturaCompra_idFacturaCompra,
-        Producto_idProducto,
+        req.body.Producto_idProducto, // Usar req.body.Producto_idProducto aquí
         CantidadProductos,
         PrecioCompra,
         nomProducto,
@@ -148,6 +178,8 @@ app.put(`/${moduleName}/editar/:id`, (req, res, next) => {
         res.status(200).json({ "Datos actualizados": result.affectedRows, "id": id });
     });
 });
+
+
 }
 
 module.exports = {RegisterFacturaDetalle};

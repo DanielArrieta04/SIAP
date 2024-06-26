@@ -48,26 +48,36 @@ app.post(`/${moduleName}/agregar`, (req, res, next) => {
 
 
 app.delete(`/${moduleName}/borrar/:id`, (req, res, next) => {
-    const id=request.params.id;
-    conexion.query(`DELETE FROM ${moduleName} WHERE idProveedor=?`,
-    [id],
-    (error,results) =>{
-        if(error)
-        throw error;
-    response.status(201).json({"item eliminado":results.affectedRows});
+    const id = req.params.id;
+    conexion.query(`DELETE FROM ${moduleName} WHERE idProveedor = ?`, [id], (error, results) => {
+        if (error) {
+            console.error('Error al ejecutar la consulta:', error);
+            return res.status(500).json({ error: 'Error al procesar la solicitud' });
+        }
+        res.status(200).json({ "item eliminado": results.affectedRows });
     });
 });
 
+
 app.put(`/${moduleName}/editar/:id`, (req, res, next) => {
     const id = req.params.id;
-    const { NombreEmpresa} = req.body;
+    const { NombreEmpresa } = req.body;
     const sql = `UPDATE ${moduleName} SET NombreEmpresa = ? WHERE idProveedor = ?`;
-    conexion.query(sql,[ NombreEmpresa,id],
-        (error,res)=>{
-            if(error)
-            throw error;
-        _res.status(201).json({"Datos actualizados: ":res.affectedRows, "id:":id,})
-        })
-})
+    
+    conexion.query(sql, [NombreEmpresa, id], (error, result) => {
+        if (error) {
+            console.error('Error al ejecutar la consulta:', error);
+            return res.status(500).json({ error: 'Error al procesar la solicitud' });
+        }
+        
+        // Si llegamos aquí, significa que la actualización fue exitosa
+        res.status(200).json({
+            message: 'Datos actualizados correctamente',
+            affectedRows: result.affectedRows,
+            id: id
+        });
+    });
+});
+
 }
 module.exports = {RegisterProveedor};

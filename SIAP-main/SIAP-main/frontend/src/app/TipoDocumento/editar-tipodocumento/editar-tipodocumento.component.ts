@@ -82,7 +82,7 @@ export class EditarTipoDocumentoComponent implements OnInit {
             timer: 1500
           });
           console.log('Redirigiendo a /tipodocumento');
-          this.router.navigate(['/rotipodocumentol']); 
+          this.router.navigate(['/tipodocumento']); 
         },
         error => {
           console.log('Error al crear el tipodocumento:', error);

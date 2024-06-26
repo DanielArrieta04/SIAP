@@ -21,14 +21,14 @@ export class CategoriaService {
   }
 
   obtenerCategoriaPorId(id: string): Observable<CategoriaModel[]> {
-    return this.http.get<CategoriaModel[]>(`${this.BASE_URL}/categoriaID/${id}`)
+    return this.http.get<CategoriaModel[]>(`${this.BASE_URL}/categoria/${id}`)
       .pipe(
         catchError(this.handleError)
       );
   }
 
   agregarCategoria(categoria: CategoriaModel): Observable<any> {
-    return this.http.post<any>(`${this.BASE_URL}/categoriaAG`, categoria)
+    return this.http.post<any>(`${this.BASE_URL}/categoria/agregar`, categoria)
       .pipe(
         catchError(this.handleError)
       );
@@ -36,14 +36,14 @@ export class CategoriaService {
 
   actualizarCategoria(categoria: CategoriaModel): Observable<any> {
     const id = categoria.idCategorias;
-    return this.http.put<any>(`${this.BASE_URL}/categoriaAc/${id}`, categoria)
+    return this.http.put<any>(`${this.BASE_URL}/categoria/editar/${id}`, categoria)
       .pipe(
         catchError(this.handleError)
       );
   }
 
   borrarCategoria(id: string): Observable<any> {
-    return this.http.delete<any>(`${this.BASE_URL}/categoriaEl/${id}`)
+    return this.http.delete<any>(`${this.BASE_URL}/categoria/borrar/${id}`)
       .pipe(
         catchError(this.handleError)
       );

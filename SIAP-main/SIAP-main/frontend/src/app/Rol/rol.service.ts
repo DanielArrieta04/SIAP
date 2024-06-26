@@ -9,7 +9,7 @@ import { RolModel } from './rol.model';
 })
 export class RolService {
 
-  BASE_URL = "https://siap-tf6o.onrender.com";
+  BASE_URL = 'https://siap-tf6o.onrender.com';
 
   constructor(private http: HttpClient) { }
 
@@ -21,14 +21,14 @@ export class RolService {
   }
 
   obtenerRolPorId(id: string): Observable<RolModel[]> {
-    return this.http.get<RolModel[]>(`${this.BASE_URL}/rolID/${id}`)
+    return this.http.get<RolModel[]>(`${this.BASE_URL}/rol/${id}`)
       .pipe(
         catchError(this.handleError)
       );
   }
 
   agregarRol(rol: RolModel): Observable<any> {
-    return this.http.post<any>(`${this.BASE_URL}/rolAG`, rol)
+    return this.http.post<any>(`${this.BASE_URL}/rol/agregar`, rol)
       .pipe(
         catchError(this.handleError)
       );
@@ -36,14 +36,14 @@ export class RolService {
 
   actualizarRol(rol: RolModel): Observable<any> {
     const id = rol.idRol;
-    return this.http.put<any>(`${this.BASE_URL}/rolAc/${id}`, rol)
+    return this.http.put<any>(`${this.BASE_URL}/rol/editar/${id}`, rol)
       .pipe(
         catchError(this.handleError)
       );
   }
 
   borrarRol(id: string): Observable<any> {
-    return this.http.delete<any>(`${this.BASE_URL}/rolEl/${id}`)
+    return this.http.delete<any>(`${this.BASE_URL}/rol/borrar/${id}`)
       .pipe(
         catchError(this.handleError)
       );

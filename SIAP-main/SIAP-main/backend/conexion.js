@@ -4,7 +4,7 @@ const conexion = mysql.createConnection({
   host:'bdsiap.mysql.database.azure.com',
   database:'bdsiap',
   user:'siapadmin',
-  password:'Pollitos123456.'
+  password:'pollitoS123456.'
 });
 
 conexion.connect((error) => {

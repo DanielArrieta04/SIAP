@@ -9,7 +9,7 @@ import { OrdenDeSalidaDetalladaModel } from './ordendesalidadetallada.model';
 })
 export class OrdenDeSalidaDetalladaService {
 
-  BASE_URL = "https://siap-tf6o.onrender.com";
+  BASE_URL = 'https://siap-tf6o.onrender.com';
 
   constructor(private http: HttpClient) { }
 
@@ -21,14 +21,14 @@ export class OrdenDeSalidaDetalladaService {
   }
 
   obtenerOrdenDeSalidaDetalladaPorId(id: string): Observable<OrdenDeSalidaDetalladaModel[]> {
-    return this.http.get<OrdenDeSalidaDetalladaModel[]>(`${this.BASE_URL}/ordenDeSalidaDetalladaID/${id}`)
+    return this.http.get<OrdenDeSalidaDetalladaModel[]>(`${this.BASE_URL}/ordenDeSalidaDetallada/${id}`)
       .pipe(
         catchError(this.handleError)
       );
   }
 
   agregarOrdenDeSalidaDetallada(Producto_idProducto: string, ordenDeSalida_idordenDeSalida: string, Cantidad: string): Observable<any> {
-    const url = `${this.BASE_URL}/ordenDeSalidaDetalladaAG`; // Ajusta la URL de acuerdo a tu backend
+    const url = `${this.BASE_URL}/ordenDeSalidaDetallada/agregar`; // Ajusta la URL de acuerdo a tu backend
     const body = {
       Producto_idProducto: Producto_idProducto,
       ordenDeSalida_idordenDeSalida: ordenDeSalida_idordenDeSalida,
@@ -40,14 +40,14 @@ export class OrdenDeSalidaDetalladaService {
 
   actualizarOrdenDeSalidaDetallada(ordenDeSalidaDetallada: OrdenDeSalidaDetalladaModel): Observable<any> {
     const id = ordenDeSalidaDetallada.Producto_idProducto;
-    return this.http.put<any>(`${this.BASE_URL}/ordenDeSalidaDetalladaAc/${id}`, ordenDeSalidaDetallada)
+    return this.http.put<any>(`${this.BASE_URL}/ordenDeSalidaDetallada/editar/${id}`, ordenDeSalidaDetallada)
       .pipe(
         catchError(this.handleError)
       );
   }
 
   borrarOrdenDeSalidaDetallada(id: string): Observable<any> {
-    return this.http.delete<any>(`${this.BASE_URL}/ordenDeSalidaDetalladaEl/${id}`)
+    return this.http.delete<any>(`${this.BASE_URL}/ordenDeSalidaDetallada/borrar/${id}`)
       .pipe(
         catchError(this.handleError)
       );

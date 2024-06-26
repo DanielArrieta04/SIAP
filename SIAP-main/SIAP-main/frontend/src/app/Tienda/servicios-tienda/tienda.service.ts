@@ -21,7 +21,7 @@ export class TiendaService {
   }
 
   obtenerTiendaPorId(id: string): Observable<TiendaModel[]> {
-    return this.http.get<TiendaModel[]>(`${this.BASE_URL}/${id}`)
+    return this.http.get<TiendaModel[]>(`${this.BASE_URL}/tienda/${id}`)
       .pipe(
         catchError(this.handleError)
       );
@@ -35,7 +35,7 @@ export class TiendaService {
   }
 
   actualizarTienda(tienda: TiendaModel): Observable<any> {
-    const id = tienda.idTienda; // Ajustar según el nombre del campo de ID en tu modelo TiendaModel
+    const id = tienda.idTienda; 
     return this.http.put<any>(`${this.BASE_URL}/tienda/editar/${id}`, tienda)
       .pipe(
         catchError(this.handleError)

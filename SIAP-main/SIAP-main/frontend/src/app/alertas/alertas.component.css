@@ -1,194 +1,200 @@
+/* Contenedor principal */
 .container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin-left: 200px; /* Ajustar el margen según el ancho de la barra lateral */
 }
 
 .formulario {
-    max-width: 800px;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
+  max-width: 800px;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  margin-left: 200px; /* Ajustar el margen según el ancho de la barra lateral */
 }
 
 .formulario h2 {
-    font-size: 1.5rem;
-    margin-bottom: 20px;
+  font-size: 1.5rem;
+  margin-bottom: 20px;
 }
 
 .formulario table {
-    width: 100%;
-    border-collapse: collapse;
+  width: 100%;
+  border-collapse: collapse;
 }
 
 .formulario th, .formulario td {
-    padding: 8px;
-    border-bottom: 1px solid #ddd;
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
 }
 
 .formulario th {
-    background-color: #f2f2f2;
-    text-align: left;
+  background-color: #f2f2f2;
+  text-align: left;
 }
 
 .formulario p {
-    color: #666;
-    font-size: 1rem;
+  color: #666;
+  font-size: 1rem;
 }
 
-
 /* Estilos para la barra lateral */
-/* Estilos para el menu */
 .sidebar {
-    background-color: #3498db; /* Color azul */
-    color: white; /* Texto blanco para contraste */
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    width: 183px; /* Ancho deseado */
-    padding: 20px;
-    border-radius: 0;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); 
-  }
-  
-  
-  
-  
-  ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  li {
-    margin-bottom: 10px;
-  }
-  
-  .barra-superior a {
-    text-decoration: none;
-    color: white; /* Texto blanco */
-    display: block;
-    padding: 8px;
-    border-radius: 5px;
-    transition: background-color 0.3s;
-  }
-  
-  a:hover {
-    background-color: rgba(255, 255, 255, 0.1); /* Transparencia al pasar el ratón */
-  }
-  
-  ul ul {
-    display: none;
-    margin-left: 10px;
-    border-left: 2px solid #ccc;
-  }
-  
-  li:hover ul {
-    display: block;
-  }
-    /* fin del estidlo para el menu */
-  
-  
-  
-  
-  
-  
-    .barra-superior {
-      background-color: white; /* Color de fondo blanco */
-      color: #333; /* Color del texto */
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Sombra abajo */
-      position: fixed; /* Barra fija en la parte superior */
-      top: 0; /* Pegada arriba */
-      left: 0;
-      width: 100%; /* Ancho completo */
-      padding: 10px 20px; /* Espaciado interno */
-      display: flex;
-      justify-content: flex-end; /* Alinea los botones al extremo derecho */
-    }
-    
-    .boton-casita,
-    .boton-user {
-      background: none;
-      border: none;
-      color: #333; /* Color del icono */
-      font-size: 1.5em; /* Tamaño del icono */
-      margin-left: 10px; /* Espacio entre botones */
-    }
-    
-    .boton-casita:hover,
-    .boton-user:hover {
-      cursor: pointer;
-      opacity: 0.8;
-    }
-  
-  /* styles.css o styles.scss */
-  .bienvenido-container {
-      background-color: #ffffff; /* Azul claro */
-      color: #333; /* Color de texto oscuro */
-      padding: 20px;
-      margin: 0 auto;
-      max-width: 800px; /* Ancho máximo de la página */
-    }
-    
-  
-  /* Estilos por defecto del icono */
-  /* Estilos por defecto del icono */
-  /* Estilos por defecto del icono */
-  
-  .boton-prueba:hover {
-    cursor: pointer;
-    opacity: 0.8;
-  }
-  
-  .fa-bell {
-    position: relative;
-    background-color: rgb(255, 255, 255);
-    border-color: #ffffff;
-    padding: 3px;
-  }
-  
-  
-  
-  
-  .boton-prueba{
-    background-color: rgb(255, 255, 255);
-    border-color: rgb(255, 255, 255);
-    margin-left: 10px;
-    font-size: 1.5em;
-    
-  }
-  
-  /* Estilos cuando hay alertas */
-  .alerta {
-    color: rgb(202, 0, 0); /* Cambia el color del icono cuando hay alertas */
-  }
-  
-  /* Estilos cuando no hay alertas */
-  .no-alerta {
-    color: rgb(0, 0, 0); /* Cambia el color del icono cuando no hay alertas */
-  }
-  
-  .contador-alertas {
-    position: relative;
-    top: -10px; /* Ajusta según sea necesario */
-    right: -8px; /* Ajusta según sea necesario */
-    background-color: red;
-    color: rgb(255, 255, 255);
-    border-radius: 50%;
-    padding: 3px 5px; /* Ajusta el padding para hacerlo más pequeño */
-    font-size: 0.7em; /* Tamaño de fuente más pequeño */
-    
-  }
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-   
+  background-color: #3498db;
+  color: white;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 183px;
+  padding: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.sidebar ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.sidebar li {
+  margin-bottom: 10px;
+}
+
+.sidebar a {
+  text-decoration: none;
+  color: white;
+  display: block;
+  padding: 8px;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.sidebar a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar ul ul {
+  display: none;
+  margin-left: 10px;
+  border-left: 2px solid #ccc;
+}
+
+.sidebar li:hover ul {
+  display: block;
+}
+
+/* Barra superior */
+.barra-superior {
+  background-color: white;
+  color: #333;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: flex-end;
+  z-index: 1000; /* Asegura que la barra superior esté por encima de otros elementos */
+}
+
+.boton-casita,
+.boton-user {
+  background: none;
+  border: none;
+  color: #333;
+  font-size: 1.5em;
+  margin-left: 10px;
+}
+
+.boton-casita:hover,
+.boton-user:hover {
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+/* Estilos del icono de alerta */
+.boton-prueba {
+  background-color: rgb(255, 255, 255);
+  border-color: rgb(255, 255, 255);
+  margin-left: 10px;
+  font-size: 1.5em;
+}
+
+.boton-prueba:hover {
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+.fa-bell {
+  position: relative;
+  background-color: rgb(255, 255, 255);
+  border-color: #ffffff;
+  padding: 3px;
+}
+
+.alerta {
+  color: rgb(202, 0, 0);
+}
+
+.no-alerta {
+  color: rgb(0, 0, 0);
+}
+
+.contador-alertas {
+  position: relative;
+  top: -10px;
+  right: -8px;
+  background-color: red;
+  color: rgb(255, 255, 255);
+  border-radius: 50%;
+  padding: 3px 5px;
+  font-size: 0.7em;
+}
+
+/* Estilos para el contenedor de alertas */
+.alertas-container {
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  margin-left: 200px; /* Ajustar el margen según el ancho de la barra lateral */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra para dar profundidad */
+  max-width: calc(100% - 220px); /* Asegura que no se desborde fuera del contenedor visible */
+}
+
+.alertas-container h2 {
+  color: #ff5722;
+  font-size: 1.5em;
+  margin-bottom: 10px;
+  border-bottom: 2px solid #ff5722;
+  padding-bottom: 5px;
+}
+
+.alertas-container ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.alert-item {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.alert-item strong {
+  color: #333;
+}
+
+.no-alertas {
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fff3cd;
+  color: #856404;
+}

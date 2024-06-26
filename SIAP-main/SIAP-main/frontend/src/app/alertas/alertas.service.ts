@@ -7,14 +7,14 @@ import { catchError } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class AlertasService {
-  private apiUrl = 'https://siap-tf6o.onrender.com'; // URL base para las alertas
+  BASE_URL = 'https://siap-tf6o.onrender.com';
   private alertas: any = {}; // Variable local para almacenar las alertas
 
   constructor(private http: HttpClient) {}
 
   // Método para obtener todas las alertas disponibles y alertas bajo stock
   obtenerAlertas(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}`).pipe(
+    return this.http.get<any>(`${this.BASE_URL}`).pipe(
       catchError(this.handleError)
     );
   }

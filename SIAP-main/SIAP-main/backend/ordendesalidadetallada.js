@@ -96,13 +96,16 @@ app.put(`/${moduleName}/editar/:id`, (req, res, next) => {
 });
 
 app.delete(`/${moduleName}/borrar/:id`, (req, res, next) => {
-    const id = request.params.id;
-    conexion.query(`DELETE FROM ${moduleName} WHERE Producto_idProducto=?`,
-    [id],
-    (error, results) =>{
-        if(error) throw error;
-        response.status(201).json({"item eliminado":results.affectedRows});
-    });
+    const id = req.params.id; // Usar req.params.id para obtener el ID del parámetro de la ruta
+    conexion.query(`DELETE FROM ${moduleName} WHERE Producto_idProducto = ?`,
+        [id],
+        (error, results) => {
+            if (error) {
+                console.error("Error al borrar el detalle de orden de salida:", error);
+                return res.status(500).json({ error: "Error interno del servidor" });
+            }
+            res.status(201).json({ "item eliminado": results.affectedRows });
+        });
 });
 }
 module.exports = {RegisterOrdenDeSalidaDetallada};

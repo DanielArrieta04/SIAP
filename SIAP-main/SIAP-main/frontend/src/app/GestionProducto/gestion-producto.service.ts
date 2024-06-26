@@ -9,7 +9,7 @@ import { GestionProductoModel } from './gestionproducto.model';
 })
 export class GestionProductoService {
 
-  BASE_URL = "hhttps://siap-tf6o.onrender.com";
+  BASE_URL = 'https://siap-tf6o.onrender.com';
 
   constructor(private http: HttpClient) { }
 
@@ -21,14 +21,14 @@ export class GestionProductoService {
   }
 
   obtenerGestionProductoPorId(id: string): Observable<GestionProductoModel[]> {
-    return this.http.get<GestionProductoModel[]>(`${this.BASE_URL}/gestionproductoID/${id}`)
+    return this.http.get<GestionProductoModel[]>(`${this.BASE_URL}/gestionproducto/${id}`)
       .pipe(
         catchError(this.handleError)
       );
   }
 
   agregarGestionProducto(gestionproducto: GestionProductoModel): Observable<any> {
-    return this.http.post<any>(`${this.BASE_URL}/gestionproductoAG`, gestionproducto)
+    return this.http.post<any>(`${this.BASE_URL}/gestionproducto/agregar`, gestionproducto)
       .pipe(
         catchError(this.handleError)
       );
@@ -36,7 +36,7 @@ export class GestionProductoService {
 
   actualizarGestionProducto(gestionproducto: GestionProductoModel): Observable<any> {
     const id = gestionproducto.Producto_idProducto; // Asumiendo que el ID está en idFacturaCompra
-    return this.http.put<any>(`${this.BASE_URL}/gestionproductoAc/${id}`, gestionproducto)
+    return this.http.put<any>(`${this.BASE_URL}/gestionproducto/editar/${id}`, gestionproducto)
       .pipe(
         catchError(this.handleError)
       );
@@ -44,7 +44,7 @@ export class GestionProductoService {
   
 
   borrarGestionProducto(id: string): Observable<any> {
-    return this.http.delete<any>(`${this.BASE_URL}/gestionproductoEl/${id}`)
+    return this.http.delete<any>(`${this.BASE_URL}/gestionproducto/borrar/${id}`)
       .pipe(
         catchError(this.handleError)
       );

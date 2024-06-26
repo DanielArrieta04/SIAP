@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { AlertasService } from './alertas.service';
 
 @Component({
@@ -9,7 +9,7 @@ import { AlertasService } from './alertas.service';
 export class AlertasComponent implements OnInit {
   alertas: any = {}; // Objeto para almacenar las alertas recibidas del servicio
 
-  constructor(private alertasService: AlertasService) {}
+  constructor(private alertasService: AlertasService, private cd: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.obtenerAlertas();
@@ -18,8 +18,10 @@ export class AlertasComponent implements OnInit {
   obtenerAlertas(): void {
     this.alertasService.obtenerAlertas().subscribe(
       (data) => {
+        console.log('Datos recibidos del servicio:', data); // Verificar datos recibidos
         this.alertas = data;
         this.alertasService.actualizarAlertas(data); // Actualizar alertas en el servicio
+        this.cd.detectChanges(); // Forzar la detección de cambios
         console.log('Alertas actualizadas en el componente:', this.alertas);
       },
       (error) => {
@@ -29,10 +31,16 @@ export class AlertasComponent implements OnInit {
   }
 
   hayAlertas(): boolean {
-    return this.alertasService.hayAlertas();
+    return (
+      this.alertas &&
+      (
+        (this.alertas.proximosAVencer && this.alertas.proximosAVencer.length > 0) ||
+        (this.alertas.bajoStock && this.alertas.bajoStock.length > 0)
+      )
+    );
   }
 
   getAlertas(): any {
-    return this.alertasService.getAlertas();
+    return this.alertas;
   }
 }

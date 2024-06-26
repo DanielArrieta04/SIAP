@@ -9,7 +9,7 @@ import { PersonaModel } from './persona.model';
 })
 export class PersonaService {
 
-  BASE_URL = "https://siap-tf6o.onrender.com";
+  BASE_URL = 'https://siap-tf6o.onrender.com';
 
   constructor(private http: HttpClient) { }
 
@@ -21,14 +21,14 @@ export class PersonaService {
   }
 
   obtenerPersonaPorId(id: string): Observable<PersonaModel[]> {
-    return this.http.get<PersonaModel[]>(`${this.BASE_URL}/personaID/${id}`)
+    return this.http.get<PersonaModel[]>(`${this.BASE_URL}/persona/${id}`)
       .pipe(
         catchError(this.handleError)
       );
   }
 
   agregarPersona(persona: PersonaModel): Observable<any> {
-    return this.http.post<any>(`${this.BASE_URL}/personaAG`, persona)
+    return this.http.post<any>(`${this.BASE_URL}/persona/agregar`, persona)
       .pipe(
         catchError(this.handleError)
       );
@@ -36,14 +36,14 @@ export class PersonaService {
 
   actualizarPersona(persona: PersonaModel): Observable<any> {
     const id = persona.idPersona;
-    return this.http.put<any>(`${this.BASE_URL}/personaAc/${id}`, persona)
+    return this.http.put<any>(`${this.BASE_URL}/persona/editar/${id}`, persona)
       .pipe(
         catchError(this.handleError)
       );
   }
 
   borrarPersona(id: string): Observable<any> {
-    return this.http.delete<any>(`${this.BASE_URL}/personaEl/${id}`)
+    return this.http.delete<any>(`${this.BASE_URL}/persona/borrar/${id}`)
       .pipe(
         catchError(this.handleError)
       );

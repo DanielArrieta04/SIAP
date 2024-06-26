@@ -31,41 +31,57 @@ app.get(`/${moduleName}/:id`, (req, res, next) => {
 });
 
 app.post(`/${moduleName}/agregar`, (req, res, next) => {
-    const {fechaSalida, tienda_idTienda} = req.body;
-    conexion.query(`INSERT INTO ${moduleName} (fechaSalida, tienda_idTienda) VALUES (?,?)`,
+    const { fechaSalida, tienda_idTienda } = req.body;
+
+    // Validación de los datos recibidos
+    if (!fechaSalida || !tienda_idTienda) {
+        return res.status(400).json({ error: "Los campos fechaSalida y tienda_idTienda son obligatorios" });
+    }
+
+    // Ejecución de la consulta SQL para inserción
+    conexion.query(`INSERT INTO ${moduleName} (fechaSalida, tienda_idTienda) VALUES (?, ?)`,
         [fechaSalida, tienda_idTienda],
         (err, result) => {
             if (err) {
-                throw err;
+                console.error("Error al añadir item:", err);
+                return res.status(500).json({ error: "Error interno del servidor" });
             }
-            console.log(req.body);
+
+            console.log("Item añadido:", result.insertId); // Muestra el ID del nuevo registro insertado
             res.status(201).json({ "Item añadido": result.affectedRows });
-            return;
         });
 });
 
 
+
 app.delete(`/${moduleName}/borrar/:id`, (req, res, next) => {
-    const id=request.params.id;
-    conexion.query(`DELETE FROM ${moduleName} WHERE idordenDeSalida=?`,
-    [id],
-    (error,results) =>{
-        if(error)
-        throw error;
-    response.status(201).json({"item eliminado":results.affectedRows});
-    });
+    const id = req.params.id;
+    conexion.query(`DELETE FROM ${moduleName} WHERE idordenDeSalida = ?`,
+        [id],
+        (error, results) => {
+            if (error) {
+                console.error("Error al borrar ordenDeSalida:", error);
+                return res.status(500).json({ error: "Error interno del servidor" });
+            }
+
+            console.log("Orden de salida eliminada:", id);
+            res.status(200).json({ "Item eliminado": results.affectedRows });
+        });
 });
 
 app.put(`/${moduleName}/editar/:id`, (req, res, next) => {
     const id = req.params.id;
-    const {fechaSalida, tienda_idTienda} = req.body;
+    const { fechaSalida, tienda_idTienda } = req.body;
     const sql = `UPDATE ${moduleName} SET fechaSalida = ?, tienda_idTienda = ? WHERE idordenDeSalida = ?`;
-    conexion.query(sql,[fechaSalida, tienda_idTienda,id],
-        (error,res)=>{
-            if(error)
-            throw error;
-        _res.status(201).json({"Datos actualizados: ":res.affectedRows, "id:":id,})
-        })
-})
+    conexion.query(sql, [fechaSalida, tienda_idTienda, id], (error, result) => {
+        if (error) {
+            console.error("Error al actualizar ordenDeSalida:", error);
+            return res.status(500).json({ error: "Error interno del servidor" });
+        }
+
+        console.log("Datos actualizados en ordenDeSalida:", id);
+        res.status(200).json({ "Datos actualizados": result.affectedRows, "id": id });
+    });
+});
 }
 module.exports = {RegisterOrdenDeSalida};

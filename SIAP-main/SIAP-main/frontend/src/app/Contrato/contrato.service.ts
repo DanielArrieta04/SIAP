@@ -9,7 +9,7 @@ import { ContratoModel } from './contrato.model';
 })
 export class ContratoService {
 
-  BASE_URL = "https://siap-tf6o.onrender.com";
+  BASE_URL = 'https://siap-tf6o.onrender.com';
 
   constructor(private http: HttpClient) { }
 
@@ -21,14 +21,14 @@ export class ContratoService {
   }
 
   obtenerContratoPorId(id: string): Observable<ContratoModel[]> {
-    return this.http.get<ContratoModel[]>(`${this.BASE_URL}/contratoID/${id}`)
+    return this.http.get<ContratoModel[]>(`${this.BASE_URL}/contrato/${id}`)
       .pipe(
         catchError(this.handleError)
       );
   }
 
   agregarContrato(contrato: ContratoModel): Observable<any> {
-    return this.http.post<any>(`${this.BASE_URL}/contratoAG`, contrato)
+    return this.http.post<any>(`${this.BASE_URL}/contrato/agregar`, contrato)
       .pipe(
         catchError(this.handleError)
       );
@@ -36,14 +36,14 @@ export class ContratoService {
 
   actualizarContrato(contrato: ContratoModel): Observable<any> {
     const id = contrato.idContrato;
-    return this.http.put<any>(`${this.BASE_URL}/contratoAc/${id}`, contrato)
+    return this.http.put<any>(`${this.BASE_URL}/contrato/editar/${id}`, contrato)
       .pipe(
         catchError(this.handleError)
       );
   }
 
   borrarContrato(id: string): Observable<any> {
-    return this.http.delete<any>(`${this.BASE_URL}/contratoEl/${id}`)
+    return this.http.delete<any>(`${this.BASE_URL}/contrato/borrar/${id}`)
       .pipe(
         catchError(this.handleError)
       );

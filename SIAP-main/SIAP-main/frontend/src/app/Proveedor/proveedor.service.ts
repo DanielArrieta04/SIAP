@@ -9,7 +9,7 @@ import { ProveedorModel } from './proveedor.model';
 })
 export class ProveedorService {
 
-  BASE_URL = "https://siap-tf6o.onrender.com";
+  BASE_URL = 'https://siap-tf6o.onrender.com';
 
   constructor(private http: HttpClient) { }
 
@@ -21,14 +21,14 @@ export class ProveedorService {
   }
 
   obtenerProveedorPorId(id: string): Observable<ProveedorModel[]> {
-    return this.http.get<ProveedorModel[]>(`${this.BASE_URL}/proveedorID/${id}`)
+    return this.http.get<ProveedorModel[]>(`${this.BASE_URL}/proveedor/${id}`)
       .pipe(
         catchError(this.handleError)
       );
   }
 
   agregarProveedor(proveedor: ProveedorModel): Observable<any> {
-    return this.http.post<any>(`${this.BASE_URL}/proveedorAG`, proveedor)
+    return this.http.post<any>(`${this.BASE_URL}/proveedor/agregar`, proveedor)
       .pipe(
         catchError(this.handleError)
       );
@@ -36,14 +36,14 @@ export class ProveedorService {
 
   actualizarProveedor(proveedor: ProveedorModel): Observable<any> {
     const id = proveedor.idProveedor;
-    return this.http.put<any>(`${this.BASE_URL}/proveedorAc/${id}`, proveedor)
+    return this.http.put<any>(`${this.BASE_URL}/proveedor/editar/${id}`, proveedor)
       .pipe(
         catchError(this.handleError)
       );
   }
 
   borrarProveedor(id: string): Observable<any> {
-    return this.http.delete<any>(`${this.BASE_URL}/proveedorEl/${id}`)
+    return this.http.delete<any>(`${this.BASE_URL}/proveedor/borrar/${id}`)
       .pipe(
         catchError(this.handleError)
       );

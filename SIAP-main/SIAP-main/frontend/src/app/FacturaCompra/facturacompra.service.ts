@@ -9,7 +9,7 @@ import { FacturacompraModel } from './facturacompra.model';
 })
 export class FacturacompraService {
 
-  BASE_URL = "https://siap-tf6o.onrender.com";
+  BASE_URL = 'https://siap-tf6o.onrender.com';
 
   constructor(private http: HttpClient) { }
 
@@ -21,14 +21,14 @@ export class FacturacompraService {
   }
 
   obtenerFacturacompraPorId(id: string): Observable<FacturacompraModel[]> {
-    return this.http.get<FacturacompraModel[]>(`${this.BASE_URL}/facturacompraID/${id}`)
+    return this.http.get<FacturacompraModel[]>(`${this.BASE_URL}/facturacompra/${id}`)
       .pipe(
         catchError(this.handleError)
       );
   }
 
   agregarFacturacompra(facturacompra: FacturacompraModel): Observable<any> {
-    return this.http.post<any>(`${this.BASE_URL}/facturacompraAG`, facturacompra)
+    return this.http.post<any>(`${this.BASE_URL}/facturacompra/agregar`, facturacompra)
       .pipe(
         catchError(this.handleError)
       );
@@ -36,7 +36,7 @@ export class FacturacompraService {
 
   actualizarFacturacompra(facturacompra: FacturacompraModel): Observable<any> {
     const id = facturacompra.idFacturaCompra; // Asumiendo que el ID está en idFacturaCompra
-    return this.http.put<any>(`${this.BASE_URL}/facturacompraAc/${id}`, facturacompra)
+    return this.http.put<any>(`${this.BASE_URL}/facturacompra/editar/${id}`, facturacompra)
       .pipe(
         catchError(this.handleError)
       );
@@ -44,7 +44,7 @@ export class FacturacompraService {
   
 
   borrarFacturacompra(id: string): Observable<any> {
-    return this.http.delete<any>(`${this.BASE_URL}/facturacompraEl/${id}`)
+    return this.http.delete<any>(`${this.BASE_URL}/facturacompra/borrar/${id}`)
       .pipe(
         catchError(this.handleError)
       );

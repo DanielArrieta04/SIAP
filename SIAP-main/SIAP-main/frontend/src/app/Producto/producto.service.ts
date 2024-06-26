@@ -9,7 +9,7 @@ import { ProductoModel } from './producto.model';
 })
 export class ProductoService {
 
-  BASE_URL = "https://siap-tf6o.onrender.com";
+  BASE_URL = 'https://siap-tf6o.onrender.com';
 
 
   constructor(private http: HttpClient) { }
@@ -38,14 +38,14 @@ export class ProductoService {
 
   actualizarProducto(producto: ProductoModel): Observable<any> {
     const id = producto.idProducto;
-    return this.http.put<any>(`${this.BASE_URL}/productoAc/${id}`, producto)
+    return this.http.put<any>(`${this.BASE_URL}/producto/editar/${id}`, producto)
       .pipe(
         catchError(this.handleError)
       );
   }
 
   borrarProducto(id: string): Observable<any> {
-    return this.http.delete<any>(`${this.BASE_URL}/productoEl/${id}`)
+    return this.http.delete<any>(`${this.BASE_URL}/producto/borrar/${id}`)
       .pipe(
         catchError(this.handleError)
       );

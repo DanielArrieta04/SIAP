@@ -9,7 +9,7 @@ import { OrdenDeSalidaModel } from './ordendesalida.model';
 })
 export class OrdenDeSalidaService {
 
-  BASE_URL = "https://siap-tf6o.onrender.com";
+  BASE_URL = 'https://siap-tf6o.onrender.com';
 
   constructor(private http: HttpClient) { }
 
@@ -21,14 +21,14 @@ export class OrdenDeSalidaService {
   }
 
   obtenerOrdenDeSalidaPorId(id: string): Observable<OrdenDeSalidaModel[]> {
-    return this.http.get<OrdenDeSalidaModel[]>(`${this.BASE_URL}/ordenDeSalidaID/${id}`)
+    return this.http.get<OrdenDeSalidaModel[]>(`${this.BASE_URL}/ordenDeSalida/${id}`)
       .pipe(
         catchError(this.handleError)
       );
   }
 
   agregarOrdenDeSalida(ordenDeSalida: OrdenDeSalidaModel): Observable<any> {
-    return this.http.post<any>(`${this.BASE_URL}/ordenDeSalidaAG`, ordenDeSalida)
+    return this.http.post<any>(`${this.BASE_URL}/ordenDeSalida/agregar`, ordenDeSalida)
       .pipe(
         catchError(this.handleError)
       );
@@ -36,14 +36,14 @@ export class OrdenDeSalidaService {
 
   actualizarOrdenDeSalida(ordenDeSalida: OrdenDeSalidaModel): Observable<any> {
     const id = ordenDeSalida.idordenDeSalida; // Ajustar según el nombre del campo de ID en tu modelo TiendaModel
-    return this.http.put<any>(`${this.BASE_URL}/ordenDeSalidaAc/${id}`, ordenDeSalida)
+    return this.http.put<any>(`${this.BASE_URL}/ordenDeSalida/editar/${id}`, ordenDeSalida)
       .pipe(
         catchError(this.handleError)
       );
   }
 
   borrarOrdenDeSalida(id: string): Observable<any> {
-    return this.http.delete<any>(`${this.BASE_URL}/ordenDeSalidaEl/${id}`)
+    return this.http.delete<any>(`${this.BASE_URL}/ordenDeSalida/borrar/${id}`)
       .pipe(
         catchError(this.handleError)
       );

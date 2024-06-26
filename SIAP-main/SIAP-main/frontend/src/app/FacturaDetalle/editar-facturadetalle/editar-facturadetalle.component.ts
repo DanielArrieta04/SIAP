@@ -12,7 +12,7 @@ import Swal from 'sweetalert2';
 export class EditarFacturaDetalleComponent implements OnInit {
 
   id: string = '';
-  facturadetalles: FacturaDetalleModel[] = []; // Array para almacenar múltiples detalles de factura
+  facturadetalles: FacturaDetalleModel[] = [];
 
   constructor(
     private facturadetalleService: FacturaDetalleService,
@@ -23,53 +23,90 @@ export class EditarFacturaDetalleComponent implements OnInit {
   ngOnInit() {
     this.id = this.route.snapshot.params['id'];
     if (this.id) {
-      console.log("EDITAR");
+      // Modo edición: obtener detalles existentes por ID
       this.facturadetalleService.obtenerFacturaDetallePorId(this.id).subscribe(
         data => {
           if (data && data.length > 0) {
-            this.facturadetalles = data; // Asignar los detalles recuperados a la lista
+            this.facturadetalles = data;
           }
         },
         error => {
-          console.log(error);
+          console.log('Error al obtener detalles:', error);
         }
       );
     } else {
-      console.log("CREAR");
+      // Modo creación: inicializar con un detalle vacío
+      this.agregarDetalle();
     }
   }
 
   agregarDetalle() {
-    this.facturadetalles.push(new FacturaDetalleModel("", "", "", "", "", "", "", "","")); // Agregar un nuevo detalle vacío
+    this.facturadetalles.push(new FacturaDetalleModel("", "", "", "", "", "", "", "", ""));
   }
 
   eliminarDetalle(index: number) {
-    this.facturadetalles.splice(index, 1); // Eliminar el detalle en la posición `index`
+    this.facturadetalles.splice(index, 1);
   }
 
   onSubmit() {
-    console.log('Datos a enviar:', this.facturadetalles); // Verificar los datos antes de enviar la solicitud POST
-    this.facturadetalleService.agregarFacturaDetalle(this.facturadetalles).subscribe(
-      data => {
-        Swal.fire({
-          position: "center",
-          icon: "success",
-          title: "Se han creado exitosamente los detalles",
-          showConfirmButton: false,
-          timer: 1500
-        });
-        this.router.navigate(['/facturadetalle']);
-      },
-      error => {
-        console.log(error);
-        Swal.fire({
-          position: "center",
-          icon: "error",
-          title: "Hubo un error al crear los detalles",
-          showConfirmButton: false,
-          timer: 1500
-        });
-      }
-    );
+    console.log('Datos a enviar:', this.facturadetalles);
+
+    if (this.id) {
+      // Modo edición: actualizar detalles existentes
+      this.facturadetalles.forEach(detalle => {
+        if (detalle.Producto_idProducto && detalle.FacturaCompra_idFacturaCompra) {
+          this.facturadetalleService.actualizarFacturaDetalle(detalle).subscribe(
+            data => {
+              console.log('Detalle actualizado:', data);
+              Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "Detalle actualizado exitosamente",
+                showConfirmButton: false,
+                timer: 1500
+              });
+              this.router.navigate(['/facturadetalle']);
+            },
+            error => {
+              console.log('Error al actualizar detalle:', error);
+              Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Error al actualizar detalle",
+                showConfirmButton: false,
+                timer: 1500
+              });
+            }
+          );
+        } else {
+          console.log('Error: Producto_idProducto y FacturaCompra_idFacturaCompra son obligatorios para la actualización');
+        }
+      });
+    } else {
+      // Modo creación: agregar nuevos detalles
+      this.facturadetalleService.agregarFacturaDetalle(this.facturadetalles).subscribe(
+        data => {
+          console.log('Detalles agregados:', data);
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Detalles agregados exitosamente",
+            showConfirmButton: false,
+            timer: 1500
+          });
+          this.router.navigate(['/facturadetalle']);
+        },
+        error => {
+          console.log('Error al agregar detalles:', error);
+          Swal.fire({
+            position: "center",
+            icon: "error",
+            title: "Error al agregar detalles",
+            showConfirmButton: false,
+            timer: 1500
+          });
+        }
+      );
+    }
   }
 }

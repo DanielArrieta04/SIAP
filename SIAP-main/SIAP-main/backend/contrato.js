@@ -46,7 +46,7 @@ app.post(`/${moduleName}/agregar`, (req, res) => {
 });
 
 
-app.delete(`/${moduleName}/eliminar/:id`,(request,response)=>{
+app.delete(`/${moduleName}/borrar/:id`,(request,response)=>{
     const id=request.params.id;
     conexion.query(`DELETE FROM ${moduleName} WHERE idContrato=?`,
     [id],

@@ -21,14 +21,14 @@ export class SubCategoriaService {
   }
 
   obtenerSubCategoriaPorId(id: string): Observable<SubCategoriaModel[]> {
-    return this.http.get<SubCategoriaModel[]>(`${this.BASE_URL}/subcategoriaID/${id}`)
+    return this.http.get<SubCategoriaModel[]>(`${this.BASE_URL}/subcategoria/${id}`)
       .pipe(
         catchError(this.handleError)
       );
   }
 
   agregarSubCategoria(subcategoria: SubCategoriaModel): Observable<any> {
-    return this.http.post<any>(`${this.BASE_URL}/subcategoriaAG`, subcategoria)
+    return this.http.post<any>(`${this.BASE_URL}/subcategoria/agregar`, subcategoria)
       .pipe(
         catchError(this.handleError)
       );
@@ -36,14 +36,14 @@ export class SubCategoriaService {
 
   actualizarSubCategoria(subcategoria: SubCategoriaModel): Observable<any> {
     const id = subcategoria.idsubCategoria; // Ajustar según el nombre del campo de ID en tu modelo TiendaModel
-    return this.http.put<any>(`${this.BASE_URL}/subcategoriaAc/${id}`, subcategoria)
+    return this.http.put<any>(`${this.BASE_URL}/subcategoria/editar/${id}`, subcategoria)
       .pipe(
         catchError(this.handleError)
       );
   }
 
   borrarSubCategoria(id: string): Observable<any> {
-    return this.http.delete<any>(`${this.BASE_URL}/subcategoriaEl/${id}`)
+    return this.http.delete<any>(`${this.BASE_URL}/subcategoria/borrar/${id}`)
       .pipe(
         catchError(this.handleError)
       );

@@ -47,26 +47,29 @@ app.post(`/${moduleName}/agregar`, (req, res, next) => {
 
 
 app.delete(`/${moduleName}/borrar/:id`, (req, res, next) => {
-    const id=request.params.id;
-    conexion.query(`Delete from ${moduleName} where idtipoDocumento=?`,
-    [id],
-    (error,results) =>{
-        if(error)
-        throw error;
-    response.status(201).json({"item eliminado":results.affectedRows});
+    const id = req.params.id;
+    conexion.query(`DELETE FROM ${moduleName} WHERE idtipoDocumento=?`, [id], (error, results) => {
+        if (error) {
+            console.error('Error al ejecutar la consulta:', error);
+            throw error;
+        }
+        res.status(201).json({ "item eliminado": results.affectedRows });
     });
 });
 
+
 app.put(`/${moduleName}/editar/:id`, (req, res, next) => {
     const id = req.params.id;
-    const {TipoDeDocumento} = req.body;
-    const sql = `update ${moduleName} set TipoDeDocumento = ? where idtipoDocumento = ?`;
-    conexion.query(sql,[TipoDeDocumento,id],
-        (error,res)=>{
-            if(error)
+    const { TipoDeDocumento } = req.body;
+    const sql = `UPDATE ${moduleName} SET TipoDeDocumento = ? WHERE idtipoDocumento = ?`;
+    conexion.query(sql, [TipoDeDocumento, id], (error, result) => {
+        if (error) {
+            console.error('Error al ejecutar la consulta:', error);
             throw error;
-        _res.status(201).json({"Datos actualizados: ":res.affectedRows, "id:":id,})
-        })
-})
+        }
+        res.status(201).json({ "Datos actualizados": result.affectedRows, "id": id });
+    });
+});
+
 }
 module.exports = {RegisterTipoDocumento};

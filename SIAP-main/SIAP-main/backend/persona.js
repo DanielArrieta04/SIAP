@@ -47,25 +47,32 @@ app.post(`/${moduleName}/agregar`, (req, res, next) => {
 });
 
 app.delete(`/${moduleName}/borrar/:id`, (req, res, next) => {
-    const id = request.params.id;
+    const id = req.params.id; // Aquí corregido a req.params.id
     conexion.query(`DELETE FROM ${moduleName} WHERE idPersona = ?`,
         [id],
         (error, results) => {
-            if (error)
-                throw error;
-            response.status(201).json({ "item eliminado": results.affectedRows });
+            if (error) {
+                console.error("Error al borrar la persona:", error);
+                return res.status(500).json({ error: "Error interno del servidor" });
+            }
+            console.log("Persona eliminada:", id);
+            res.status(201).json({ "item eliminado": results.affectedRows });
         });
 });
+
 
 app.put(`/${moduleName}/editar/:id`, (req, res, next) => {
     const id = req.params.id;
     const { Nombre1, Nombre2, Apellido1, Apellido2, fechaNacimiento, Telefono, CorreoElectronico, Contrasena, DireccionResidencia, NumeroDocumentoIdentidad } = req.body;
     const sql = `UPDATE ${moduleName} SET Nombre1 = ?, Nombre2 = ?, Apellido1 = ?, Apellido2 = ?, fechaNacimiento = ?, Telefono = ?, CorreoElectronico = ?, Contrasena = ?, DireccionResidencia = ?, NumeroDocumentoIdentidad = ? WHERE idPersona = ?`;
     conexion.query(sql, [Nombre1, Nombre2, Apellido1, Apellido2, fechaNacimiento, Telefono, CorreoElectronico, Contrasena, DireccionResidencia, NumeroDocumentoIdentidad, id],
-        (error, res) => {
-            if (error)
-                throw error;
-            _res.status(201).json({ "Datos actualizados: ": res.affectedRows, "id:": id });
+        (error, result) => { // Cambiado 'res' por 'result' para evitar conflicto de nombres
+            if (error) {
+                console.error("Error al actualizar persona:", error);
+                return res.status(500).json({ error: "Error interno del servidor" });
+            }
+            console.log("Persona actualizada:", id);
+            res.status(201).json({ "Datos actualizados: ": result.affectedRows, "id:": id });
         });
 });
 

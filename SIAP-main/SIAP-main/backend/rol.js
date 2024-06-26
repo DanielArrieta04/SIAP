@@ -47,26 +47,29 @@ app.post(`/${moduleName}/agregar`, (req, res, next) => {
 
 
 app.delete(`/${moduleName}/borrar/:id`, (req, res, next) => {
-    const id=request.params.id;
-    conexion.query(`Delete from ${moduleName} where idRol=?`,
-    [id],
-    (error,results) =>{
-        if(error)
-        throw error;
-    response.status(201).json({"item eliminado":results.affectedRows});
+    const id = req.params.id;
+    conexion.query(`DELETE FROM ${moduleName} WHERE idRol = ?`, [id], (error, results) => {
+        if (error) {
+            console.error('Error al ejecutar la consulta:', error);
+            return res.status(500).json({ error: 'Error al procesar la solicitud' });
+        }
+        res.status(201).json({ "item eliminado": results.affectedRows });
     });
 });
 
+
 app.put(`/${moduleName}/editar/:id`, (req, res, next) => {
     const id = req.params.id;
-    const {nombreRol} = req.body;
-    const sql = `update ${moduleName} set nombreRol = ? where idRol = ?`;
-    conexion.query(sql,[nombreRol,id],
-        (error,res)=>{
-            if(error)
-            throw error;
-        _res.status(201).json({"Datos actualizados: ":res.affectedRows, "id:":id,})
-        })
-})
+    const { nombreRol } = req.body;
+    const sql = `UPDATE ${moduleName} SET nombreRol = ? WHERE idRol = ?`;
+    conexion.query(sql, [nombreRol, id], (error, result) => {
+        if (error) {
+            console.error('Error al ejecutar la consulta:', error);
+            return res.status(500).json({ error: 'Error al procesar la solicitud' });
+        }
+        res.status(201).json({ "Datos actualizados": result.affectedRows, "id": id });
+    });
+});
+
 }
 module.exports = {RegisterRol};

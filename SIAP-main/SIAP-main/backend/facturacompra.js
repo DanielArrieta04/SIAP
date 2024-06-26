@@ -58,17 +58,19 @@ app.delete(`/${moduleName}/borrar/:id`, (req, res, next) => {
     });
 });
 
-app.put(`/${moduleName}/editar/:id`, (req, res, next) => {
+app.put(`/${moduleName}/editar/:id`, (req, res) => {
     const id = req.params.id;
-    const {observacionesCompra, fechaCompra,proveedor_idProveedor} = req.body;
+    const { observacionesCompra, fechaCompra, proveedor_idProveedor } = req.body;
     const sql = `UPDATE ${moduleName} SET observacionesCompra = ?, fechaCompra = ?, proveedor_idProveedor = ? WHERE idFacturaCompra = ?`;
-    conexion.query(sql,[observacionesCompra, fechaCompra,proveedor_idProveedor,id],
-        (error,res)=>{
-            if(error)
-            throw error;
-        _res.status(201).json({"Datos actualizados: ":res.affectedRows, "id:":id,})
-        })
-})
+    conexion.query(sql, [observacionesCompra, fechaCompra, proveedor_idProveedor, id], (error, result) => {
+        if (error) {
+            console.error('Error al actualizar la factura de compra: ' + error.stack);
+            res.status(500).json({ error: 'Ocurrió un error al actualizar la factura de compra' });
+            return;
+        }
+        res.status(200).json({ message: `Factura de compra con id ${id} actualizada correctamente` });
+    });
+});
 
 }
 

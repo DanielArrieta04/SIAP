@@ -21,14 +21,14 @@ export class TipoContratoService {
   }
 
   obtenerTipoContratoPorId(id: string): Observable<TipoContratoModel[]> {
-    return this.http.get<TipoContratoModel[]>(`${this.BASE_URL}/tipocontratoID/${id}`)
+    return this.http.get<TipoContratoModel[]>(`${this.BASE_URL}/tipocontrato/${id}`)
       .pipe(
         catchError(this.handleError)
       );
   }
 
   agregarTipoContrato(tipocontrato: TipoContratoModel): Observable<any> {
-    return this.http.post<any>(`${this.BASE_URL}/tipocontratoAG`, tipocontrato)
+    return this.http.post<any>(`${this.BASE_URL}/tipocontrato/agregar`, tipocontrato)
       .pipe(
         catchError(this.handleError)
       );
@@ -36,14 +36,14 @@ export class TipoContratoService {
 
   actualizarTipoContrato(tipocontrato: TipoContratoModel): Observable<any> {
     const id = tipocontrato.idtipoContrato;
-    return this.http.put<any>(`${this.BASE_URL}/tipocontratoAc/${id}`, tipocontrato)
+    return this.http.put<any>(`${this.BASE_URL}/tipocontrato/editar/${id}`, tipocontrato)
       .pipe(
         catchError(this.handleError)
       );
   }
 
   borrarTipoContrato(id: string): Observable<any> {
-    return this.http.delete<any>(`${this.BASE_URL}/tipocontratoEl/${id}`)
+    return this.http.delete<any>(`${this.BASE_URL}/tipocontrato/borrar/${id}`)
       .pipe(
         catchError(this.handleError)
       );

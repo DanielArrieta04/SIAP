@@ -22,14 +22,14 @@ export class TipoDocumentoService
   }
 
   obtenerTipoDocumentoPorId(id: string): Observable<TipoDocumentoModel[]> {
-    return this.http.get<TipoDocumentoModel[]>(`${this.BASE_URL}/tipodocumentoID/${id}`)
+    return this.http.get<TipoDocumentoModel[]>(`${this.BASE_URL}/tipodocumento/${id}`)
       .pipe(
         catchError(this.handleError)
       );
   }
 
   agregarTipoDocumento(tipodocumento: TipoDocumentoModel): Observable<any> {
-    return this.http.post<any>(`${this.BASE_URL}/tipodocumentoAG`, tipodocumento)
+    return this.http.post<any>(`${this.BASE_URL}/tipodocumento/agregar`, tipodocumento)
       .pipe(
         catchError(this.handleError)
       );
@@ -37,14 +37,14 @@ export class TipoDocumentoService
 
   actualizarTipoDocumento(tipodocumento: TipoDocumentoModel): Observable<any> {
     const id = tipodocumento.idtipoDocumento;
-    return this.http.put<any>(`${this.BASE_URL}/tipodocumentoAc/${id}`, tipodocumento)
+    return this.http.put<any>(`${this.BASE_URL}/tipodocumento/editar/${id}`, tipodocumento)
       .pipe(
         catchError(this.handleError)
       );
   }
 
   borrarTipoDocumento(id: string): Observable<any> {
-    return this.http.delete<any>(`${this.BASE_URL}/tipodocumentoEl/${id}`)
+    return this.http.delete<any>(`${this.BASE_URL}/tipodocumento/borrar/${id}`)
       .pipe(
         catchError(this.handleError)
       );

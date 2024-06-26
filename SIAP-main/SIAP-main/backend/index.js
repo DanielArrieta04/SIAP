@@ -27,7 +27,11 @@ const app = express();
 const PORT = process.env.PORT || 5200;
 const conexion = require('./conexion');
 
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:4200', // Cambia este valor si tu frontend corre en otro puerto
+  optionsSuccessStatus: 200
+}
+));
 app.use(bodyParser.json());
 
 // Conectar a la base de datos
