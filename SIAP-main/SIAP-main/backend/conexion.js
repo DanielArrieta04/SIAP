@@ -1,10 +1,10 @@
 const mysql = require('mysql2');
 
 const conexion = mysql.createConnection({
-  host:'siap.mysql.database.azure.com',
-  database:'bdsiap',
-  user:'DSGD',
-  password:'Sa1028881949#'
+  host:'b49ieheniuofmfyvd2rj-mysql.services.clever-cloud.com',
+  database:'b49ieheniuofmfyvd2rj',
+  user:'ucbx9uy7h7xjqvkv',
+  password:'DfW9153OTUsJZbi1M67j'
 });
 
 conexion.connect((error) => {
